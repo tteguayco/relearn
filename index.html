@@ -11,38 +11,57 @@
 </head>
 <body>
 
-	<div class="row">
-		<div class="col-sm-2">
-			<div class="ui left fixed vertical menu">
-				<div class="item" id="left-menu-title">relearn</div>
-				<a class="item">Main</a>
-				<a class="item">Documentation</a>
-				<a class="item">Authors</a>
-			</div>
-		</div>
-
-		<div class="col-sm-6">
-			<div class="ui top attached tabular menu">
-				<div class="active item">Relational Algebra</div>
-			</div>
-			<div class="ui bottom attached active tab segment">
-				<div id="relalg-editor">
-
-				</div>
-			</div>
-		</div>
-
-		<div class="col-sm-2">
+	<div class="col-sm-2">
+		<div class="ui left fixed inverted vertical menu">
+			<div class="item" id="left-menu-title">relearn</div>
+			<a class="item">Main</a>
+			<a class="item">User Guide</a>
+			<a class="item">About</a>
+			<a class="item">Source Code</a>
 		</div>
 	</div>
+
+	<div class="col-sm-8">
+
+		<div class="row main-title-row">
+		</div>
+
+		<div class="row">
+
+			<div class="col-sm-3">				
+				
+			</div>
+
+			<div class="col-sm-8">	
+				<div class="ui top attached tabular menu">
+					<div class="active item">Relational Algebra</div>
+					<div class="item">SQL</div>
+				</div>
+				
+				<div class="ui bottom attached active tab segment">
+					<div id="relalg-editor"></div>
+				</div>
+
+				<div class="btn-bottom-query-editor">
+					<button class="positive ui button"><i class="play icon"></i>Run</button>
+					<button class="ui primary button">Save</button>
+				</div>
+				
+			</div>
+
+		</div>
+
+	</div>
+
 
 	<!-- ACE editor import and settings -->
 	<script src="vendor/ace/ace.js" type="text/javascript" charset="utf-8"></script>
 	<script>
 	    var editor = ace.edit("relalg-editor");
-	    editor.setTheme("ace/theme/sqlserver");
+	    editor.setTheme("ace/theme/dawn");
 	    document.getElementById('relalg-editor').style.fontSize='18px';
 	    //editor.session.setMode("ace/mode/javascript");
+	    editor.setShowPrintMargin(false);
 	    editor.resize();
 	</script>
 </body>

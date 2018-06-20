@@ -5,5 +5,19 @@
 
 #relalg-editor {
 	width: 100%;
-	height: 100px;
+	height: 350px;
+}
+
+.main-title-row {
+	margin-top: 10%;
+	margin-bottom: 10%;
+}
+
+.btn-bottom-query-editor {
+	margin-top: 2%;
+	margin-left: 1%;
+}
+
+.button:focus {
+	outline: 0;
 }
