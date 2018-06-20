@@ -28,23 +28,35 @@
 
 		<div class="row">
 
+			<!-- Database schema viewer -->
 			<div class="col-sm-3">				
 				
 			</div>
 
-			<div class="col-sm-8">	
+			<!-- Relational Algebra and SQL editors-->
+			<div class="col-sm-8">
 				<div class="ui top attached tabular menu">
 					<div class="active item">Relational Algebra</div>
 					<div class="item">SQL</div>
 				</div>
 				
-				<div class="ui bottom attached active tab segment">
+				<div class="ui bottom attached active tab segment" style="padding:0px">
 					<div id="relalg-editor"></div>
 				</div>
+				
 
+				<!-- Buttons under the editor -->
 				<div class="btn-bottom-query-editor">
-					<button class="positive ui button"><i class="play icon"></i>Run</button>
-					<button class="ui primary button">Save</button>
+					<div class="btn-bottom-query-editor-left">
+						<button class="positive ui button"><i class="play icon"></i>Run</button>
+						<button class="ui primary button">Save</button>
+					</div>
+
+					<div class="btn-bottom-query-editor-right">
+						<button class="ui icon button">
+						  <i class="help icon"></i>
+						</button>
+					</div>
 				</div>
 				
 			</div>

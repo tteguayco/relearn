@@ -21,3 +21,11 @@
 .button:focus {
 	outline: 0;
 }
+
+.btn-bottom-query-editor-left {
+	float:left;
+}
+
+.btn-bottom-query-editor-right {
+	float:right;
+}
