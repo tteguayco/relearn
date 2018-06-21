@@ -44,7 +44,7 @@
 	display: none;
 }
 
-ul {
+ul > .segment {
   list-style-type: none;
   padding-left: 10px;
   padding-bottom: 5px;
