@@ -30,9 +30,9 @@
 		<div class="row">
 
 			<!-- Database schema viewer -->
-			<div class="col-sm-2 database-schema-container">				
+			<div class="col-sm-2 database-schema-container" style="margin-top: 20px;">				
 				<div class="ui compact menu" style="width: 100%;">
-					<div class="ui simple dropdown item" style="width: 100%;">
+					<div class="ui simple dropdown item" style="width: 100%;text-align: center">
 						MyDatabase
 						<i class="dropdown icon"></i>
 						<div class="menu">
@@ -42,13 +42,43 @@
 					</div>
 				</div>
 
-				<div class="ui segment">
-					<p></p>
+				<div class="ui segment" style="text-align: left; padding-bottom: 3px;">
+					<b>Table1</b><br/>
+					<ul>
+						<li>Column1 <span style="color:grey"><i>String</i></span></li>
+						<li>Column2 <span style="color:grey"><i>Date</i></span></li>
+						<li>Column3 <span style="color:grey"><i>Integer</i></span></li>
+					</ul>
+
+					<b>Table2</b>
+					<ul>
+						<li>Column1 <span style="color:grey"><i>Integer</i></span></li>
+						<li>Column2 <span style="color:grey"><i>Float</i></span></li>
+					</ul>
+
+					<b>Table3</b>
+					<ul>
+						<li>Column1 <span style="color:grey"><i>String</i></span></li>
+						<li>Column2 <span style="color:grey"><i>Float</i></span></li>
+						<li>Column3 <span style="color:grey"><i>Float</i></span></li>
+					</ul>
+				</div>
+
+				<div class="database-schema-btn" style="text-align: left">
+					<button class="ui icon button">
+						<i class="plus icon"></i>
+					</button>
+					<button class="ui icon button">
+						<i class="pencil icon"></i>
+					</button>
+					<button class="ui icon button">
+						<i class="remove icon"></i>
+					</button>
 				</div>
 			</div>
 
 			<!-- Relational Algebra and SQL editors-->
-			<div class="col-sm-7">
+			<div class="col-sm-7" style="padding:0px;">
 
 				<div class="row">
 					<div class="ui top attached tabular menu">
@@ -80,21 +110,34 @@
 				<!-- Feedback message -->
 				<div class="row">
 					<!-- Successful execution-->
-					<div id="success-execution" class="ui success message">
+					<div id="success-execution-msg" class="ui success message">
 						<div class="header">
 							Your query execution was successful.
 						</div>
-						<p>The result table is shown below.</p>
+						<p>The result table is shown below. You can also see the SQL equivalent expression in the tab 'SQL'.</p>
 					</div>
 
 					<!-- Execution error-->
-					<div class="ui error message">
+					<div id="error-execution-msg" class="ui error message">
 						<div class="header">
 							There were some errors with your query
 						</div>
 						<ul class="list">
 							Please check the message with details below.
 						</ul>
+					</div>
+				</div>
+
+				<!-- Result table -->
+				<div class="row">
+					<div class="ui segment">
+
+					</div>
+					<div class="ui vertical animated button" tabindex="0">
+						<div class="hidden content">CSV</div>
+						<div class="visible content">
+							<i class="download icon"></i>
+						</div>
 					</div>
 				</div>
 
