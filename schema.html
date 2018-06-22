@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Relearn</title>
+    <link rel="icon" href="img/blue_dot.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
     <link rel="stylesheet" href="css/common.css">
@@ -14,12 +15,13 @@
 <body>
 
 	<div class="col-sm-2">
-		<div class="ui left fixed inverted vertical menu">
-			<div class="item" id="left-menu-title">relearn</div>
-			<a class="item">Main</a>
-			<a class="item">User Guide</a>
-			<a class="item">About</a>
-			<a class="item">Source Code</a>
+		<div class="ui left fixed inverted vertical menu" style="background-color: #3b83c0">
+			<div class="item" id="left-menu-title"><h2>relearn</h2></div>
+			<a class="item"><h5>Home</h5></a>
+			<a class="item"><h5>User Guide</h5></a>
+			<a class="item"><h5>Authors</h5></a>
+			<a class="item" href="https://www.github.com/tteguayco/relearn" target="_blank"><h5>Source Code</h5></a>
+			<a class="item"><h5>Statistics</h5></a>
 		</div>
 	</div>
 
@@ -47,28 +49,29 @@
 		<div class="col-sm-10" style="text-align: center; margin-top: 3%;">
 			<h3>How do you want to define your schema?</h3>
 
-			<div class="row" style="margin-top: 3%">
+			<div class="row" style="margin-top:3%">
 				<div class="col-sm-3"></div>
 
 				<!-- Dropzone -->
 				<div class="col-sm-3">
-					<form class="dropzone needsclick dz-clickable">
+					<form class="dropzone needsclick dz-clickable" style="height:100px">
 						<div class="dz-default dz-message">
-							<h5><b>Drop definition file</b></h5>
+							<p style="color:grey"><i>Drop or choose<br/> definition file</i></p>
 						</div>
 					</form>
 				</div>
 
 				<!-- Manually definition button-->
-				<div class="col-sm-3">
-					
+				<div class="col-sm-3" style="height:150px">
+					<button class="ui blue basic button" style="height: 100%; width:100%"><i>Manual definition</i></button>
 				</div>
 
 				<div class="col-sm-2"></div>
 			</div>
 		</div>
 		
-
+		<div class="row" style="margin-top: 5%">
+		</div>
 
 	</div>
 
