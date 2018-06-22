@@ -44,7 +44,7 @@
 	display: none;
 }
 
-ul > .segment {
+.segment ul {
   list-style-type: none;
   padding-left: 10px;
   padding-bottom: 5px;
@@ -56,4 +56,14 @@ li {
 
 .hidden {
    display: none !important;
+}
+
+#resulttable {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#resulttable th, td {
+	border: 1px solid grey;
+	padding: 3px;
 }

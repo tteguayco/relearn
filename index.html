@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Relearn</title>
+    <link rel="icon" href="img/blue_dot.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
     <link rel="stylesheet" href="css/common.css">
@@ -17,20 +18,30 @@
 			<a class="item">Main</a>
 			<a class="item">User Guide</a>
 			<a class="item">About</a>
-			<a class="item">Source Code</a>
+			<a href="https://www.github.com/tteguayco/relearn" class="item" target="_blank">Source Code</a>
 		</div>
 	</div>
 
 	<div class="col-sm-10">
 
 		<div class="row main-title-row">
-			<h2>Start writing queries!</h2>
-			<h5><b>Quick instructions</b></h5>
-			<ul>
-				<li>Find examples of Relational Algebra queries in the User Guide.</li>
-				<li>After executing a query, you will also be able to visualize the SQL equivalent expression.</li>
-				<li>You can add or edit the database schema which your queries are based on.</li>
-			</ul>
+			<div class="col-sm-10">
+				<div class="ui floating dropdown labeled search icon button" style="float:right">
+					<i class="world icon"></i>
+					<span class="text">English</span>
+					<div class="menu">
+						<div class="item">English</div>
+						<div class="item">Español</div>
+					</div>
+				</div>
+				<h2>Start writing queries!</h2>
+				<h5><b>Quick instructions</b></h5>
+				<ul>
+					<li>Find examples of Relational Algebra queries in the User Guide.</li>
+					<li>After executing a query, you will also be able to visualize the SQL equivalent expression.</li>
+					<li>You can add or edit the database schema which your queries are based on.</li>
+				</ul>
+			</div>
 		</div>
 
 		<div class="row">
@@ -70,7 +81,7 @@
 					</ul>
 				</div>
 
-				<div class="database-schema-btn" style="text-align: left">
+				<div class="database-schema-btn" style="text-align: center">
 					<button class="ui icon button">
 						<i class="plus icon"></i>
 					</button>
@@ -120,7 +131,7 @@
 						<div class="header">
 							Your query execution was successful.
 						</div>
-						<p>The result table is shown below. You can also see the SQL equivalent expression in the tab 'SQL'.</p>
+						<p>The result table is shown below.</p>
 					</div>
 
 					<!-- Execution error-->
@@ -136,9 +147,25 @@
 
 				<!-- Result table -->
 				<div class="row">
-					<div class="ui segment">
+					
+					<table id="resulttable">
+						<tr>
+							<th>Col1</th>
+							<th>Col2</th>
+							<th>Col3</th>
+						</tr>
+						<tr>
+							<td>d11</td>
+							<td>dddd12</td>
+							<td>d13</td>
+						</tr>
+						<tr>
+							<td>d21</td>
+							<td>d22</td>
+							<td>d23</td>
+						</tr>
+					</table>
 
-					</div>
 					<div class="ui vertical animated button" tabindex="0">
 						<div class="hidden content">CSV</div>
 						<div class="visible content">
@@ -147,7 +174,14 @@
 					</div>
 				</div>
 
+				<!-- Execution errors details -->
+				
+
 			</div>
+
+		</div>
+
+		<div class="row" style="margin-top: 5%">
 
 		</div>
 
