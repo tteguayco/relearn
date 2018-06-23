@@ -1,0 +1,11 @@
+#manual-definition-btn {
+	height: 100%;
+	width:100%;
+}
+
+#dropzone {
+	height:100px;
+	border-style: dashed; 
+	border-color: green;
+	background-color: #F8F8F8;
+}
