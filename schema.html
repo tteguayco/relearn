@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/button.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/dropdown.min.js"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/modal.min.css"/>
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/schema.css">
     <link rel="stylesheet" href="vendor/dropzonejs/dropzone.css">
@@ -14,6 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/dropdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/modal.min.js"></script>
 </head>
 <body>
 
@@ -71,21 +73,25 @@
 						<button class="ui grey basic basic button" style="margin-top:12px;float:right"><b>Next »</b></button>
 					</div>
 				</div>
-		</div>
+			</div>
+
+			<div class="row" style="margin-bottom: 10%"></div>
 
 	</div>
 
 	<script>
 		$("#manual-definition-btn").click(function() {
-			$('.ui.modal.manual-definition').modal('show');
-			$('.ui.modal').modal('show');
+			$('.coupled.modal').modal({allowMultiple: false});
+			$('.ui.modal.manual-definition2').modal('attach events', '#next1');
+			$('.ui.modal.manual-definition1').modal('show');
+			//$('.ui.modal').modal('show');
 		});
 	</script>
 
 </body>
 </html>
 
-<div class="ui small modal manual-definition" style="position:relative;">
+<div class="ui small coupled modal manual-definition1" style="position:relative;">
 	<i class="close icon"></i>
 	<div class="header">
 		Create a database schema (1/3)
@@ -107,6 +113,27 @@
 				<input type="text" name="rel1-name" placeholder="Relation Name" style="margin-top: 5px; margin-bottom: 5px;">
 				<!--<input type="text" name="rel2-name" placeholder="Relation Name" style="margin-top: 5px; margin-bottom: 5px;">-->
 			</div>
+		</form>
+	</div>
+	<div class="actions">
+		<div class="ui black deny button">
+		  Cancel
+		</div>
+		<div id="next1" class="ui positive right labeled icon button">
+		  Next
+		  <i class="checkmark icon"></i>
+		</div>
+	</div>
+</div>
+
+<div class="ui small coupled modal manual-definition2" style="position:relative;">
+	<i class="close icon"></i>
+	<div class="header">
+		Create a database schema (2/3)
+	</div>
+	<div class="image content">
+		<form class="ui form">
+			<label>Relation 'products'</label>
 		</form>
 	</div>
 	<div class="actions">
