@@ -16,6 +16,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/dropdown.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/modal.min.js"></script>
+    <script src="js/schema.js"></script>
 </head>
 <body>
 
@@ -67,10 +68,12 @@
 					<div class="four wide column">
 						<form id="dropzone" class="dropzone needsclick dz-clickable">
 							<div class="dz-default dz-message">
-								<p style="color:grey"><i>Drop or choose<br/> definition file</i></p>
+								<p style="color:grey"><i id="selected-filename">Drop or choose<br/> definition file</i></p>
+								<input type="file" id="filechooser" style="display:none">
+								<p id="db-definition-file-content" style="display: none"></p>
 							</div>
 						</form>
-						<button class="ui grey basic basic button" style="margin-top:12px;float:right"><b>Next »</b></button>
+						<button class="ui button" style="margin-top:20px;float:right"><b>Next »</b></button>
 					</div>
 				</div>
 			</div>
