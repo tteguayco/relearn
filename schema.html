@@ -51,6 +51,7 @@
 					<li>The queries you write must be based on some database schema.</li>
 					<li>Basically, you must define the set of relations contained in the schema, their attributes (with domains) and tuples.</li>
 					<li>You can create a schema manually or loading its definition by file.</li>
+					<li>All of the manually-defined schemas can be later saved to a definition file.</li>
 					<li>In the User Guide you will find the notation used to specify a schema by file.</li>
 				</ul>
 			</div>
@@ -84,7 +85,7 @@
 
 	<script>
 		$("#manual-definition-btn").click(function() {
-			$('.coupled.modal').modal({allowMultiple: false});
+			$('.coupled.modal').modal({ allowMultiple: false });
 			$('.ui.modal.manual-definition2').modal('attach events', '#next1');
 			$('.ui.modal.manual-definition1').modal('show');
 			//$('.ui.modal').modal('show');
