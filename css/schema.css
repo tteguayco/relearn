@@ -34,3 +34,5 @@ input:focus {
 	margin-bottom: 20px;
 	width: 100%;
 }
+
+body{ max-height: 100vh; }

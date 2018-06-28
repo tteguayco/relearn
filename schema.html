@@ -9,14 +9,21 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/popup.min.css"/>
     <link rel="stylesheet" type="text/css" href="vendor/semantic-ui-alert/Semantic-UI-Alert.css"/>
+    
     <link rel="stylesheet" type="text/css" href="css/common.css">
     <link rel="stylesheet" type="text/css" href="css/schema.css">
     <link rel="stylesheet" type="text/css" href="vendor/dropzonejs/dropzone.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+ 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/popup.min.js"></script>
     <script src="vendor/semantic-ui-alert/Semantic-UI-Alert.js"></script>
+
     <script src="js/schema.js"></script>
     <script src="js/manual-schema-first-step.js"></script>
 </head>
@@ -53,7 +60,6 @@
 					<li>The queries you write must be based on some database schema.</li>
 					<li>Basically, you must define the set of relations contained in the schema, their attributes (with domains) and tuples.</li>
 					<li>You can create a schema manually or loading its definition by file.</li>
-					<li>All of the manually-defined schemas can be later saved to a definition file.</li>
 					<li>In the User Guide you will find the notation used to specify a schema by file.</li>
 				</ul>
 			</div>
@@ -76,26 +82,28 @@
 								<p id="db-definition-file-content" style="display: none"></p>
 							</div>
 						</form>
-						<button class="ui button" style="margin-top:20px;float:right"><b>Next »</b></button>
+						<div class="ui button" style="margin-top:20px;float:right"><b>Next »</b></div>
 					</div>
 				</div>
 			</div>
 
-			<div class="row" style="margin-bottom: 10%"></div>
+			<div class="row" style="margin-bottom: 9%"></div>
 
 	</div>
 
 	<script>
 		$("#manual-definition-btn").click(function() {
-			$('.ui.modal.manual-definition2').modal('attach events', '#next1');
+			//$('.ui.modal.manual-definition2').modal('attach events', '#next1');
 			$('.ui.modal.manual-definition1').modal('show');
 		});
 	</script>
 
+
 </body>
 </html>
 
-<div class="ui small coupled modal manual-definition1" style="position: fixed; top: 30%;">
+<!-- MANUAL DEFINITION FIRST STEP MODAL -->
+<div id="modal-manual-def-first-step" class="ui small coupled modal manual-definition1 modal-content" style="position: fixed; top: 30%;">
 	<div class="header">
 		Create a schema (1/3)
 	</div>
@@ -104,45 +112,50 @@
 			<div class="ui input">
 				<label><b>Database Name</b></label>
 				<div style="margin-top: 2%"></div>
-				<input type="text" name="db-name" placeholder="Database Name" style="width:100%">
+				<input type="text" id="db-name" placeholder="Database Name" style="width:100%">
 				<div style="margin-top: 2%"></div>
 			</div>
 		</div>
 		<div class="db-relations" style="margin-top: 3%">
 			<div class="ui input">
 				<label style="margin-right:10px;"><b>Relations</b></label>
-				<button id="add-relation-btn" class="ui circular compact icon button">
-					<i class="plus icon"></i>
-				</button>
-				<button id="remove-relation-btn" class="ui circular compact icon button">
+				<div id="add-relation-btn" class="ui circular compact icon button" data-tooltip="Add a relation" data-position="bottom center" data-inverted="">
+					<i class="plus icon" data-variation="inverted"></i>
+				</div>
+				<div id="remove-relation-btn" class="ui circular compact icon button" data-tooltip="Remove lastest relation" data-position="right center" data-inverted="">
 					<i class="minus icon"></i>
-				</button>
+				</div>
 				<div style="margin-top: 2%"></div>
-				<div id="relations-names-panel" class="scrolling content">
-					<input type="text" class="rel-name" placeholder="Relation Name">
+				<div id="relations-names-panel" class="ui segment" style="max-height:160px;overflow-y:auto;">
+					<input type="text" class="rel-name" placeholder="Relation Name" style="margin-top:5px">
+					<input type="text" class="rel-name" placeholder="Relation Name" style="margin-top:5px">
+					<input type="text" class="rel-name" placeholder="Relation Name" style="margin-top:5px">
 				</div>
 			</div>
 		</div>
-		<div id="errors-modal-first-step">
-			<div class="ui error message" style="margin-top: 15px;">
+		<div id="errors-modal-first-step" style="margin-top: 15px;display: none;">
+			<div class="ui error message">
 				<div class="header">
 					Please check the following for the red-highlighted fields
 				</div>
 				<ul class="list">
+					<li>The database name and at least one relation name are mandatory.</li>
 					<li>All the names provided above cannot contain any space.</li>
 					<li>The first character for a name cannot be different from a letter.</li>
+					<li>Two or more relations with the same name are not allowed.</li>
 				</ul>
 			</div>
 		</div>
 	</div>
 	<div class="actions">
-		<div id="next1" class="ui positive right labeled icon button">
+		<div id="first-step-next-btn" class="ui positive right labeled icon button">
 		  Next
 		  <i class="angle double right icon"></i>
 		</div>
 	</div>
 </div>
 
+<!-- MANUAL DEFINITION SECOND STEP MODAL -->
 <div class="ui small coupled modal manual-definition2" style="position: fixed; top: 30%;">
 	<div class="header">
 		Create a database schema (2/3)
