@@ -51,7 +51,18 @@ function handleDragOver(e) {
 	e.stopPropagation();
     e.preventDefault();
 
+    $("#dropzone").css("background-color", "red");
+    $("#dropzone-text").css("color", "white");
+}
 
+function handleDragLeave() {
+	e.stopPropagation();
+    e.preventDefault();
+
+    alert("hola?");
+
+	//$("#dropzone").css("background-color", "white");
+	//$("#dropzone-text").css("color", "grey");
 }
 
 $(document).ready(function() {
@@ -61,6 +72,16 @@ $(document).ready(function() {
 	window.addEventListener("drop", function(e) { e = e || event; e.preventDefault(); }, false);
 
 	$("#dropzone").click(loadSelectedFile);
-	$("#dropzone").on("dragover", handleDragOver);
+//	$("#dropzone").on("dragover", handleDragOver);
+//	$("#dropzone").on("dragleave", handleDragLeave);
 	$("#dropzone").on("drop", loadDroppedFile);
+
+	$("#dropzone").bind({
+		dragover: function () {
+			$("#dropzone").css("background-color", "#e6ffe6");
+		},
+		dragleave: function() {
+			$("#dropzone").css("background-color", "white");
+		}
+	});
 });

@@ -90,11 +90,37 @@ function checkFields() {
 	}
 }
 
+function goToSecondStep() {
+	//var noerrors = checkFields();
+	var noerrors = true;
+
+	// Close current modal and open modal for the next step
+	if (noerrors) {
+		$("#modal-manual-def-second-step").modal("show");
+	}
+
+}
+
+function goToThirdStep() {
+	//var noerrors = checkFieldsFirstModal();
+	var noerrors = true;
+
+	// Close current modal and open modal for the next step
+	if (noerrors) {
+		$("#modal-manual-def-third-step").modal("show");
+	}
+}
+
 $(document).ready(function() {
 
+	// First modal buttons
 	$("#add-relation-btn").click(addRelationNameTextBox);
 	$("#remove-relation-btn").click(removeLatestRelationNameTextBox);
-	$("#first-step-next-btn").click(checkFields);
+	//$("#first-step-next-btn").click(checkFields);
+	$("#first-step-next-btn").click(goToSecondStep);
+
+	// Second modal buttons
+	$("#second-step-next-btn").click(goToThirdStep);
 
 	// To prevent a modal action from causing the modal to close
 	$('.modal').modal({
