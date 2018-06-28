@@ -2,22 +2,23 @@
 <html>
 <head>
     <meta charset="utf-8" />
+
     <title>Relearn</title>
+
     <link rel="icon" href="img/blue_dot.png">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/button.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/dropdown.min.js"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/modal.min.css"/>
-    <link rel="stylesheet" href="css/common.css">
-    <link rel="stylesheet" href="css/schema.css">
-    <link rel="stylesheet" href="vendor/dropzonejs/dropzone.css">
-    <script src="vendor/dropzonejs/dropzone.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+    <link rel="stylesheet" type="text/css" href="vendor/semantic-ui-alert/Semantic-UI-Alert.css"/>
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/schema.css">
+    <link rel="stylesheet" type="text/css" href="vendor/dropzonejs/dropzone.css">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/dropdown.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/modal.min.js"></script>
+    <script src="vendor/semantic-ui-alert/Semantic-UI-Alert.js"></script>
     <script src="js/schema.js"></script>
+    <script src="js/manual-schema-first-step.js"></script>
 </head>
 <body>
 
@@ -86,53 +87,52 @@
 
 	<script>
 		$("#manual-definition-btn").click(function() {
-			$('.coupled.modal').modal({ allowMultiple: false });
 			$('.ui.modal.manual-definition2').modal('attach events', '#next1');
 			$('.ui.modal.manual-definition1').modal('show');
-			//$('.ui.modal').modal('show');
 		});
 	</script>
 
 </body>
 </html>
 
-<div class="ui small coupled modal manual-definition1">
-	<i class="close icon"></i>
+<div class="ui small coupled modal manual-definition1" style="position: fixed; top: 30%;">
 	<div class="header">
-		Create a database schema (1/3)
+		Create a schema (1/3)
 	</div>
 	<div class="image content">
-		<form class="ui form">
-			<div class="db-name">
-				<label>Database Name</label>
-				<input type="text" name="db-name" placeholder="Database Name">
+		<div class="db-name">
+			<div class="ui input">
+				<label><b>Database Name</b></label>
+				<div style="margin-top: 2%"></div>
+				<input type="text" name="db-name" placeholder="Database Name" style="width:100%">
+				<div style="margin-top: 2%"></div>
 			</div>
-			<div class="db-relations" style="margin-top: 3%">
-				<label style="margin-right:10px;">Relations</label>
-				<button class="ui circular compact icon button">
+		</div>
+		<div class="db-relations" style="margin-top: 3%">
+			<div class="ui input">
+				<label style="margin-right:10px;"><b>Relations</b></label>
+				<button id="add-relation-btn" class="ui circular compact icon button">
 					<i class="plus icon"></i>
 				</button>
-				<button class="ui circular compact icon button">
+				<button id="remove-relation-btn" class="ui circular compact icon button">
 					<i class="minus icon"></i>
 				</button>
-				<input type="text" name="rel1-name" placeholder="Relation Name" style="margin-top: 5px; margin-bottom: 5px;">
-				<!--<input type="text" name="rel2-name" placeholder="Relation Name" style="margin-top: 5px; margin-bottom: 5px;">-->
+				<div style="margin-top: 2%"></div>
+				<div id="relations-names-panel" class="scrolling content">
+					<input type="text" class="rel-name" placeholder="Relation Name">
+				</div>
 			</div>
-		</form>
+		</div>
 	</div>
 	<div class="actions">
-		<div class="ui black deny button">
-		  Cancel
-		</div>
 		<div id="next1" class="ui positive right labeled icon button">
 		  Next
-		  <i class="checkmark icon"></i>
+		  <i class="angle double right icon"></i>
 		</div>
 	</div>
 </div>
 
-<div class="ui small coupled modal manual-definition2">
-	<i class="close icon"></i>
+<div class="ui small coupled modal manual-definition2" style="position: fixed; top: 30%;">
 	<div class="header">
 		Create a database schema (2/3)
 	</div>
@@ -142,12 +142,9 @@
 		</form>
 	</div>
 	<div class="actions">
-		<div class="ui black deny button">
-		  Cancel
-		</div>
 		<div class="ui positive right labeled icon button">
 		  Next
-		  <i class="checkmark icon"></i>
+		  <i class="angle double right icon"></i>
 		</div>
 	</div>
 </div>

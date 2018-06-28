@@ -15,8 +15,22 @@ html, body {
     overflow-x: hidden;
 }
 
-.ui.modal {
-	margin-top: 0px !important;
-    margin-left: auto;
-    margin-right: auto;
+input:focus {
+	outline: none !important;
+    border:1px solid red;
+    box-shadow: 0 0 10px #719ECE;
+}
+
+#dropzone {
+	background-color: white;
+}
+
+.ui.input {
+	display: block;
+}
+
+.rel-name {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	width: 100%;
 }
