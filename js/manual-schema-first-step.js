@@ -90,6 +90,14 @@ function checkFields() {
 	}
 }
 
+function goToFirstStep() {
+	$("#modal-manual-def-first-step").modal("show");
+}
+
+function goToSecondStepFromThirdStep() {
+	$("#modal-manual-def-second-step").modal("show");	
+}
+
 function goToSecondStep() {
 	//var noerrors = checkFields();
 	var noerrors = true;
@@ -120,7 +128,11 @@ $(document).ready(function() {
 	$("#first-step-next-btn").click(goToSecondStep);
 
 	// Second modal buttons
+	$("#second-step-back-btn").click(goToFirstStep);
 	$("#second-step-next-btn").click(goToThirdStep);
+
+	// Third modal buttons
+	$("#third-step-back-btn").click(goToSecondStepFromThirdStep);
 
 	// To prevent a modal action from causing the modal to close
 	$('.modal').modal({
