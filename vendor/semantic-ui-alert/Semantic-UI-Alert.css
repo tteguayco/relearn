@@ -36,3 +36,7 @@
 .ui-alert p{
   display: table;
 }
+
+#messages .icon {
+  padding-right: 25px;
+}
