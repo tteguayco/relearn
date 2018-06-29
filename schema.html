@@ -26,6 +26,7 @@
 
     <script src="js/dropzone-schema.js"></script>
     <script src="js/manual-schema-first-step.js"></script>
+    <script src="js/schema-next.js"></script>
 </head>
 <body>
 
@@ -70,7 +71,7 @@
 				<div class="ui two column centered grid" style="margin-top: 2%">
 					<!-- Manually definition button-->
 					<div class="four wide column">
-						<button id="manual-definition-btn" class="ui blue basic button"><i>Manual definition</i></button>
+						<button id="manual-definition-btn" class="ui grey basic blue button"><i>Manual definition</i></button>
 					</div>
 
 					<!-- Dropzone -->
@@ -82,8 +83,23 @@
 								<p id="db-definition-file-content" style="display: none"></p>
 							</div>
 						</form>
-						<div class="ui button" style="margin-top:20px;float:right"><b>Next »</b></div>
+						<div id="next-btn" class="ui positive right labeled icon button" style="margin-top:20px;float:right">
+					    	Next
+						    <i class="angle double right icon"></i>
+						</div>
 					</div>
+
+					<div class="row">
+						<div class="eigth wide column">
+							<div id="definition-file-errors-panel" class="ui error message" style="text-align: left; display:none">
+								<div class="header">
+									The specified definition file contains errors
+								</div>
+								<p id="definition-file-errors-details">fjkdhfndsfndskfnsdfsndf<br/>iwehfniewh</p>
+							</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 

@@ -47,24 +47,6 @@ function loadDroppedFile(e) {
 	loadFileContentInDOM(filename, file);
 }
 
-function handleDragOver(e) {
-	e.stopPropagation();
-    e.preventDefault();
-
-    $("#dropzone").css("background-color", "red");
-    $("#dropzone-text").css("color", "white");
-}
-
-function handleDragLeave() {
-	e.stopPropagation();
-    e.preventDefault();
-
-    alert("hola?");
-
-	//$("#dropzone").css("background-color", "white");
-	//$("#dropzone-text").css("color", "grey");
-}
-
 $(document).ready(function() {
 
 	// Prevent the browser to open a file dropped inside in the window
@@ -78,10 +60,10 @@ $(document).ready(function() {
 
 	$("#dropzone").bind({
 		dragover: function () {
-			$("#dropzone").css("background-color", "#e6ffe6");
+			// do something
 		},
 		dragleave: function() {
-			$("#dropzone").css("background-color", "white");
+			// do something
 		}
 	});
 });
