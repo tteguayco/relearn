@@ -143,10 +143,10 @@
 		<div class="db-relations" style="margin-top: 3%">
 			<div class="ui input">
 				<label style="margin-right:10px;"><b>Relations</b></label>
-				<div id="add-relation-btn" class="ui circular compact icon button" data-tooltip="Add a relation" data-position="bottom center" data-inverted="">
+				<div id="add-relation-btn" class="ui circular compact small icon button" data-tooltip="Add a relation" data-position="bottom center" data-inverted="">
 					<i class="plus icon" data-variation="inverted"></i>
 				</div>
-				<div id="remove-relation-btn" class="ui circular compact icon button" data-tooltip="Remove lastest relation" data-position="right center" data-inverted="">
+				<div id="remove-relation-btn" class="ui circular compact small icon button" data-tooltip="Remove lastest relation" data-position="right center" data-inverted="">
 					<i class="minus icon"></i>
 				</div>
 				<div style="margin-top: 2%"></div>
@@ -198,12 +198,14 @@
 					</div>
 				</div>
 				<div class="content active">
-					<div class="ui segment attribute-list" style="max-height:160px;overflow-y:auto;">
-						<input type="text" class="attribute-name" placeholder="Attribute Name" style="margin-top:5px; width:65%">
-						<select class="ui dropdown" style="width:35%">
-							<option value="">Gender</option>
-							<option value="1">Male</option>
-							<option value="0">Female</option>
+					<div class="ui segment attribute-list" style="max-height:160px;overflow-y:auto;margin-bottom:5px;">
+						<input type="text" class="attribute-name" placeholder="Attribute Name" style="width:65%;display:inline-block;">
+						<select class="ui dropdown domain" style="width:30%;display:inline-block;">
+							<option value="1">String</option>
+							<option value="0">Char</option>
+							<option value="0">Integer</option>
+							<option value="0">Float</option>
+							<option value="0">Date</option>
 						</select>
 					</div>
 				</div>
