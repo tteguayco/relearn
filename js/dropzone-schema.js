@@ -49,21 +49,30 @@ function loadDroppedFile(e) {
 
 $(document).ready(function() {
 
+	var mainColor = "#3b83c0";
+	var secondColor = "#bfbfbf";
+
 	// Prevent the browser to open a file dropped inside in the window
 	window.addEventListener("dragover", function(e) { e = e || event; e.preventDefault(); }, false);
 	window.addEventListener("drop", function(e) { e = e || event; e.preventDefault(); }, false);
 
 	$("#dropzone").click(loadSelectedFile);
-//	$("#dropzone").on("dragover", handleDragOver);
-//	$("#dropzone").on("dragleave", handleDragLeave);
 	$("#dropzone").on("drop", loadDroppedFile);
 
 	$("#dropzone").bind({
 		dragover: function () {
-			// do something
+			$("#dropzone").css("border-color", mainColor);
 		},
 		dragleave: function() {
-			// do something
+			$("#dropzone").css("border-color", secondColor);
 		}
+	});
+
+	$("#dropzone").hover(function() {
+		$("#dropzone").css("border-color", secondColor);
+	});
+
+	$("#dropzone").mouseover(function() {
+		$("#dropzone").css("border-color", mainColor);
 	});
 });

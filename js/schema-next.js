@@ -8,13 +8,13 @@ function definedSchemaIsValid() {
 
 		// Display alert in the top left corner
 		$.uiAlert({
-			textHead: 'No schema defined',
+			textHead: 'No schema specified',
 			text: 'You must define a schema before continuing.',
 			bgcolor: '#DB2828',
 			textcolor: '#fff',
 			position: 'top-left',
 			icon: 'remove circle',
-			time: 3
+			time: 4
 		});
 	
 	} else {
