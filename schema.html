@@ -10,6 +10,8 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/popup.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/accordion.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/dropdown.min.css"/>
     <link rel="stylesheet" type="text/css" href="vendor/semantic-ui-alert/Semantic-UI-Alert.css"/>
     
     <link rel="stylesheet" type="text/css" href="css/common.css">
@@ -22,6 +24,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/popup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/accordion.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/dropdown.min.js"></script>
     <script src="vendor/semantic-ui-alert/Semantic-UI-Alert.js"></script>
 
     <script src="js/dropzone-schema.js"></script>
@@ -108,9 +112,13 @@
 	</div>
 
 	<script>
+
+		// UI Components initialization
 		$("#manual-definition-btn").click(function() {
-			//$('.ui.modal.manual-definition2').modal('attach events', '#next1');
 			$('.ui.modal.manual-definition1').modal('show');
+			$(document).ready(function(){
+                $('.ui.accordion').accordion();
+             });
 		});
 	</script>
 
@@ -178,7 +186,41 @@
 	</div>
 	<div class="image content">
 		<form class="ui form">
-			<label>Relation 'products'</label>
+			<div class="ui segment accordion">
+				<div class="title active">
+					<i class="dropdown icon"></i>
+					<label style="margin-right:10px;"><b>Relation <span class="relation-name-second-step"><i>products</i></span></b></label>
+					<div id="add-relation-btn" class="ui circular tiny compact icon button" data-tooltip="Add an attribute" data-position="top center" data-inverted="">
+						<i class="plus icon" data-variation="inverted"></i>
+					</div>
+					<div id="remove-relation-btn" class="ui circular tiny compact icon button" data-tooltip="Remove lastest attribute" data-position="right center" data-inverted="">
+						<i class="minus icon"></i>
+					</div>
+				</div>
+				<div class="content active">
+					<div class="ui segment attribute-list" style="max-height:160px;overflow-y:auto;">
+						<input type="text" class="attribute-name" placeholder="Attribute Name" style="margin-top:5px; width:65%">
+						<select class="ui dropdown" style="width:35%">
+							<option value="">Gender</option>
+							<option value="1">Male</option>
+							<option value="0">Female</option>
+						</select>
+					</div>
+				</div>
+				<div class="title">
+					<i class="dropdown icon"></i>
+					<label style="margin-right:10px;"><b>Relation <span class="relation-name-second-step"><i>clients</i></span></b></label>
+					<div id="add-relation-btn" class="ui circular tiny compact icon button" data-tooltip="Add an attribute" data-position="top center" data-inverted="">
+						<i class="plus icon" data-variation="inverted"></i>
+					</div>
+					<div id="remove-relation-btn" class="ui circular tiny compact icon button" data-tooltip="Remove lastest attribute" data-position="right center" data-inverted="">
+						<i class="minus icon"></i>
+					</div>
+				</div>
+				<div class="content">
+					
+				</div>
+			</div>
 		</form>
 	</div>
 	<div class="actions">
