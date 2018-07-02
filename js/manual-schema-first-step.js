@@ -106,6 +106,7 @@ function goToSecondStep() {
 	if (noerrors) {
 		prepareSecondModal();
 		$("#modal-manual-def-second-step").modal("show");
+		$("#modal-manual-def-second-step").modal({observeChanges: true});
 	}
 
 }

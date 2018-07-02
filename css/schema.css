@@ -54,15 +54,17 @@ html, body {
 
 .attribute-group {
 	margin-top: 10px;
+	margin-right: 20px;
+	display: inline-block !important;
 }
 
 .attribute-name {
-	width: 65%;
+	width: 60% !important;
 	display: inline-block;
 }
 
 .dropdown-container {
-	width: 30%;
+	width: 35% !important;
 	display: inline-block;
 }
 

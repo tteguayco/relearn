@@ -25,10 +25,6 @@ function getDomainsDropdown() {
 	attributeDomainDropdown.append('<option value="3">Float</option>');
 	attributeDomainDropdown.append('<option value="4">Date</option>');
 
-	// CSS styles (should be moved to an external styles file)
-	attributeDomainDropdown.css("width", "30%");
-	attributeDomainDropdown.css("display", "inline-block");
-
 	return dropdownContainer;
 }
 
@@ -105,7 +101,7 @@ function prepareSecondModal() {
 		removeButton.click(removeAttribute);
 
 		// Attribute names and domains
-		var attrList = $('<div class="ui segment attribute-list borderless"></div>');
+		var attrList = $('<div class="ui attribute-list borderless"></div>');
 		accordionContent.append(attrList);
 
 		var numOfAttributesPerRelation = 2;
@@ -120,7 +116,7 @@ function prepareSecondModal() {
 			attributeGroup.append(attributeDomainDropdown);
 			attributeGroup.append(attributeErrorsPanel);
 
-			attributeErrorsPanel.text("This attribute's name contains spaces");
+			//attributeErrorsPanel.text("This attribute's name contains spaces");
 		}
 
 		// Open first accordion
