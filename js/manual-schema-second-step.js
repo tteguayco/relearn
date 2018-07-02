@@ -17,10 +17,11 @@ function getDomainsDropdown() {
 	var dropdownContainer = $('<div class="dropdown-container"></div>');
 	var attributeDomainDropdown = $('<select class="ui fluid dropdown attribute-domain"></select>');
 	dropdownContainer.append(attributeDomainDropdown);
-
+	attributeDomainDropdown.dropdown();
+	
 	// Domain dropdown options
 	attributeDomainDropdown.append('<option value="0">String</option>');
-	attributeDomainDropdown.append('<option value="1">Char</option>');
+	attributeDomainDropdown.append('<option value="1">Character</option>');
 	attributeDomainDropdown.append('<option value="2">Integer</option>');
 	attributeDomainDropdown.append('<option value="3">Float</option>');
 	attributeDomainDropdown.append('<option value="4">Date</option>');
@@ -89,7 +90,7 @@ function prepareSecondModal() {
 		// Buttons to add/remove attribute
 		var attributeLabel = $('<label class="attribute-label-second-modal"><b>Attributes </b></label>');
 		var addButton = $('<div class="ui circular tiny compact icon button add-attribute-btn" data-tooltip="Add an attribute" data-position="top center" data-inverted="">');
-		var removeButton = $('<div class="ui circular tiny compact icon button remove-attribute-btn" data-tooltip="Remove lastest attribute" data-position="right center" data-inverted="">');
+		var removeButton = $('<div class="ui circular tiny compact icon button remove-attribute-btn" data-tooltip="Remove last attribute" data-position="right center" data-inverted="">');
 		addButton.append('<i class="plus icon" data-variation="inverted"></i>');
 		removeButton.append('<i class="minus icon"></i>');
 		
@@ -128,7 +129,6 @@ function prepareSecondModal() {
 
 	// Initialize UI components
 	$(".ui.accordion").accordion();
-	$(".ui.dropdown").dropdown();
 }
 
 $(document).ready(function() {

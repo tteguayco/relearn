@@ -60,12 +60,12 @@ html, body {
 }
 
 .attribute-name {
-	width: 60% !important;
+	width: 150px !important;
 	display: inline-block;
 }
 
 .dropdown-container {
-	width: 35% !important;
+	width: 120px !important;
 	display: inline-block;
 }
 
