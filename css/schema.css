@@ -34,10 +34,14 @@ body{ max-height: 100vh; }
 	margin-left: 6px;
 }
 
+.attribute-list-accordion {
+	margin-top: 10px;
+}
+
 .attribute-list {
-	max-height: 160px;
+	max-height: 130px;
 	overflow-y: auto;
-	margin-bottom: 5px;
+	margin-bottom: 20px;
 }
 
 .attribute-group {

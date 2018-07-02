@@ -1,7 +1,7 @@
 
 function prepareSecondModal() {
 	var databaseName = $("#db-name").text();
-	var relationsList = $(".rel-name").map(function(i, elem) { return elem.value });
+	var relationsList = $(".rel-name").map(function(i, elem) { if (elem.value.length > 0) { return elem.value } });
 	var formSecondModal = $("#form-second-modal");
 		
 	formSecondModal.empty();
@@ -9,7 +9,7 @@ function prepareSecondModal() {
 	for (i = 0; i < relationsList.length; i++) {
 		var currentRelationName = relationsList[i];
 
-		var accordion = $('<div class="ui accordion"></div>');
+		var accordion = $('<div class="ui accordion attribute-list-accordion"></div>');
 		var accordionTitle = $('<div class="title"></div>');
 		var accordionContent = $('<div class="content"></div>');
 
@@ -22,7 +22,7 @@ function prepareSecondModal() {
 		accordion.append(accordionTitle);
 		accordion.append(accordionContent);
 		accordionTitle.append('<i class="dropdown icon"></i>');
-		accordionTitle.append('<label><b>Relation <span class="relation-name-second-step"><i>' + currentRelationName + '   </i></span></b></label>');
+		accordionTitle.append('<label><b>Relation <span class="relation-name-second-step"><i>' + currentRelationName + ' </i></span></b></label>');
 
 		// Buttons to add/remove attribute
 		var attributeLabel = $('<label class="attribute-label-second-modal"><b>Attributes </b></label>');
