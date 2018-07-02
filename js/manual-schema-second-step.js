@@ -4,7 +4,13 @@ function getAttributeGroup() {
 }
 
 function getAttributeNameTextBox() {
-	return $('<input type="text" class="attribute-name" placeholder="Attribute Name"></input>');
+	var textBox = $('<input type="text" class="attribute-name" placeholder="Attribute Name"></input>');
+
+	// CSS styles (should be moved to an external styles file)
+	textBox.css("width", "65%");
+	textBox.css("display", "inline-block");
+
+	return textBox;
 }
 
 function getDomainsDropdown() {
@@ -16,6 +22,10 @@ function getDomainsDropdown() {
 	attributeDomainDropdown.append('<option value="2">Integer</option>');
 	attributeDomainDropdown.append('<option value="3">Float</option>');
 	attributeDomainDropdown.append('<option value="4">Date</option>');
+
+	// CSS styles (should be moved to an external styles file)
+	attributeDomainDropdown.css("width", "30%");
+	attributeDomainDropdown.css("display", "inline-block");
 
 	return attributeDomainDropdown;
 }
@@ -32,7 +42,7 @@ function addAttribute() {
 function removeAttribute() {
 	var attributeList = $(this).siblings('.attribute-list');
 	var numOfAttributes = attributeList.children('.attribute-group').length;
-	
+
 	// Remove last attribute
 	if (numOfAttributes > 1) {
 		attributeList.children()[numOfAttributes - 1].remove();
@@ -56,22 +66,18 @@ function prepareSecondModal() {
 	var databaseName = $("#db-name").text();
 	var relationsList = $(".rel-name").map(function(i, elem) { if (elem.value.length > 0) { return elem.value } });
 	var formSecondModal = $("#form-second-modal");
-		
+	var accordion = $('<div class="ui accordion attribute-list-accordion"></div>');
+
 	formSecondModal.empty();
+	formSecondModal.append(accordion);
+	$(".ui.accordion").accordion();
 
 	for (i = 0; i < relationsList.length; i++) {
 		var currentRelationName = relationsList[i];
 
-		var accordion = $('<div class="ui accordion attribute-list-accordion"></div>');
 		var accordionTitle = $('<div class="title"></div>');
 		var accordionContent = $('<div class="content"></div>');
 
-		// Open first accordion
-		if (i == 0) {
-			accordion = $('<div class="ui accordion active"></div>');
-		}
-
-		formSecondModal.append(accordion);
 		accordion.append(accordionTitle);
 		accordion.append(accordionContent);
 		accordionTitle.append('<i class="dropdown icon"></i>');
@@ -93,20 +99,30 @@ function prepareSecondModal() {
 
 		// Attribute names and domains
 		var segment = $('<div class="ui segment attribute-list"></div>');
-		var attributeGroup = getAttributeGroup();
-		var attributeNameTextbox = getAttributeNameTextBox();
-		var attributeDomainDropdown = getDomainsDropdown();
+		var attributeGroup1 = getAttributeGroup();
+		var attributeNameTextbox1 = getAttributeNameTextBox();
+		var attributeDomainDropdown1 = getDomainsDropdown();
+
+		var attributeGroup2 = getAttributeGroup();
+		var attributeNameTextbox2 = getAttributeNameTextBox();
+		var attributeDomainDropdown2 = getDomainsDropdown();
 					
 		accordionContent.append(segment);
-		segment.append(attributeGroup);
-		attributeGroup.append(attributeNameTextbox);
-		attributeGroup.append(attributeDomainDropdown);
-	}
 
-	// Initialize accordions
-	$(".ui.accordion").accordion({
-		exclusive: true
-	});
+		segment.append(attributeGroup1);
+		attributeGroup1.append(attributeNameTextbox1);
+		attributeGroup1.append(attributeDomainDropdown1);
+
+		segment.append(attributeGroup2);
+		attributeGroup2.append(attributeNameTextbox2);
+		attributeGroup2.append(attributeDomainDropdown2);
+
+		// Open first accordion
+		if (i == 0) {
+			accordionTitle.addClass("active");
+			accordionContent.addClass("active");
+		}
+	}
 }
 
 $(document).ready(function() {
