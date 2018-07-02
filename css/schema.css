@@ -50,6 +50,7 @@ html, body {
 	min-height: 1000%;
 	overflow-y: auto;
 	margin-bottom: 20px;
+	overflow: visible;
 }
 
 .attribute-group {

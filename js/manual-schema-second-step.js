@@ -101,10 +101,10 @@ function prepareSecondModal() {
 		removeButton.click(removeAttribute);
 
 		// Attribute names and domains
-		var attrList = $('<div class="ui attribute-list borderless"></div>');
+		var attrList = $('<div class="ui attribute-list"></div>');
 		accordionContent.append(attrList);
 
-		var numOfAttributesPerRelation = 2;
+		var numOfAttributesPerRelation = 3;
 		for (j = 0; j < numOfAttributesPerRelation; j++) {
 			var attributeGroup = getAttributeGroup();
 			var attributeNameTextbox = getAttributeNameTextBox();
