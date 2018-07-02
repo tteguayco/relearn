@@ -17,12 +17,6 @@ html, body {
     overflow-x: hidden;
 }
 
-input:focus {
-	outline: none !important;
-    border:1px solid red;
-    box-shadow: 0 0 10px #719ECE;
-}
-
 .ui.input {
 	display: block;
 }
@@ -34,3 +28,28 @@ input:focus {
 }
 
 body{ max-height: 100vh; }
+
+.attribute-label-second-modal {
+	margin-right: 10px;
+	margin-left: 6px;
+}
+
+.attribute-list {
+	max-height: 160px;
+	overflow-y: auto;
+	margin-bottom: 5px;
+}
+
+.attribute-group {
+	margin-top: 5px;
+}
+
+.attribute-name {
+	width: 65%;
+	display: inline-block;
+}
+
+.attribute-domain {
+	width: 30%;
+	display: inline-block;
+}

@@ -104,6 +104,7 @@ function goToSecondStep() {
 
 	// Close current modal and open modal for the next step
 	if (noerrors) {
+		prepareSecondModal();
 		$("#modal-manual-def-second-step").modal("show");
 	}
 

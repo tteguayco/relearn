@@ -30,6 +30,8 @@
 
     <script src="js/dropzone-schema.js"></script>
     <script src="js/manual-schema-first-step.js"></script>
+    <script src="js/manual-schema-second-step.js"></script>
+    <script src="js/manual-schema-third-step.js"></script>
     <script src="js/schema-next.js"></script>
 </head>
 <body>
@@ -116,9 +118,6 @@
 		// UI Components initialization
 		$("#manual-definition-btn").click(function() {
 			$('.ui.modal.manual-definition1').modal('show');
-			$(document).ready(function(){
-                $('.ui.accordion').accordion();
-             });
 		});
 	</script>
 
@@ -129,7 +128,7 @@
 <!-- MANUAL DEFINITION FIRST STEP MODAL -->
 <div id="modal-manual-def-first-step" class="ui small coupled modal manual-definition1 modal-content">
 	<div class="header">
-		Create a schema (1/3)
+		Create a schema (1/3)   -   Relations
 	</div>
 	<div class="image content">
 		<div class="db-name">
@@ -182,31 +181,49 @@
 <!-- MANUAL DEFINITION SECOND STEP MODAL -->
 <div id="modal-manual-def-second-step" class="ui small coupled modal manual-definition2">
 	<div class="header">
-		Create a schema (2/3)
+		Create a schema (2/3) - Attributes and domains
 	</div>
 	<div class="image content">
-		<form class="ui form">
-			<div class="ui segment accordion">
+		<form id="form-second-modal" class="ui form">
+			<!--
+			<div class="ui accordion">
 				<div class="title active">
 					<i class="dropdown icon"></i>
 					<label style="margin-right:10px;"><b>Relation <span class="relation-name-second-step"><i>products</i></span></b></label>
-					<div id="add-relation-btn" class="ui circular tiny compact icon button" data-tooltip="Add an attribute" data-position="top center" data-inverted="">
-						<i class="plus icon" data-variation="inverted"></i>
-					</div>
-					<div id="remove-relation-btn" class="ui circular tiny compact icon button" data-tooltip="Remove lastest attribute" data-position="right center" data-inverted="">
-						<i class="minus icon"></i>
-					</div>
 				</div>
 				<div class="content active">
-					<div class="ui segment attribute-list" style="max-height:160px;overflow-y:auto;margin-bottom:5px;">
-						<input type="text" class="attribute-name" placeholder="Attribute Name" style="width:65%;display:inline-block;">
-						<select class="ui dropdown domain" style="width:30%;display:inline-block;">
-							<option value="1">String</option>
-							<option value="0">Char</option>
-							<option value="0">Integer</option>
-							<option value="0">Float</option>
-							<option value="0">Date</option>
-						</select>
+					<div class="add-remove-buttons">
+						<label class="attribute-label-second-modal"><b>Attributes </b></label>
+						<div class="ui circular tiny compact icon button" data-tooltip="Add an attribute" data-position="top center" data-inverted="">
+							<i class="plus icon" data-variation="inverted"></i>
+						</div>
+						<div class="ui circular tiny compact icon button" data-tooltip="Remove lastest attribute" data-position="right center" data-inverted="">
+							<i class="minus icon"></i>
+						</div>
+					</div>
+					<div class="ui segment attribute-list">
+
+						<div class="attribute-group">
+							<input type="text" class="attribute-name" placeholder="Attribute Name">
+							<select class="ui dropdown attribute-domain">
+								<option value="1">String</option>
+								<option value="0">Char</option>
+								<option value="0">Integer</option>
+								<option value="0">Float</option>
+								<option value="0">Date</option>
+							</select>
+						</div>
+						<div class="attribute-group" style="margin-top:5px">
+							<input type="text" class="attribute-name" placeholder="Attribute Name" style="width:65%;display:inline-block;">
+							<select class="ui dropdown domain" style="width:30%;display:inline-block;">
+								<option value="1">String</option>
+								<option value="0">Char</option>
+								<option value="0">Integer</option>
+								<option value="0">Float</option>
+								<option value="0">Date</option>
+							</select>
+						</div>
+
 					</div>
 				</div>
 				<div class="title">
@@ -220,9 +237,33 @@
 					</div>
 				</div>
 				<div class="content">
-					
+					<div class="ui segment attribute-list" style="max-height:160px;overflow-y:auto;margin-bottom:5px;">
+
+						<div class="attribute-group" style="margin-top:5px">
+							<input type="text" class="attribute-name" placeholder="Attribute Name" style="width:65%;display:inline-block;">
+							<select class="ui dropdown domain" style="width:30%;display:inline-block;">
+								<option value="1">String</option>
+								<option value="0">Char</option>
+								<option value="0">Integer</option>
+								<option value="0">Float</option>
+								<option value="0">Date</option>
+							</select>
+						</div>
+						<div class="attribute-group" style="margin-top:5px">
+							<input type="text" class="attribute-name" placeholder="Attribute Name" style="width:65%;display:inline-block;">
+							<select class="ui dropdown domain" style="width:30%;display:inline-block;">
+								<option value="1">String</option>
+								<option value="0">Char</option>
+								<option value="0">Integer</option>
+								<option value="0">Float</option>
+								<option value="0">Date</option>
+							</select>
+						</div>
+
+					</div>
 				</div>
 			</div>
+		-->
 		</form>
 	</div>
 	<div class="actions">
@@ -240,7 +281,7 @@
 <!-- MANUAL DEFINITION THIRD STEP MODAL -->
 <div id="modal-manual-def-third-step" class="ui large coupled modal manual-definition3">
 	<div class="header">
-		Create a schema (3/3)
+		Create a schema (3/3) - Tuples
 	</div>
 	<div class="image content">
 		<form class="ui form">
