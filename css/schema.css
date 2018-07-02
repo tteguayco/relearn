@@ -22,14 +22,18 @@ html, body {
 }
 
 #relations-names-panel {
-	height:160px;
+	max-height:160px;
 	overflow-y:auto;
 }
 
+#db-name {
+	width: 97% !important;
+}
+
 .rel-name {
-	margin-top: 20px;
-	margin-bottom: 20px;
-	width: 100%;
+	margin-top: 5px !important;
+	margin-right: 5px !important;
+	width: 97% !important;
 }
 
 .attribute-label-second-modal {
@@ -42,13 +46,14 @@ html, body {
 }
 
 .attribute-list {
-	height: 130px;
+	max-height: 300px;
+	min-height: 1000%;
 	overflow-y: auto;
 	margin-bottom: 20px;
 }
 
 .attribute-group {
-	margin-top: 7px;
+	margin-top: 10px;
 }
 
 .attribute-name {
@@ -56,8 +61,19 @@ html, body {
 	display: inline-block;
 }
 
-.attribute-domain {
+.dropdown-container {
 	width: 30%;
 	display: inline-block;
+}
+
+.attribute-domain {
+	display: inline-block;
 	margin-left: 2px;
+}
+
+.attribute-errors-panel {
+	color: red;
+	margin-top: 5px;
+	margin-left: 10px;
+	margin-bottom: 30px;
 }

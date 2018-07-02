@@ -122,17 +122,12 @@ function goToThirdStep() {
 
 $(document).ready(function() {
 
-	// First modal buttons
 	$("#add-relation-btn").click(addRelationNameTextBox);
 	$("#remove-relation-btn").click(removeLatestRelationNameTextBox);
 	//$("#first-step-next-btn").click(checkFields);
 	$("#first-step-next-btn").click(goToSecondStep);
-
-	// Second modal buttons
 	$("#second-step-back-btn").click(goToFirstStep);
 	$("#second-step-next-btn").click(goToThirdStep);
-
-	// Third modal buttons
 	$("#third-step-back-btn").click(goToSecondStepFromThirdStep);
 
 	// To prevent a modal action from causing the modal to close

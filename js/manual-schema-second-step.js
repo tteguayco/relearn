@@ -1,20 +1,22 @@
 
 function getAttributeGroup() {
-	return $('<div class="attribute-group"></div>');
+	return $('<div class="ui input attribute-group"></div>');
 }
 
 function getAttributeNameTextBox() {
 	var textBox = $('<input type="text" class="attribute-name" placeholder="Attribute Name"></input>');
 
 	// CSS styles (should be moved to an external styles file)
-	textBox.css("width", "65%");
+	textBox.css("width", "45%");
 	textBox.css("display", "inline-block");
 
 	return textBox;
 }
 
 function getDomainsDropdown() {
-	var attributeDomainDropdown = $('<select class="ui dropdown attribute-domain"></select>');
+	var dropdownContainer = $('<div class="dropdown-container"></div>');
+	var attributeDomainDropdown = $('<select class="ui fluid dropdown attribute-domain"></select>');
+	dropdownContainer.append(attributeDomainDropdown);
 
 	// Domain dropdown options
 	attributeDomainDropdown.append('<option value="0">String</option>');
@@ -27,7 +29,13 @@ function getDomainsDropdown() {
 	attributeDomainDropdown.css("width", "30%");
 	attributeDomainDropdown.css("display", "inline-block");
 
-	return attributeDomainDropdown;
+	return dropdownContainer;
+}
+
+function getAttributeErrorsPanel() {
+	var errorsPanel = $('<p class="attribute-errors-panel"></p>');
+
+	return errorsPanel;
 }
 
 function addAttribute() {
@@ -70,7 +78,6 @@ function prepareSecondModal() {
 
 	formSecondModal.empty();
 	formSecondModal.append(accordion);
-	$(".ui.accordion").accordion();
 
 	for (i = 0; i < relationsList.length; i++) {
 		var currentRelationName = relationsList[i];
@@ -98,24 +105,23 @@ function prepareSecondModal() {
 		removeButton.click(removeAttribute);
 
 		// Attribute names and domains
-		var segment = $('<div class="ui segment attribute-list"></div>');
-		var attributeGroup1 = getAttributeGroup();
-		var attributeNameTextbox1 = getAttributeNameTextBox();
-		var attributeDomainDropdown1 = getDomainsDropdown();
+		var attrList = $('<div class="ui segment attribute-list borderless"></div>');
+		accordionContent.append(attrList);
 
-		var attributeGroup2 = getAttributeGroup();
-		var attributeNameTextbox2 = getAttributeNameTextBox();
-		var attributeDomainDropdown2 = getDomainsDropdown();
-					
-		accordionContent.append(segment);
+		var numOfAttributesPerRelation = 2;
+		for (j = 0; j < numOfAttributesPerRelation; j++) {
+			var attributeGroup = getAttributeGroup();
+			var attributeNameTextbox = getAttributeNameTextBox();
+			var attributeDomainDropdown = getDomainsDropdown();
+			var attributeErrorsPanel = getAttributeErrorsPanel();
 
-		segment.append(attributeGroup1);
-		attributeGroup1.append(attributeNameTextbox1);
-		attributeGroup1.append(attributeDomainDropdown1);
+			attrList.append(attributeGroup);
+			attributeGroup.append(attributeNameTextbox);
+			attributeGroup.append(attributeDomainDropdown);
+			attributeGroup.append(attributeErrorsPanel);
 
-		segment.append(attributeGroup2);
-		attributeGroup2.append(attributeNameTextbox2);
-		attributeGroup2.append(attributeDomainDropdown2);
+			attributeErrorsPanel.text("This attribute's name contains spaces");
+		}
 
 		// Open first accordion
 		if (i == 0) {
@@ -123,6 +129,10 @@ function prepareSecondModal() {
 			accordionContent.addClass("active");
 		}
 	}
+
+	// Initialize UI components
+	$(".ui.accordion").accordion();
+	$(".ui.dropdown").dropdown();
 }
 
 $(document).ready(function() {

@@ -12,6 +12,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/popup.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/accordion.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/dropdown.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/input.min.css"/>
+
     <link rel="stylesheet" type="text/css" href="vendor/semantic-ui-alert/Semantic-UI-Alert.css"/>
     
     <link rel="stylesheet" type="text/css" href="css/common.css">
@@ -135,7 +137,7 @@
 			<div class="ui input">
 				<label><b>Database Name</b></label>
 				<div style="margin-top: 2%"></div>
-				<input type="text" id="db-name" placeholder="Database Name" style="width:100%">
+				<input type="text" id="db-name" placeholder="Database Name">
 				<div style="margin-top: 2%"></div>
 			</div>
 		</div>
@@ -149,10 +151,10 @@
 					<i class="minus icon"></i>
 				</div>
 				<div style="margin-top: 2%"></div>
-				<div id="relations-names-panel" class="ui segment">
-					<input type="text" class="rel-name" placeholder="Relation Name" style="margin-top:5px">
-					<input type="text" class="rel-name" placeholder="Relation Name" style="margin-top:5px">
-					<input type="text" class="rel-name" placeholder="Relation Name" style="margin-top:5px">
+				<div id="relations-names-panel" class="ui input">
+					<input type="text" class="rel-name" placeholder="Relation Name">
+					<input type="text" class="rel-name" placeholder="Relation Name">
+					<input type="text" class="rel-name" placeholder="Relation Name">
 				</div>
 			</div>
 		</div>
@@ -179,12 +181,12 @@
 </div>
 
 <!-- MANUAL DEFINITION SECOND STEP MODAL -->
-<div id="modal-manual-def-second-step" class="ui small coupled modal manual-definition2">
+<div id="modal-manual-def-second-step" class="ui large coupled modal manual-definition2">
 	<div class="header">
 		Create a schema (2/3) - Attributes and domains
 	</div>
 	<div class="image content">
-		<form id="form-second-modal" class="ui form">
+		<form id="form-second-modal" class="ui input">
 			<!--
 			<div class="ui accordion">
 				<div class="title active">
