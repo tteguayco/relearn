@@ -1,3 +1,8 @@
+
+const EMPTY_NAME_MESSAGE = "This name cannot be blank.";
+const DATABASE_NAME_NOT_VALID_MSG = "Only letters, digits and underscores are allowed in an database name. The first character must be a letter.";
+const RELATION_NAME_NOT_VALID_MSG = "Only letters, digits and underscores are allowed in an database name. The first character must be a letter.";
+
 function addRelationNameTextBox() {
 	$("#relations-names-panel").append('<input type="text" class="rel-name" placeholder="Relation Name" style="margin-top:5px">');
 }
@@ -25,82 +30,73 @@ function removeLatestRelationNameTextBox() {
 	}
 }
 
-function isValidName(aName) {
+function formFirstModalIsValid() {
 	var valid = true;
+	var databaseNameTextbox = $("#db-name");
+	var relationsNamesTextboxes = $(".rel-name");
+	var databaseName = databaseNameTextbox.val();
+	var databaseNameErrorMsg = "";
+	var relationNameErrorMsg = "";
 
-	// Empty name
-	if (aName.length < 1) {
+	if (databaseName.length > 0) {
+		if (!databaseName.match(/^[A-Za-z]\w*$/)) {
+			databaseNameErrorMsg = DATABASE_NAME_NOT_VALID_MSG;
+		}
+	} else {
+		databaseNameErrorMsg = EMPTY_NAME_MESSAGE;
+	}
+
+	if (databaseNameErrorMsg.length > 0) {
+		databaseNameTextbox.addClass("input-text-with-errors");
+		databaseNameTextbox.popup({ content : databaseNameErrorMsg });
 		valid = false;
 	}
 
-	// The first character of the name is different from a letter
-	if (!aName.charAt(0).match(/[a-z]/i)) {
-		valid = false;
-	}
-
-	// The name contains spaces
-	if (aName.indexOf(' ') >= 0) {
-		valid = false;
+	for (i = 0; i < relationsNamesTextboxes.length; i++) {
+		relationNameErrorMsg = "";
+		var relationName = relationsNamesTextboxes.eq(i).val();
+		
+		if (relationName.length > 0) {
+			if (!relationName.match(/^[A-Za-z]\w*$/)) {
+				relationNameErrorMsg = RELATION_NAME_NOT_VALID_MSG;
+			}
+		} else {
+			relationNameErrorMsg = EMPTY_NAME_MESSAGE;
+		}
+		
+		if (relationNameErrorMsg.length > 0) {
+			relationsNamesTextboxes.eq(i).addClass("input-text-with-errors");
+			relationsNamesTextboxes.eq(i).popup({ content : relationNameErrorMsg });
+			valid = false;
+		}
 	}
 
 	return valid;
 }
 
-function checkFields() {
-	var errors = false;
+function resetErrorsFromFirstModal() {
+	// Remove red text boxes
+	$("#modal-manual-def-first-step")
+	.find(".input-text-with-errors")
+	.removeClass("input-text-with-errors");
 
-	// Database name
-	var databaseName = $("#db-name").val();
-	if (!isValidName(databaseName)) {
-		errors = true;
-	}
-	
-	// Relations names
-	var textBoxes = $(".rel-name");
-	var relationsNames = [];
-	var auxName;
-
-	// Collect non-empty relation names
-	for (i = 0; i < textBoxes.length; i++) {
-		auxName = textBoxes[i].value.trim();
-		if (auxName.length > 0) {
-			relationsNames.push(auxName);
-		}
-	}
-
-	// At least one relation name must be non-empty
-	if (relationsNames.length > 0) {
-		for (i = 0; i < relationsNames.length; i++) {
-			if (!isValidName(relationsNames[i])) {
-				errors = true;
-				break;
-			}
-		}
-	} else {
-		errors = true;
-	}
-
-	// Display info errors panel
-	if (errors) {
-		$("#errors-modal-first-step").show();
-	}
-	
-	else {
-		alert("No errors..");
-	}
+	// Remove popup with error messages
+	$("#db-name").popup('destroy');
+	$(".rel-name").popup('destroy');
 }
 
 function goToSecondStep() {
-	//var noerrors = checkFields();
-	var noerrors = true;
+	
+	resetErrorsFromFirstModal();
 
-	// Close current modal and open modal for the next step
-	if (noerrors) {
+	if (formFirstModalIsValid()) {
 		prepareSecondModal();
-		$("#modal-manual-def-second-step").modal("show", {
-			//observeChanges: true,
-			closable: false
-		});
+		$("#modal-manual-def-second-step").modal("show");
+	}
+
+	else {
+		// Display errors
+		console.error("Form not valid");
 	}
 }
 
@@ -108,7 +104,6 @@ $(document).ready(function() {
 
 	$("#add-relation-btn").click(addRelationNameTextBox);
 	$("#remove-relation-btn").click(removeLatestRelationNameTextBox);
-	//$("#first-step-next-btn").click(checkFields);
 	$("#first-step-next-btn").click(goToSecondStep);
 
 	// To prevent a modal action from causing the modal to close

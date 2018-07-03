@@ -1,7 +1,7 @@
 
 const NUM_OF_ATTRIBUTES_PER_RELATION = 1;
 
-const EMPTY_ATTRIBUTE_NAME_MESSAGE = "Please, enter a value.";
+const EMPTY_ATTRIBUTE_NAME_MESSAGE = "This name cannot be blank.";
 const BAD_STRING_MESSAGE = "Only letters, digits and underscores are allowed in an attribute of type string. The first character must be a letter.";
 const BAD_CHAR_MESSAGE = "Only one letter is allowed in an attribute of type character.";
 const BAD_INTEGER_MESSAGE = "This is not a valid integer value (10 digits max).";
@@ -196,7 +196,7 @@ function domainIsValid(value, domain, textbox) {
 /**
  * Validates form and builds error messages.
  */
- function formIsValid() {
+ function formSecondModalIsValid() {
 	var valid = true;
 	var attrLists = $(".attribute-list");
 
@@ -226,11 +226,11 @@ function domainIsValid(value, domain, textbox) {
 	return valid;
 }
 
-function cleanErrorsFromModal() {
+function resetErrorsFromSecondModal() {
 	// Remove red text boxes
 	$("#modal-manual-def-second-step")
-		.find(".input-text-with-errors")
-		.removeClass("input-text-with-errors")
+	.find(".input-text-with-errors")
+	.removeClass("input-text-with-errors");
 
 	// Remove popup with error messages
 	$(".attribute-name").popup('destroy');
@@ -238,9 +238,9 @@ function cleanErrorsFromModal() {
 
 function goToThirdStep() {
 
-	cleanErrorsFromModal();
+	resetErrorsFromSecondModal();
 
-	if (formIsValid()) {
+	if (formSecondModalIsValid()) {
 		prepareThirdModal();
 		$("#modal-manual-def-third-step").modal("show");
 	}
@@ -257,7 +257,6 @@ function goToFirstStep() {
 }
 
 $(document).ready(function() {
-
 	$("#second-step-next-btn").click(goToThirdStep);
 	$("#second-step-back-btn").click(goToFirstStep);
 });
