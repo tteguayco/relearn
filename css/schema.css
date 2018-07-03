@@ -22,7 +22,8 @@ html, body {
 }
 
 #relations-names-panel {
-	max-height:160px;
+	min-height: 50px;
+	max-height: 130px;
 	overflow-y:auto;
 }
 
@@ -77,6 +78,11 @@ html, body {
 .attribute-errors-panel {
 	color: red;
 	margin-top: 5px;
-	margin-left: 10px;
+	margin-left: 5px;
 	margin-bottom: 30px;
+	display: none;
+}
+
+.input-text-with-errors {
+	border-color: red !important;
 }

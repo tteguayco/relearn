@@ -1,4 +1,11 @@
 
+const NUM_OF_ATTRIBUTES_PER_RELATION = 1;
+const BAD_STRING_MESSAGE = "Only letters, digits and underscores are allowed in an attribute of type string. The first character must be a letter.";
+const BAD_CHAR_MESSAGE = "Only one letter is allowed in an attribute of type character.";
+const BAD_INTEGER_MESSAGE = "This is not a valid integer value (10 digits max).";
+const BAD_FLOAT_MESSAGE = "This is not a valid float value (10 digits max). The dot is the only valid separator.";
+const BAD_DATE_MESSAGE = "The date format is DD/MM/YYYY.";
+
 function getAttributeGroup() {
 	return $('<div class="ui input attribute-group"></div>');
 }
@@ -20,11 +27,11 @@ function getDomainsDropdown() {
 	attributeDomainDropdown.dropdown();
 	
 	// Domain dropdown options
-	attributeDomainDropdown.append('<option value="0">String</option>');
-	attributeDomainDropdown.append('<option value="1">Character</option>');
-	attributeDomainDropdown.append('<option value="2">Integer</option>');
-	attributeDomainDropdown.append('<option value="3">Float</option>');
-	attributeDomainDropdown.append('<option value="4">Date</option>');
+	attributeDomainDropdown.append('<option value="string">String</option>');
+	attributeDomainDropdown.append('<option value="char">Character</option>');
+	attributeDomainDropdown.append('<option value="int">Integer</option>');
+	attributeDomainDropdown.append('<option value="float">Float</option>');
+	attributeDomainDropdown.append('<option value="date">Date</option>');
 
 	return dropdownContainer;
 }
@@ -42,6 +49,7 @@ function addAttribute() {
 	attributeList.append(newAttributeGroup);
 	newAttributeGroup.append(getAttributeNameTextBox());
 	newAttributeGroup.append(getDomainsDropdown());
+	newAttributeGroup.append(getAttributeErrorsPanel());
 }
 
 function removeAttribute() {
@@ -105,8 +113,7 @@ function prepareSecondModal() {
 		var attrList = $('<div class="ui attribute-list"></div>');
 		accordionContent.append(attrList);
 
-		var numOfAttributesPerRelation = 3;
-		for (j = 0; j < numOfAttributesPerRelation; j++) {
+		for (j = 0; j < NUM_OF_ATTRIBUTES_PER_RELATION; j++) {
 			var attributeGroup = getAttributeGroup();
 			var attributeNameTextbox = getAttributeNameTextBox();
 			var attributeDomainDropdown = getDomainsDropdown();
@@ -116,8 +123,6 @@ function prepareSecondModal() {
 			attributeGroup.append(attributeNameTextbox);
 			attributeGroup.append(attributeDomainDropdown);
 			attributeGroup.append(attributeErrorsPanel);
-
-			//attributeErrorsPanel.text("This attribute's name contains spaces");
 		}
 
 		// Open first accordion
@@ -131,7 +136,107 @@ function prepareSecondModal() {
 	$(".ui.accordion").accordion();
 }
 
+function domainIsValid(value, domain, textbox) {
+	var valid = true;
+	var errorText = "";
+
+	switch (domain) {
+		case "string":
+			if (!value.match(/^[A-Za-z]\w*$/)) {
+				errorText = BAD_STRING_MESSAGE;
+			}
+			break;
+
+		case "char":
+			if (!value.match(/^[A-Za-z]$/)) {
+				errorText = BAD_CHAR_MESSAGE;	
+			}
+			break;
+
+		case "int":
+			if (!value.match(/^\d{1,10}$/)) {
+				errorText = BAD_INTEGER_MESSAGE;		
+			}
+			break;
+
+		case "float":
+			if (!value.match(/^\d{1,5}\.[\d]{1,5}$/)) {
+				errorText = BAD_FLOAT_MESSAGE;
+			}
+			break;
+
+		case "date":
+			if (!value.match(/^\d\d\/\d\d\/\d\d\d\d$/)) {
+				errorText = BAD_DATE_MESSAGE;
+			}
+			break;
+	}
+
+	if (errorText.length > 0) {
+		textbox.addClass("input-text-with-errors");
+		textbox.popup({
+			//title   : 'Popup Title',
+			content : errorText
+			});
+		valid = false;
+	}
+
+	return valid;
+}
+
+/**
+ * Validates form and builds error messages.
+ */
+ function formIsValid() {
+	var valid = true;
+	var attrLists = $(".attribute-list");
+
+	for (i = 0; i < attrLists.length; i++) {
+		var attrNames = attrLists.eq(i).find(".attribute-name").map(function(i, elem) { return elem.value; });
+		var attrDomains = attrLists.eq(i).find(".attribute-domain > select").find(":selected").map(function(i, elem) { return elem.value; });
+		//var attrErrorPanel = attrLists.eq(i).find(".attribute-errors-panel");
+		var attrNamesTextBoxes = attrLists.eq(i).find(".attribute-name");
+
+		if (attrNames.length == attrDomains.length && attrNames.length == attrNamesTextBoxes.length) {
+			for (j = 0; j < attrNames.length; j++) {
+				if (!domainIsValid(attrNames[j], attrDomains[j], attrNamesTextBoxes.eq(j))) {
+					valid = false;
+				}
+			}
+		}
+
+		else {
+			var errorMsg = "Attributes elements length do not match [";
+			errorMsg += "Names: " + attrNames.length + ", ";
+			errorMsg += "Domains: " + attrDomains.length + ", ";
+			errorMsg += "Error panels: " + attrErrorPanel.length + "]";
+			console.error(errorMsg);
+		}
+	}
+
+	return valid;
+}
+
+function goToThirdStep() {
+
+	if (formIsValid()) {
+		prepareThirdModal();
+		$("#modal-manual-def-third-step").modal("show");
+	}
+
+	else {
+		// Display errors
+		console.error("Form not valid");
+		$(".attribute-errors-panel").show();
+	}
+}
+
+function goToFirstStep() {
+	$("#modal-manual-def-first-step").modal("show");
+}
+
 $(document).ready(function() {
 
-	//$("#second-step-next-btn").click();
+	$("#second-step-next-btn").click(goToThirdStep);
+	$("#second-step-back-btn").click(goToFirstStep);
 });

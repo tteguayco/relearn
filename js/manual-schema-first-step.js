@@ -90,14 +90,6 @@ function checkFields() {
 	}
 }
 
-function goToFirstStep() {
-	$("#modal-manual-def-first-step").modal("show");
-}
-
-function goToSecondStepFromThirdStep() {
-	$("#modal-manual-def-second-step").modal("show");	
-}
-
 function goToSecondStep() {
 	//var noerrors = checkFields();
 	var noerrors = true;
@@ -105,19 +97,10 @@ function goToSecondStep() {
 	// Close current modal and open modal for the next step
 	if (noerrors) {
 		prepareSecondModal();
-		$("#modal-manual-def-second-step").modal("show");
-		$("#modal-manual-def-second-step").modal({observeChanges: true});
-	}
-
-}
-
-function goToThirdStep() {
-	//var noerrors = checkFieldsFirstModal();
-	var noerrors = true;
-
-	// Close current modal and open modal for the next step
-	if (noerrors) {
-		$("#modal-manual-def-third-step").modal("show");
+		$("#modal-manual-def-second-step").modal("show", {
+			//observeChanges: true,
+			closable: false
+		});
 	}
 }
 
@@ -127,9 +110,6 @@ $(document).ready(function() {
 	$("#remove-relation-btn").click(removeLatestRelationNameTextBox);
 	//$("#first-step-next-btn").click(checkFields);
 	$("#first-step-next-btn").click(goToSecondStep);
-	$("#second-step-back-btn").click(goToFirstStep);
-	$("#second-step-next-btn").click(goToThirdStep);
-	$("#third-step-back-btn").click(goToSecondStepFromThirdStep);
 
 	// To prevent a modal action from causing the modal to close
 	$('.modal').modal({
