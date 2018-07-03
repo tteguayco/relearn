@@ -1,5 +1,7 @@
 
 const NUM_OF_ATTRIBUTES_PER_RELATION = 1;
+
+const EMPTY_ATTRIBUTE_NAME_MESSAGE = "Please, enter a value.";
 const BAD_STRING_MESSAGE = "Only letters, digits and underscores are allowed in an attribute of type string. The first character must be a letter.";
 const BAD_CHAR_MESSAGE = "Only one letter is allowed in an attribute of type character.";
 const BAD_INTEGER_MESSAGE = "This is not a valid integer value (10 digits max).";
@@ -140,38 +142,45 @@ function domainIsValid(value, domain, textbox) {
 	var valid = true;
 	var errorText = "";
 
-	switch (domain) {
-		case "string":
-			if (!value.match(/^[A-Za-z]\w*$/)) {
-				errorText = BAD_STRING_MESSAGE;
-			}
-			break;
-
-		case "char":
-			if (!value.match(/^[A-Za-z]$/)) {
-				errorText = BAD_CHAR_MESSAGE;	
-			}
-			break;
-
-		case "int":
-			if (!value.match(/^\d{1,10}$/)) {
-				errorText = BAD_INTEGER_MESSAGE;		
-			}
-			break;
-
-		case "float":
-			if (!value.match(/^\d{1,5}\.[\d]{1,5}$/)) {
-				errorText = BAD_FLOAT_MESSAGE;
-			}
-			break;
-
-		case "date":
-			if (!value.match(/^\d\d\/\d\d\/\d\d\d\d$/)) {
-				errorText = BAD_DATE_MESSAGE;
-			}
-			break;
+	if (value.length <= 0) {
+		errorText = EMPTY_ATTRIBUTE_NAME_MESSAGE;
 	}
 
+	else {
+		switch (domain) {
+			case "string":
+				if (!value.match(/^[A-Za-z]\w*$/)) {
+					errorText = BAD_STRING_MESSAGE;
+				}
+				break;
+
+			case "char":
+				if (!value.match(/^[A-Za-z]$/)) {
+					errorText = BAD_CHAR_MESSAGE;	
+				}
+				break;
+
+			case "int":
+				if (!value.match(/^\d{1,10}$/)) {
+					errorText = BAD_INTEGER_MESSAGE;		
+				}
+				break;
+
+			case "float":
+				if (!value.match(/^\d{1,5}\.[\d]{1,5}$/)) {
+					errorText = BAD_FLOAT_MESSAGE;
+				}
+				break;
+
+			case "date":
+				if (!value.match(/^\d\d\/\d\d\/\d\d\d\d$/)) {
+					errorText = BAD_DATE_MESSAGE;
+				}
+				break;
+		}
+	}
+
+	// Show tooltip (popup) with a detailed message of the error
 	if (errorText.length > 0) {
 		textbox.addClass("input-text-with-errors");
 		textbox.popup({
@@ -217,7 +226,19 @@ function domainIsValid(value, domain, textbox) {
 	return valid;
 }
 
+function cleanErrorsFromModal() {
+	// Remove red text boxes
+	$("#modal-manual-def-second-step")
+		.find(".input-text-with-errors")
+		.removeClass("input-text-with-errors")
+
+	// Remove popup with error messages
+	$(".attribute-name").popup('destroy');
+}
+
 function goToThirdStep() {
+
+	cleanErrorsFromModal();
 
 	if (formIsValid()) {
 		prepareThirdModal();
