@@ -19,10 +19,10 @@ function addTuple() {
 }
 
 function removeTuple() {
-	var numOfTuples = $(this).siblings(".values-list").length;
+	var numOfTuples = $(this).siblings().find(".values-list").length;
 
 	if (numOfTuples > 1) {
-		$(this).siblings(".values-list").last().remove();
+		$(this).siblings(".values-list").find(".values-list").last().remove();
 	}
 
 	// Display alert
@@ -84,12 +84,14 @@ function prepareThirdModal() {
 		addButton.click(addTuple);
 		removeButton.click(removeTuple);
 
+		var tuplesAndAttributesNamesContainer = $('<div class="tuples-and-attributes-names-container"></div>');
 		var tuple = $('<div class="ui input values-list"></div>');
 		var attrNamesRow = $('<div class="attribute-names-row"></div>');
 		var tuplesContainer = $('<div class="tuples-container"></div>');
 
-		accordionContent.append(attrNamesRow);
-		accordionContent.append(tuplesContainer);
+		accordionContent.append(tuplesAndAttributesNamesContainer);
+		tuplesAndAttributesNamesContainer.append(attrNamesRow);
+		tuplesAndAttributesNamesContainer.append(tuplesContainer);
 		tuplesContainer.append(tuple);
 
 		attrListForCurrentRelation = attrListOfLists[i];

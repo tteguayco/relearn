@@ -103,18 +103,30 @@ html, body {
 	width: 150px;
 	display: inline-block;
 	text-align: right;
+	margin-right: 15px !important;
 }
 
 .values-list {
 	margin-top: 10px;
+	display: block;
 }
 
 .attribute-names-row {
 	margin-top: 15px;
+	display: inline;
+	white-space: nowrap;
+	overflow: hidden;
 }
 
 .tuples-container {
 	max-height: 300px;
 	overflow-y: auto;
+	display: inline;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.tuples-and-attributes-names-container {
 	overflow-x: auto;
+	padding: 20px;
 }
