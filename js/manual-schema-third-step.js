@@ -7,12 +7,36 @@ const BAD_INTEGER_MESSAGE = "This is not a valid integer value (10 digits max)."
 const BAD_FLOAT_MESSAGE = "This is not a valid float value (10 digits max). The dot is the only valid separator.";
 const BAD_DATE_MESSAGE = "The date format is DD/MM/YYYY.";
 
-function addTuple() {
+function getNewTupleValueTextbox(attrName, attrDomain) {
+	return $('<input type="text" class="tuple-value-textbox" attribute-name="' + attrName + '" domain="' + attrDomain + '" placeholder="Value"></input>');
+}
 
+function addTuple() {
+	var aTuple =  $(this).siblings().find(".values-list").eq(0);
+	var clonedTuple = aTuple.clone();
+
+	aTuple.after(clonedTuple);
 }
 
 function removeTuple() {
+	var numOfTuples = $(this).siblings(".values-list").length;
 
+	if (numOfTuples > 1) {
+		$(this).siblings(".values-list").last().remove();
+	}
+
+	// Display alert
+	else {
+		$.uiAlert({
+			textHead: 'Tuple removal not allowed',
+			text: 'You need to provide at least one tuple in your schema.',
+			bgcolor: '#DB2828',
+			textcolor: '#fff',
+			position: 'top-left',
+			icon: 'remove circle',
+			time: 3
+		});
+	}
 }
 
 function prepareThirdModal() {
@@ -62,27 +86,25 @@ function prepareThirdModal() {
 
 		var tuple = $('<div class="ui input values-list"></div>');
 		var attrNamesRow = $('<div class="attribute-names-row"></div>');
-		
+		var tuplesContainer = $('<div class="tuples-container"></div>');
+
 		accordionContent.append(attrNamesRow);
-		accordionContent.append(tuple);
+		accordionContent.append(tuplesContainer);
+		tuplesContainer.append(tuple);
 
 		attrListForCurrentRelation = attrListOfLists[i];
 		domainListForCurrentRelation = domainListOfLists[i];
 
+		// Set attributes names and tuples in the modal
 		for (j = 0; j < attrListForCurrentRelation.length; j++) {
 			var attrName = attrListForCurrentRelation[j];
 			var domainName = domainListForCurrentRelation[j];
+			var attrLabelContainer = $('<div class="attribute-label-container"></div>');
+			var attrLabel = $('<label class="attribute-name-label"><b>' + attrName + ' (<i>' + domainName + '</i>) </b></label>');
+			var tupleValueTextbox = getNewTupleValueTextbox(attrName, domainName);
 
-			// Display the names of the attributes in the first row
-			if (j == 0) {
-				var attrLabelContainer = $('<div class="attribute-label-container"></div>');
-				var attrLabel = $('<label class="attribute-name-label"><b>' + attrName + ' (<i>' + domainName + '</i>) </b></label>');
-				
-				attrNamesRow.append(attrLabelContainer);
-				attrLabelContainer.append(attrLabel);
-			}
-
-			var tupleValueTextbox = $('<input type="text" class="tuple-value-textbox" attribute-name="' + attrName + '" domain="' + domainName + '" placeholder="Value"></input>');
+			attrNamesRow.append(attrLabelContainer);
+			attrLabelContainer.append(attrLabel);
 			tuple.append(tupleValueTextbox);
 		}
 

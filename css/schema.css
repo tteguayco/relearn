@@ -24,7 +24,7 @@ html, body {
 #relations-names-panel {
 	min-height: 50px;
 	max-height: 130px;
-	overflow-y:auto;
+	overflow-y: auto;
 }
 
 #db-name {
@@ -111,4 +111,10 @@ html, body {
 
 .attribute-names-row {
 	margin-top: 15px;
+}
+
+.tuples-container {
+	max-height: 300px;
+	overflow-y: auto;
+	overflow-x: auto;
 }
