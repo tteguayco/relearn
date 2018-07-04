@@ -1,7 +1,9 @@
 
 const NUM_OF_ATTRIBUTES_PER_RELATION = 1;
 
-const EMPTY_ATTRIBUTE_NAME_MESSAGE = "This name cannot be blank.";
+const EMPTY_ATTRIBUTE_NAME_MESSAGE = "This name cannot be blank";
+const BAD_ATTRIBUTE_NAME_MESSAGE = "Only letters, digits and underscores are allowed in an attribute's name. The first character must be a letter";
+
 const BAD_STRING_MESSAGE = "Only letters, digits and underscores are allowed in an attribute of type string. The first character must be a letter.";
 const BAD_CHAR_MESSAGE = "Only one letter is allowed in an attribute of type character.";
 const BAD_INTEGER_MESSAGE = "This is not a valid integer value (10 digits max).";
@@ -138,55 +140,24 @@ function prepareSecondModal() {
 	$(".ui.accordion").accordion();
 }
 
-function domainIsValid(value, domain, textbox) {
+function attributeNameIsValid(name, textbox) {
 	var valid = true;
 	var errorText = "";
 
-	if (value.length <= 0) {
+	if (name.length <= 0) {
 		errorText = EMPTY_ATTRIBUTE_NAME_MESSAGE;
 	}
 
 	else {
-		switch (domain) {
-			case "string":
-				if (!value.match(/^[A-Za-z]\w*$/)) {
-					errorText = BAD_STRING_MESSAGE;
-				}
-				break;
-
-			case "char":
-				if (!value.match(/^[A-Za-z]$/)) {
-					errorText = BAD_CHAR_MESSAGE;	
-				}
-				break;
-
-			case "int":
-				if (!value.match(/^\d{1,10}$/)) {
-					errorText = BAD_INTEGER_MESSAGE;		
-				}
-				break;
-
-			case "float":
-				if (!value.match(/^\d{1,5}\.[\d]{1,5}$/)) {
-					errorText = BAD_FLOAT_MESSAGE;
-				}
-				break;
-
-			case "date":
-				if (!value.match(/^\d\d\/\d\d\/\d\d\d\d$/)) {
-					errorText = BAD_DATE_MESSAGE;
-				}
-				break;
+		if (!name.match(/^[A-Za-z]\w*$/)) {
+			errorText = BAD_ATTRIBUTE_NAME_MESSAGE;
 		}
 	}
 
 	// Show tooltip (popup) with a detailed message of the error
 	if (errorText.length > 0) {
 		textbox.addClass("input-text-with-errors");
-		textbox.popup({
-			//title   : 'Popup Title',
-			content : errorText
-			});
+		textbox.popup({ content : errorText	});
 		valid = false;
 	}
 
@@ -202,13 +173,11 @@ function domainIsValid(value, domain, textbox) {
 
 	for (i = 0; i < attrLists.length; i++) {
 		var attrNames = attrLists.eq(i).find(".attribute-name").map(function(i, elem) { return elem.value; });
-		var attrDomains = attrLists.eq(i).find(".attribute-domain > select").find(":selected").map(function(i, elem) { return elem.value; });
-		//var attrErrorPanel = attrLists.eq(i).find(".attribute-errors-panel");
 		var attrNamesTextBoxes = attrLists.eq(i).find(".attribute-name");
 
-		if (attrNames.length == attrDomains.length && attrNames.length == attrNamesTextBoxes.length) {
+		if (attrNames.length == attrNamesTextBoxes.length) {
 			for (j = 0; j < attrNames.length; j++) {
-				if (!domainIsValid(attrNames[j], attrDomains[j], attrNamesTextBoxes.eq(j))) {
+				if (!attributeNameIsValid(attrNames[j], attrNamesTextBoxes.eq(j))) {
 					valid = false;
 				}
 			}
@@ -236,7 +205,7 @@ function resetErrorsFromSecondModal() {
 	$(".attribute-name").popup('destroy');
 }
 
-function goToThirdStep() {
+function goToThirdStepFromSecondStep() {
 
 	resetErrorsFromSecondModal();
 
@@ -252,11 +221,11 @@ function goToThirdStep() {
 	}
 }
 
-function goToFirstStep() {
+function goToFirstStepFromSecondStep() {
 	$("#modal-manual-def-first-step").modal("show");
 }
 
 $(document).ready(function() {
-	$("#second-step-next-btn").click(goToThirdStep);
-	$("#second-step-back-btn").click(goToFirstStep);
+	$("#second-step-next-btn").click(goToThirdStepFromSecondStep);
+	$("#second-step-back-btn").click(goToFirstStepFromSecondStep);
 });

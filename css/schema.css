@@ -84,5 +84,5 @@ html, body {
 }
 
 .input-text-with-errors {
-	border-color: red !important;
+	border-color: #ff3333 !important;
 }
