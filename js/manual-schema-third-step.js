@@ -29,8 +29,10 @@ function prepareThirdModal() {
 	var domainListOfLists = [];
 	for (i = 0; i < attrLists.length; i++) {
 		var attrList = attrLists.eq(i).find(".attribute-name").map(function(i, elem) { return elem.value; });
+		var domainList = attrLists.eq(i).find(".attribute-domain > select").find(":selected").map(function(i, elem) { return elem.value; });
+
 		attrListOfLists.push(attrList);
-		// TODO get domains
+		domainListOfLists.push(domainList);
 	}
 
 	for (i = 0; i < relationsList.length; i++) {
@@ -65,17 +67,22 @@ function prepareThirdModal() {
 		accordionContent.append(tuple);
 
 		attrListForCurrentRelation = attrListOfLists[i];
+		domainListForCurrentRelation = domainListOfLists[i];
 
 		for (j = 0; j < attrListForCurrentRelation.length; j++) {
+			var attrName = attrListForCurrentRelation[j];
+			var domainName = domainListForCurrentRelation[j];
 
 			// Display the names of the attributes in the first row
-			if (i == 0) {
-				var attrName = attrListForCurrentRelation[j];
-				var attrLabel = $('<label>' + attrName + '</label>');
-				attrNamesRow.append(attrLabel);
+			if (j == 0) {
+				var attrLabelContainer = $('<div class="attribute-label-container"></div>');
+				var attrLabel = $('<label class="attribute-name-label"><b>' + attrName + ' (<i>' + domainName + '</i>) </b></label>');
+				
+				attrNamesRow.append(attrLabelContainer);
+				attrLabelContainer.append(attrLabel);
 			}
 
-			var tupleValueTextbox = $('<input type="text" class="tuple-value" placeholder="Value"></input>');
+			var tupleValueTextbox = $('<input type="text" class="tuple-value-textbox" attribute-name="' + attrName + '" domain="' + domainName + '" placeholder="Value"></input>');
 			tuple.append(tupleValueTextbox);
 		}
 

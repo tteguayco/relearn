@@ -93,11 +93,22 @@ html, body {
 	overflow: visible;
 }
 
-.tuple-value {
+.tuple-value-textbox {
+	width: 150px !important;
 	margin-top: 10px;
 	margin-right: 15px !important;
 }
 
+.attribute-label-container {
+	width: 150px;
+	display: inline-block;
+	text-align: right;
+}
+
 .values-list {
 	margin-top: 10px;
+}
+
+.attribute-names-row {
+	margin-top: 15px;
 }
