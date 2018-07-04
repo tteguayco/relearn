@@ -7,8 +7,87 @@ const BAD_INTEGER_MESSAGE = "This is not a valid integer value (10 digits max)."
 const BAD_FLOAT_MESSAGE = "This is not a valid float value (10 digits max). The dot is the only valid separator.";
 const BAD_DATE_MESSAGE = "The date format is DD/MM/YYYY.";
 
-function prepareThirdModal() {
+function addTuple() {
 
+}
+
+function removeTuple() {
+
+}
+
+function prepareThirdModal() {
+	var formThirdModal = $("#form-third-modal");
+	var relationsList = $(".rel-name").map(function(i, elem) { if (elem.value.length > 0) { return elem.value } });
+	var accordion = $('<div class="ui accordion tuple-list-accordion"></div>');
+
+	formThirdModal.empty();
+	formThirdModal.append(accordion);
+
+	// Get a list of attributes list
+	var attrLists = $(".attribute-list");
+	var attrListOfLists = [];
+	var domainListOfLists = [];
+	for (i = 0; i < attrLists.length; i++) {
+		var attrList = attrLists.eq(i).find(".attribute-name").map(function(i, elem) { return elem.value; });
+		attrListOfLists.push(attrList);
+		// TODO get domains
+	}
+
+	for (i = 0; i < relationsList.length; i++) {
+		var currentRelationName = relationsList[i];
+
+		var accordionTitle = $('<div class="title"></div>');
+		var accordionContent = $('<div class="content"></div>');
+
+		accordion.append(accordionTitle);
+		accordion.append(accordionContent);
+		accordionTitle.append('<i class="dropdown icon"></i>');
+		accordionTitle.append('<label><b>Relation <span class="relation-name-second-step"><i>' + currentRelationName + ' </i></span></b></label>');
+
+		// Buttons to add/remove attribute
+		var tupleLabel = $('<label class="tuple-label-third-modal"><b>Tuples </b></label>');
+		var addButton = $('<div class="ui circular tiny compact icon button add-tuple-btn" data-tooltip="Add a tuple" data-position="top center" data-inverted="">');
+		var removeButton = $('<div class="ui circular tiny compact icon button remove-tuple-btn" data-tooltip="Remove last tuple" data-position="right center" data-inverted="">');
+		addButton.append('<i class="plus icon" data-variation="inverted"></i>');
+		removeButton.append('<i class="minus icon"></i>');
+
+		accordionContent.append(tupleLabel);
+		accordionContent.append(addButton);
+		accordionContent.append(removeButton);
+
+		addButton.click(addTuple);
+		removeButton.click(removeTuple);
+
+		var tuple = $('<div class="ui input values-list"></div>');
+		var attrNamesRow = $('<div class="attribute-names-row"></div>');
+		
+		accordionContent.append(attrNamesRow);
+		accordionContent.append(tuple);
+
+		attrListForCurrentRelation = attrListOfLists[i];
+
+		for (j = 0; j < attrListForCurrentRelation.length; j++) {
+
+			// Display the names of the attributes in the first row
+			if (i == 0) {
+				var attrName = attrListForCurrentRelation[j];
+				var attrLabel = $('<label>' + attrName + '</label>');
+				attrNamesRow.append(attrLabel);
+			}
+
+			var tupleValueTextbox = $('<input type="text" class="tuple-value" placeholder="Value"></input>');
+			tuple.append(tupleValueTextbox);
+		}
+
+		// Open first accordion
+		if (i == 0) {
+			accordionTitle.addClass("active");
+			accordionContent.addClass("active");
+		}
+	}
+
+	// Initialize UI components
+	$(".ui.accordion").accordion();
 }
 
 function goToSecondStepFromThirdStep() {

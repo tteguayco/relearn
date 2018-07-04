@@ -86,3 +86,18 @@ html, body {
 .input-text-with-errors {
 	border-color: #ff3333 !important;
 }
+
+.tuple-list-accordion {
+	overflow-y: auto;
+	overflow-x: auto;
+	overflow: visible;
+}
+
+.tuple-value {
+	margin-top: 10px;
+	margin-right: 15px !important;
+}
+
+.values-list {
+	margin-top: 10px;
+}
