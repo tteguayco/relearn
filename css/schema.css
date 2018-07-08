@@ -52,6 +52,7 @@ html, body {
 	overflow-y: auto;
 	margin-bottom: 20px;
 	overflow: visible;
+	overflow-y: auto;
 }
 
 .attribute-group {
@@ -128,5 +129,6 @@ html, body {
 
 .tuples-and-attributes-names-container {
 	overflow-x: auto;
+	overflow-y: auto !important;
 	padding: 20px;
 }
