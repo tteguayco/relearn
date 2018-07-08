@@ -22,7 +22,7 @@ function removeTuple() {
 	var numOfTuples = $(this).siblings().find(".values-list").length;
 
 	if (numOfTuples > 1) {
-		$(this).siblings(".values-list").find(".values-list").last().remove();
+		$(this).siblings().find(".values-list").last().remove();
 	}
 
 	// Display alert
@@ -32,7 +32,7 @@ function removeTuple() {
 			text: 'You need to provide at least one tuple in your schema.',
 			bgcolor: '#DB2828',
 			textcolor: '#fff',
-			position: 'top-left',
+			position: 'top-right',
 			icon: 'remove circle',
 			time: 3
 		});
