@@ -27,8 +27,9 @@ public class MainApp {
 	public static void main(String[] args) {
 		
 		// Server initialization
-		port(DEFAULT_PORT);
-		init();
+		Spark.port(DEFAULT_PORT);
+		Spark.staticFiles.location("/public");
+		Spark.init();
 		
 		Spark.get("/", (req, res) -> renderContent(HOME_PAGE_PATH));
 		Spark.get("/schema", (req, res) -> renderContent(SCHEMA_PAGE_PATH));
