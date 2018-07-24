@@ -121,12 +121,100 @@ function prepareThirdModal() {
 	$(".ui.accordion").accordion();
 }
 
+/**
+ * Checks domains and changes red color of textbox if any mistake.
+ */
+function valueIsValid(value, domain, textbox) {
+	var valid = true;
+	var errorText = "";
+
+	switch (domain) {
+		case "string":
+			if (!value.match(/^[A-Za-z]\w*$/)) {
+				errorText = BAD_STRING_MESSAGE;
+			}
+			break;
+
+		case "char":
+			if (!value.match(/^[A-Za-z]$/)) {
+				errorText = BAD_CHAR_MESSAGE;	
+			}
+			break;
+
+		case "int":
+			if (!value.match(/^\d{1,10}$/)) {
+				errorText = BAD_INTEGER_MESSAGE;		
+			}
+			break;
+
+		case "float":
+			if (!value.match(/^\d{1,5}\.[\d]{1,5}$/)) {
+				errorText = BAD_FLOAT_MESSAGE;
+			}
+			break;
+
+		case "date":
+			if (!value.match(/^\d\d\/\d\d\/\d\d\d\d$/)) {
+				errorText = BAD_DATE_MESSAGE;
+			}
+			break;
+	}
+
+	if (errorText.length > 0) {
+		textbox.addClass("input-text-with-errors");
+		textbox.popup({ content : errorText	});
+		valid = false;
+	}
+
+	return valid;
+}
+
+/**
+ * Validates form and builds error messages.
+ */
+function formThirdModalIsValid() {
+	var valid = true;
+	var valuesElem = $(".tuple-value-textbox");
+	var auxValue = "";
+	var auxDomain = "";
+
+	for (i = 0; i < valuesElem.length; i++) {
+		auxValue = valuesElem.eq(i).val();
+		auxDomain = valuesElem.eq(i).attr("domain");
+		if (!valueIsValid(auxValue, auxDomain, valuesElem)) {
+			valid = false;
+		}
+	}
+
+	return valid;
+}
+
+function resetErrorsFromThirdModal() {
+	// Remove red text boxes
+	$("#modal-manual-def-third-step")
+	.find(".input-text-with-errors")
+	.removeClass("input-text-with-errors");
+
+	// Remove popup with error messages
+	$(".attribute-name").popup('destroy');
+}
+
 function goToSecondStepFromThirdStep() {
 	$("#modal-manual-def-second-step").modal("show");	
 }
 
 function goToMainAppFromThirdStep() {
-	alert("Not implemented yet: going to main app");
+
+	resetErrorsFromThirdModal();
+
+	if (formThirdModalIsValid()) {
+		// TODO go to main app
+	}
+
+	else {
+		// Display errors
+		console.error("Third modal's form not valid.");
+	}
 }
 
 $(document).ready(function() {
