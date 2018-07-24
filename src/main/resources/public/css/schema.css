@@ -1,0 +1,135 @@
+#manual-definition-btn {
+	height: 150px;
+	width: 100%;
+}
+
+#dropzone {
+	height:150px;
+	border-style: dashed; 
+	border-color: #bfbfbf;
+	background-color: #F8F8F8;
+	background: rgba(0, 0, 0, 0); 	// transparent
+	border-radius: 25px;
+}
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.ui.input {
+	display: block;
+}
+
+#relations-names-panel {
+	min-height: 50px;
+	max-height: 130px;
+	overflow-y: auto;
+}
+
+#db-name {
+	width: 97% !important;
+}
+
+.rel-name {
+	margin-top: 5px !important;
+	margin-right: 5px !important;
+	width: 97% !important;
+}
+
+.attribute-label-second-modal {
+	margin-right: 10px;
+	margin-left: 6px;
+}
+
+.attribute-list-accordion {
+	margin-top: 10px;
+}
+
+.attribute-list {
+	max-height: 300px;
+	min-height: 1000%;
+	margin-bottom: 20px;
+	overflow-y: auto;
+	overflow: visible;
+}
+
+.attribute-group {
+	margin-top: 10px;
+	margin-right: 20px;
+	display: inline-block !important;
+}
+
+.attribute-name {
+	width: 150px !important;
+	display: inline-block;
+}
+
+.dropdown-container {
+	width: 120px !important;
+	display: inline-block;
+}
+
+.attribute-domain {
+	display: inline-block;
+	margin-left: 2px;
+}
+
+.attribute-errors-panel {
+	color: red;
+	margin-top: 5px;
+	margin-left: 5px;
+	margin-bottom: 30px;
+	display: none;
+}
+
+.input-text-with-errors {
+	border-color: #ff3333 !important;
+}
+
+.tuple-list-accordion {
+	overflow-y: auto;
+	overflow-x: auto;
+	overflow: visible;
+}
+
+.tuple-value-textbox {
+	width: 150px !important;
+	margin-top: 10px;
+	margin-right: 15px !important;
+}
+
+.attribute-label-container {
+	width: 150px;
+	display: inline-block;
+	text-align: right;
+	margin-right: 15px !important;
+}
+
+.values-list {
+	margin-top: 10px;
+	display: block;
+}
+
+.attribute-names-row {
+	margin-top: 15px;
+	display: inline;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.tuples-container {
+	max-height: 300px;
+	overflow-y: auto;
+	display: inline;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.tuples-and-attributes-names-container {
+	max-height: 300px;
+	overflow: visible;
+	overflow-x: auto;
+	overflow-y: auto !important;
+	padding: 20px;
+}
