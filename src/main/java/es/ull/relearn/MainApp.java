@@ -1,5 +1,4 @@
 package es.ull.relearn;
-import static spark.Spark.*;
 
 import java.io.IOException;
 
@@ -9,6 +8,7 @@ import spark.utils.IOUtils;
 public class MainApp {
 
 	private static final int DEFAULT_PORT = 8080;
+	private static final String STATIC_FILES_LOCATION = "/public";
 	private static final String HOME_PAGE_PATH = "/views/home.html";
 	private static final String SCHEMA_PAGE_PATH = "/views/schema.html";
 	
@@ -28,10 +28,15 @@ public class MainApp {
 		
 		// Server initialization
 		Spark.port(DEFAULT_PORT);
-		Spark.staticFiles.location("/public");
+		Spark.staticFiles.location(STATIC_FILES_LOCATION);
 		Spark.init();
 		
 		Spark.get("/", (req, res) -> renderContent(HOME_PAGE_PATH));
 		Spark.get("/schema", (req, res) -> renderContent(SCHEMA_PAGE_PATH));
+		Spark.get("/checkSchemaDefinitionFromFile", (req, res) -> {
+			String schemaDefinitionDSL = req.queryParams("schemaDefinitionDSL");
+			System.out.println(schemaDefinitionDSL);
+			return "";
+		});
 	}
 }

@@ -18,8 +18,21 @@ function definedSchemaIsValid() {
 		});
 	
 	} else {
-		// TODO send definition to server and check it is valid
+		// Send the schema definition to the server to check if it is valid
+		var dataForServer = {
+			"schemaDefinitionDSL": schemaDefinitionDSL
+		};
 
+		$.ajax({
+			data: dataForServer,
+			url: "/checkSchemaDefinitionFromFile",
+			success: function(response) {
+				alert(response);
+			},
+			error: function(xhr, status, error) {
+				alert(error);
+			}
+		});
 	}
 
 	return valid;
