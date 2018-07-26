@@ -10,3 +10,12 @@
 	width: 100%;
 	height: 300px;
 }
+
+#sql-editor {
+	width: 100%;
+	height: 300px;	
+}
+
+.code-editor-panel {
+	padding: 0px !important;
+}
