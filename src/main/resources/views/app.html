@@ -2,32 +2,38 @@
 <html>
 <head>
     <meta charset="utf-8" />
+
     <title>Relearn</title>
-    <link rel="icon" href="img/blue_dot.png">
+
+    <link rel="icon" href="../public/img/blue_dot.png">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
-    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="../public/css/common.css">
+    <link rel="stylesheet" href="../public/css/app.css">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
 </head>
 <body>
 
-	<div class="three wide column">
-		<div class="ui left fixed inverted vertical menu" style="background-color: #3b83c0">
-			<a href="about.html"><div class="item" id="left-menu-title"><h2 style="font-family: 'Raleway', sans-serif;"><span style="color:#ffa31a">re</span>learn</h2></div></a>
-			<a class="item" href="schema.html"><h5>Start</h5></a>
-			<a class="item" href="https://relearn.gitbook.io/relearn/" target="_blank"><h5>User Guide</h5></a>
-			<a class="item" href="https://www.github.com/tteguayco/relearn" target="_blank"><h5>Source Code</h5></a>
-			<a class="item" href="about.html"><h5>About</h5></a>
-			<a class="item"><h5>Statistics</h5></a>
+	<div class="ui grid">
+
+		<div class="three wide column">
+			<div class="ui left fixed inverted vertical menu" style="background-color: #3b83c0">
+				<a href="about.html"><div class="item" id="left-menu-title"><h2 style="font-family: 'Raleway', sans-serif;"><span style="color:#ffa31a">re</span>learn</h2></div></a>
+				<a class="item" href="schema.html"><h5>Start</h5></a>
+				<a class="item" href="https://relearn.gitbook.io/relearn/" target="_blank"><h5>User Guide</h5></a>
+				<a class="item" href="https://www.github.com/tteguayco/relearn" target="_blank"><h5>Source Code</h5></a>
+				<a class="item" href="about.html"><h5>About</h5></a>
+				<a class="item"><h5>Statistics</h5></a>
+			</div>
 		</div>
-	</div>
 
-	<div class="col-sm-10">
-
-		<div class="row main-title-row">
-			<div class="col-sm-10">
-				<div class="ui floating dropdown labeled search icon button" style="float:right">
+		<div class="eleven wide column">
+			<div class="row">
+				<div class="ui floating dropdown labeled search icon button" style="float:right;margin-top: 3%">
 					<i class="world icon"></i>
 					<span class="text">English</span>
 					<div class="menu">
@@ -35,68 +41,105 @@
 						<div class="item">Español</div>
 					</div>
 				</div>
-				<h2>Start writing queries!</h2>
+			</div>
+			<div class="row">
+				<h2>Write your queries</h2>
 				<h5><b>Quick instructions</b></h5>
 				<ul>
-					<li>Find examples of Relational Algebra queries in the User Guide.</li>
-					<li>After executing a query, you will also be able to visualize the SQL equivalent expression.</li>
-					<li>You can add or edit the database schema which your queries are based on.</li>
+					<li>You can find examples of Relational Algebra queries in the User Guide.</li>
+					<li>After executing a query, you will be able to visualize the SQL equivalent expression.</li>
+					<li>You can also add or edit the database schema which your queries are based on.</li>
 				</ul>
 			</div>
-		</div>
 
-		<div class="row">
+			<div class="ui two column centered grid" style="text-align:center;margin-top:3%;">
 
-			<!-- Database schema viewer -->
-			<div class="col-sm-2 database-schema-container" style="margin-top: 20px;">				
-				<div class="ui compact menu" style="width: 100%;">
-					<div class="ui simple dropdown item" style="width: 100%;text-align: center">
-						MyDatabase
-						<i class="dropdown icon"></i>
-						<div class="menu">
-						  <div class="item">Activities</div>
-						  <div class="item">Database 2</div>
+				<div class="four wide column schema-viewer">	
+
+					<div class="ui compact menu" style="width:100%;">
+						<div class="ui simple dropdown item" style="width:100%;text-align:center">
+							MyDatabase
+							<i class="dropdown icon"></i>
+							<div class="menu">
+							  <div class="item">MyDatabase2</div>
+							  <div class="item">MyDatabase3</div>
+							</div>
 						</div>
 					</div>
+
+					<div class="ui segment schema-viewer-tables" style="text-align: left; padding-bottom: 3px;">
+						<b>Table1</b><br/>
+						<ul>
+							<li>Column1 <span style="color:grey"><i>String</i></span></li>
+							<li>Column2 <span style="color:grey"><i>Date</i></span></li>
+							<li>Column3 <span style="color:grey"><i>Integer</i></span></li>
+						</ul>
+
+						<b>Table2</b>
+						<ul>
+							<li>Column1 <span style="color:grey"><i>Integer</i></span></li>
+							<li>Column2 <span style="color:grey"><i>Float</i></span></li>
+						</ul>
+
+						<b>Table3</b>
+						<ul>
+							<li>Column1 <span style="color:grey"><i>String</i></span></li>
+							<li>Column2 <span style="color:grey"><i>Float</i></span></li>
+							<li>Column3 <span style="color:grey"><i>Float</i></span></li>
+						</ul>
+					</div>
+
+					<div class="database-schema-btn" style="text-align: center">
+						<button class="ui icon button">
+							<i class="plus icon"></i>
+						</button>
+						<button class="ui icon button">
+							<i class="pencil icon"></i>
+						</button>
+						<button class="ui icon button">
+							<i class="remove icon"></i>
+						</button>
+					</div>
+
 				</div>
 
-				<div class="ui segment" style="text-align: left; padding-bottom: 3px;">
-					<b>Table1</b><br/>
-					<ul>
-						<li>Column1 <span style="color:grey"><i>String</i></span></li>
-						<li>Column2 <span style="color:grey"><i>Date</i></span></li>
-						<li>Column3 <span style="color:grey"><i>Integer</i></span></li>
-					</ul>
+				<div class="eleven wide column">
 
-					<b>Table2</b>
-					<ul>
-						<li>Column1 <span style="color:grey"><i>Integer</i></span></li>
-						<li>Column2 <span style="color:grey"><i>Float</i></span></li>
-					</ul>
+					<div class="row">
+						<div class="ui top attached tabular menu">
+							<div class="active item">Relational Algebra</div>
+							<div class="item">SQL</div>
+						</div>
+						
+						<div class="ui bottom attached active tab segment" style="padding:0px">
+							<div id="relalg-editor"></div>
+						</div>
+					</div>
 
-					<b>Table3</b>
-					<ul>
-						<li>Column1 <span style="color:grey"><i>String</i></span></li>
-						<li>Column2 <span style="color:grey"><i>Float</i></span></li>
-						<li>Column3 <span style="color:grey"><i>Float</i></span></li>
-					</ul>
+					<div class="row">
+						<div class="btn-bottom-query-editor">
+							<div class="btn-bottom-query-editor-left">
+								<button class="positive ui button"><i class="play icon"></i>Run</button>
+								<button class="ui primary button">Save</button>
+							</div>
+
+							<div class="btn-bottom-query-editor-right">
+								<button class="ui icon button">
+								  <i class="help icon"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+
 				</div>
 
-				<div class="database-schema-btn" style="text-align: center">
-					<button class="ui icon button">
-						<i class="plus icon"></i>
-					</button>
-					<button class="ui icon button">
-						<i class="pencil icon"></i>
-					</button>
-					<button class="ui icon button">
-						<i class="remove icon"></i>
-					</button>
-				</div>
 			</div>
 
-			<!-- Relational Algebra and SQL editors-->
-			<div class="col-sm-7" style="padding:0px;">
+
+		<!--
+		<div class="row">
+			
+			<div class="" style="padding:0px;">
 
 				<div class="row">
 					<div class="ui top attached tabular menu">
@@ -110,7 +153,6 @@
 				</div>
 
 				<div class="row">
-					<!-- Buttons under the editor -->
 					<div class="btn-bottom-query-editor">
 						<div class="btn-bottom-query-editor-left">
 							<button class="positive ui button"><i class="play icon"></i>Run</button>
@@ -125,9 +167,7 @@
 					</div>
 				</div>
 
-				<!-- Feedback message -->
 				<div class="row">
-					<!-- Successful execution-->
 					<div id="success-execution-msg" class="ui success message">
 						<div class="header">
 							Your query execution was successful.
@@ -135,7 +175,6 @@
 						<p>The result table is shown below.</p>
 					</div>
 
-					<!-- Execution error-->
 					<div id="error-execution-msg" class="ui error message">
 						<div class="header">
 							There were some errors with your query
@@ -146,7 +185,6 @@
 					</div>
 				</div>
 
-				<!-- Result table -->
 				<div class="row">
 					
 					<table id="resulttable">
@@ -175,7 +213,6 @@
 					</div>
 				</div>
 
-				<!-- Execution errors details -->
 
 
 			</div>
@@ -187,10 +224,11 @@
 		</div>
 
 	</div>
+-->
 
 
 	<!-- ACE editor import and settings -->
-	<script src="vendor/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../public/vendor/ace/ace.js" type="text/javascript" charset="utf-8"></script>
 	<script>
 	    var editor = ace.edit("relalg-editor");
 	    editor.setTheme("ace/theme/dawn");

@@ -1,0 +1,12 @@
+.schema-viewer {
+	margin-right: 5%;
+}
+
+.schema-viewer-tables {
+	max-height: 450px !important;
+}
+
+#relalg-editor {
+	width: 100%;
+	height: 300px;
+}
