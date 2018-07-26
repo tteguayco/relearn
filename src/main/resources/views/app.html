@@ -72,15 +72,111 @@
 						<b>Relational Algebra Operators</b>
 					</div>
 					<div class="content active" id="relalg-operators-content">
-						<ul id="relalg-operators-list">
-							<li>
+						<div class="ui thirteen column grid">
+							<div class="five wide column">
 								<b>PROJECTION</b><br/>
 								<p class="operator-body-explanation">
-									<span>PROJECT [attr, attr, ...] (rel);</span><br/>
+									<span>PROJECT [attrlist] (expression);</span><br/>
 									<span style="color:grey">E.g. <i>PROJECT [A, B] (R);</i></span>
+								</p>	
+							</div>
+							<div class="five wide column">
+								<b>SELECTION</b><br/>
+								<p class="operator-body-explanation">
+									<span>SELECT [condlist] (expression);</span><br/>
+									<span style="color:grey">E.g. <i>SELECT [(A < 1) AND (B = 'b')] (R);</i></span>
+								</p>	
+							</div>
+							<div class="five wide column">
+								<b>RENAME</b><br/>
+								<p class="operator-body-explanation">
+									<span>RENAME [attrlist] (expression);</span><br/>
+									<span style="color:grey">E.g. <i>RENAME [C, D] (R);</i></span>
+								</p>	
+							</div>
+							<div class="five wide column">
+								<b>CARTESIAN PRODUCT</b><br/>
+								<p class="operator-body-explanation">
+									<span>expression x expression;</span><br/>
+									<span style="color:grey">E.g. <i>R CROSS JOIN S;</i></span>
+								</p>	
+							</div>
+							<div class="five wide column">
+								<b>UNION</b><br/>
+								<p class="operator-body-explanation">
+									<span>expression UNION expression;</span><br/>
+								</p>	
+							</div>
+							<div class="five wide column">
+								<b>DIFFERENCE</b><br/>
+								<p class="operator-body-explanation">
+									<span>expression - expression;</span><br/>
+								</p>	
+							</div>
+							<div class="five wide column">
+								<b>INTERSECTION</b><br/>
+								<p class="operator-body-explanation">
+									<span>expression INTERSECT expression;</span><br/>
+								</p>	
+							</div>
+							<div class="five wide column">
+								<b>NATURAL JOIN</b><br/>
+								<p class="operator-body-explanation">
+									<span>expression * expression;</span><br/>
+								</p>	
+							</div>
+							<div class="five wide column">
+								<b>DIVISION</b><br/>
+								<p class="operator-body-explanation">
+									<span>expression / expression;</span><br/>
+								</p>	
+							</div>
+							<div class="five wide column">
+								<b>JOIN</b><br/>
+								<p class="operator-body-explanation">
+									<span>expression JOIN expression (condlist);</span><br/>
+								</p>	
+							</div>
+							<div class="five wide column">
+								<b>LEFT OUTER JOIN</b><br/>
+								<p class="operator-body-explanation">
+									<span>expression LEFT OUTER JOIN expression (condlist);</span><br/>
+								</p>	
+							</div>
+							<div class="five wide column">
+								<b>RIGHT OUTER JOIN</b><br/>
+								<p class="operator-body-explanation">
+									<span>expression RIGHT OUTER JOIN expression (condlist);</span><br/>
+								</p>	
+							</div>
+							<div class="five wide column">
+								<b>FULL OUTER JOIN</b><br/>
+								<p class="operator-body-explanation">
+									<span>expression FULL OUTER JOIN expression (condlist);</span><br/>
 								</p>
-							</li>
-						</ul>
+							</div>
+							<div class="five wide column">
+								<b>GROUP BY</b><br/>
+								<p class="operator-body-explanation">
+								</p>
+							</div>
+							<div class="five wide column">
+								<b>HAVING</b><br/>
+								<p class="operator-body-explanation">
+								</p>
+							</div>
+							<div class="five wide column">
+								<b>AGGREGATE FUNCTIONS</b><br/>
+									<ul>
+										<li>SUM</li>
+										<li>COUNT</li>
+										<li>MIN</li>
+										<li>MAX</li>
+										<li>AVERAGE</li>
+									</ul>
+								</p>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -140,7 +236,7 @@
 
 					<div class="row">
 						<div class="ui top attached tabular menu">
-							<div class="active item" id="relalg-tab" data-tab="relalg-tab">Relational Algebra</div>
+							<div class="active item disabled" id="relalg-tab" data-tab="relalg-tab">Relational Algebra</div>
 							<div class="item disabled" data-tab="sql-tab">SQL</div>
 						</div>
 						
