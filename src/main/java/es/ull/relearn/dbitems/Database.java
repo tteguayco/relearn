@@ -13,14 +13,23 @@ public class Database {
 
 	private String name;
 	private ArrayList<Table> tables;
-//	private DbmsDriver dbmsDriver;
+	private String schemaName;
 	
+	public String getSchemaName() {
+		return schemaName;
+	}
+
+	public void setSchemaName(String schemaName) {
+		this.schemaName = schemaName;
+	}
+
 	/**
 	 * @param name name for the database.
 	 */
 	public Database(String aName) {
 		name = aName;
 		tables = new ArrayList<Table>();
+		schemaName = null;
 	}
 	
 	public Database(String aName, ArrayList<Table> tableList) {
@@ -178,12 +187,4 @@ public class Database {
 	public void setTables(ArrayList<Table> tables) {
 		this.tables = tables;
 	}
-//
-//	public DbmsDriver getDbmsDriver() {
-//		return dbmsDriver;
-//	}
-//
-//	public void setDbmsDriver(DbmsDriver dbmsDriver) {
-//		this.dbmsDriver = dbmsDriver;
-//	}
 }

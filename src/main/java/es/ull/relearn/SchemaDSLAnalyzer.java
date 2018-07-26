@@ -10,7 +10,7 @@ import es.ull.relearn.dsl.DatabaseEvalVisitor;
 import es.ull.relearn.dsl.DatabaseLexer;
 import es.ull.relearn.dsl.DatabaseParser;
 
-public class SchemaDSLChecker {
+public class SchemaDSLAnalyzer {
 
 	private Database database;
 	private String errorMessages;
@@ -20,7 +20,13 @@ public class SchemaDSLChecker {
 		errorMessages = "";
 	}
 	
-	public boolean schemaDefinitionIsCorrect(String schemaDefinition) {
+	/**
+	 * Returns a database object which represents the schema defined through the DSL.
+	 * If an error occurs, null is returned.
+	 * @param schemaDefinition
+	 * @return
+	 */
+	public Database getDatabaseObjectFromDefinition(String schemaDefinition) {
 		CustomErrorListener errorListener = new CustomErrorListener();
 		ANTLRInputStream input = new ANTLRInputStream(schemaDefinition);
 	    
@@ -43,7 +49,7 @@ public class SchemaDSLChecker {
 	    	DatabaseEvalVisitor eval = new DatabaseEvalVisitor();
 			database = (Database) eval.visit(tree);
 			
-			return true;
+			return database;
 	    }
 	    
 	    else {
@@ -52,7 +58,7 @@ public class SchemaDSLChecker {
 	    		errorMessages += errorListener.getSyntaxErrorsList().get(i) + "\n";
 	    	}
 	    	
-	    	return false;
+	    	return null;
 	    }
 	}
 	
