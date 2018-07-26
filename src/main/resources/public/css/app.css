@@ -4,6 +4,15 @@
 
 .schema-viewer-tables {
 	max-height: 450px !important;
+	text-align: left; 
+	padding-bottom: 3px;
+	background-color: #f7f7f5 !important;
+}
+
+#databases-dropdown {
+	width: 100% !important;
+	text-align: center !important;
+	background-color: #f7f7f5 !important;
 }
 
 #relalg-editor {
