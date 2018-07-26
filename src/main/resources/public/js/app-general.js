@@ -26,14 +26,19 @@ function setTabsConfiguration() {
 
 
 	// Set focus on the relalg editor when its tab is clicked
-	$('.top.menu .item').tab({
-		'onVisible': function() {
-			$("#relalg-editor").focus();
-		}
+	$('#relalg-tab').click(function() {
+		// TODO make this work
+		$("#relalg-editor").focus();
+		$("#relalg-editor").navigateFileEnd();
 	});
+}
+
+function setAccordionsConfiguration() {
+	$('.ui.accordion').accordion();
 }
 
 $(document).ready(function() {
 	setEditorsConfiguration();
 	setTabsConfiguration();
+	setAccordionsConfiguration();
 });

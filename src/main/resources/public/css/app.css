@@ -19,3 +19,16 @@
 .code-editor-panel {
 	padding: 0px !important;
 }
+
+#relalg-operators-content {
+	padding: 1%;
+	//text-align: center;
+}
+
+#relalg-operators-content {
+
+}
+
+.operator-body-explanation {
+	font-family: 'Inconsolata', monospace;
+}
