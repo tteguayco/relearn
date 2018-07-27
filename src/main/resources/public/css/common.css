@@ -25,14 +25,6 @@
 	float:right;
 }
 
-#success-execution-msg {
-	//display: none;
-}
-
-#error-execution-msg {
-	display: none;
-}
-
 .segment ul {
   list-style-type: none;
   padding-left: 10px;
@@ -55,4 +47,8 @@ li {
 #resulttable th, td {
 	border: 1px solid grey;
 	padding: 3px;
+}
+
+.ui.button:focus {
+	outline: 0;
 }

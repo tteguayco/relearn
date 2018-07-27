@@ -41,3 +41,15 @@
 .ace_content {
 	height: 300px !important;
 }
+
+.btn-bottom-query-editor {
+	margin-top: 15px;
+}
+
+#success-execution-msg {
+	//display: none;
+}
+
+#error-execution-msg {
+	//display: none;
+}
