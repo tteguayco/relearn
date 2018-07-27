@@ -1,4 +1,9 @@
 
+CREATE_NEW_DB_MSG = "Create a new database";
+ALTER_CURRENT_DB_MSG = "Alter database";
+DELETE_CURRENT_DB_MSG = "Delete/drop database";
+SAVE_CURRENT_DB = "Dump definition to file";
+
 function setEditorsConfiguration() {
 	var relalgEditor = ace.edit("relalg-editor");
 	relalgEditor.setTheme("ace/theme/dawn");
@@ -37,8 +42,16 @@ function setAccordionsConfiguration() {
 	$('.ui.accordion').accordion();
 }
 
+function setUpToolTips() {
+	$('#create-db-btn').popup({ content: CREATE_NEW_DB_MSG });
+	$('#alter-db-btn').popup({ content: ALTER_CURRENT_DB_MSG });
+	$('#delete-db-btn').popup({ content: DELETE_CURRENT_DB_MSG });
+	$('#save-db-btn').popup({ content: SAVE_CURRENT_DB });
+}
+
 $(document).ready(function() {
 	setEditorsConfiguration();
 	setTabsConfiguration();
 	setAccordionsConfiguration();
+	setUpToolTips();
 });

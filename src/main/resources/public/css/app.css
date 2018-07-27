@@ -37,3 +37,7 @@
 .operator-body-explanation {
 	font-family: 'Inconsolata', monospace;
 }
+
+.ace_content {
+	height: 300px !important;
+}
