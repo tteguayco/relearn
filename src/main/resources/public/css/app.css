@@ -47,9 +47,15 @@
 }
 
 #success-execution-msg {
+	margin-top: 80px !important;
 	//display: none;
 }
 
 #error-execution-msg {
+	margin-top: 20px !important;
 	//display: none;
+}
+
+.schema-viewer-btn {
+	margin-top: 5px !important;
 }
