@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/components/tab.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/components/table.min.css"></link>
     <link rel="stylesheet" href="../public/css/common.css">
     <link rel="stylesheet" href="../public/css/app.css">
 
@@ -277,42 +278,45 @@
 						</div>
 					</div>
 
-					<div class="row">
-						<!--
-						<table id="resulttable">
-							<tr>
-								<th>Col1</th>
-								<th>Col2</th>
-								<th>Col3</th>
-							</tr>
-							<tr>
-								<td>d11</td>
-								<td>dddd12</td>
-								<td>d13</td>
-							</tr>
-							<tr>
-								<td>d21</td>
-								<td>d22</td>
-								<td>d23</td>
-							</tr>
+					<div id="result-table-row" class="row">
+						<table id="result-table" class="ui very compact striped table">
+							<thead>
+								<tr>
+									<th>Col1Name</th>
+									<th>Col2name</th>
+									<th>Col3Name</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>d11</td>
+									<td>dddd12</td>
+									<td>d13</td>
+								</tr>
+								<tr>
+									<td>d21</td>
+									<td>d22</td>
+									<td>d23</td>
+								</tr>
+							</tbody>
 						</table>
-						-->
+					</div>
 
-						<!--
-						<div class="ui vertical animated button" tabindex="0">
-							<div class="hidden content">CSV</div>
-							<div class="visible content">
-								<i class="download icon"></i>
-							</div>
+					<div id="csv-download-result-btn" class="ui vertical animated button" tabindex="0">
+						<div class="hidden content">CSV</div>
+						<div class="visible content">
+							<i class="download icon"></i>
 						</div>
-						-->
 					</div>
 
 				</div>
-
 			</div>
-
-			<div style="margin-bottom:10%;"></div>
+			<div class="copyright-container">
+				<div class="ui divider"></div>
+				Relearn © 2018. All rights reserved.
+			</div>
+		</div>
+	</div>
 
 </body>
 </html>

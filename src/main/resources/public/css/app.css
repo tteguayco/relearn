@@ -1,3 +1,9 @@
+html, body {
+	// Force to not show horizontal scroll bar
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 .schema-viewer {
 	margin-right: 5%;
 }
@@ -47,15 +53,27 @@
 }
 
 #success-execution-msg {
-	margin-top: 80px !important;
+	margin-top: 10px !important;
 	//display: none;
 }
 
 #error-execution-msg {
-	margin-top: 20px !important;
+	margin-top: 10px !important;
 	//display: none;
 }
 
 .schema-viewer-btn {
 	margin-top: 5px !important;
+}
+
+#result-table-row {
+	margin-top: 10px !important;
+	//display: none;
+	overflow-x: auto;
+}
+
+#csv-download-result-btn {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	float: right;
 }
