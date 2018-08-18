@@ -181,7 +181,7 @@ function formThirdModalIsValid() {
 	for (i = 0; i < valuesElem.length; i++) {
 		auxValue = valuesElem.eq(i).val();
 		auxDomain = valuesElem.eq(i).attr("domain");
-		if (!valueIsValid(auxValue, auxDomain, valuesElem)) {
+		if (!valueIsValid(auxValue, auxDomain, valuesElem.eq(i))) {
 			valid = false;
 		}
 	}
@@ -196,7 +196,7 @@ function resetErrorsFromThirdModal() {
 	.removeClass("input-text-with-errors");
 
 	// Remove popup with error messages
-	$(".attribute-name").popup('destroy');
+	$(".tuple-value-textbox").popup('destroy');
 }
 
 function goToSecondStepFromThirdStep() {
@@ -209,6 +209,7 @@ function goToMainAppFromThirdStep() {
 
 	if (formThirdModalIsValid()) {
 		// TODO go to main app
+		alert("TODO: build schema file using the DSL notation");
 	}
 
 	else {

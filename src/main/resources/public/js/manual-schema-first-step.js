@@ -3,6 +3,9 @@ const EMPTY_NAME_MESSAGE = "This name cannot be blank";
 const DATABASE_NAME_NOT_VALID_MSG = "Only letters, digits and underscores are allowed in an database's name. The first character must be a letter";
 const RELATION_NAME_NOT_VALID_MSG = "Only letters, digits and underscores are allowed in an relation's name. The first character must be a letter";
 
+// TODO: check if there are relations with the same name
+const REPEATED_RELATION_NAME_MESSAGE = "This relation name already exists"
+
 function addRelationNameTextBox() {
 	$("#relations-names-panel").append('<input type="text" class="rel-name" placeholder="Relation Name" style="margin-top:5px">');
 }

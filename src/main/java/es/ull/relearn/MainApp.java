@@ -28,14 +28,25 @@ public class MainApp {
 		
 		// Server initialization
 		Spark.port(DEFAULT_PORT);
-		Spark.staticFiles.location(STATIC_FILES_LOCATION);
-		Spark.init();
+		
+		// Automatic refresh of static files
+		// ONLY THESE LINES DURING DEVELOPMENT
+		String projectDir = System.getProperty("user.dir");
+	    String staticDir = "/src/main/resources/public";
+	    Spark.staticFiles.externalLocation(projectDir + staticDir);
+		
+	    // Uncomment the following line when deploying the app
+		//Spark.staticFiles.location(STATIC_FILES_LOCATION);
+		
+	    Spark.init();
+		System.out.println("Server listening on port " + Spark.port());
 		
 		Spark.get("/", (req, res) -> renderContent(HOME_PAGE_PATH));
 		Spark.get("/schema", (req, res) -> renderContent(SCHEMA_PAGE_PATH));
 		Spark.get("/checkSchemaDefinitionFromFile", (req, res) -> {
+			System.out.println("The following definition schema was received from the client:\n\"");
 			String schemaDefinitionDSL = req.queryParams("schemaDefinitionDSL");
-			System.out.println(schemaDefinitionDSL);
+			System.out.println(schemaDefinitionDSL + "\n\"");
 			return "";
 		});
 	}

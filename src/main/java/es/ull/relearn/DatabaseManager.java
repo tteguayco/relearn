@@ -234,14 +234,14 @@ public class DatabaseManager {
 	
 	public static void main(String[] args) {
 		DatabaseManager databaseManager = new DatabaseManager();
-		SchemaDSLAnalyzer schemaDSLAnalyzer = new SchemaDSLAnalyzer();
+		//SchemaDSLAnalyzer schemaDSLAnalyzer = new SchemaDSLAnalyzer();
 		
 		String schemaDefinition = DatabaseManager.getSchemaDefinitionFromFile(TEST_SCHEMA_DEFINITION_FILE_PATH);
 		
 		System.out.println(schemaDefinition);
 		System.out.println(databaseManager);
 		
-		Database databaseToCreateOnPostgre = schemaDSLAnalyzer.getDatabaseObjectFromDefinition(schemaDefinition);
-		databaseManager.createDatabaseOnDbms(databaseToCreateOnPostgre, "123456");
+		//Database databaseToCreateOnPostgre = schemaDSLAnalyzer.getDatabaseObjectFromDefinition(schemaDefinition);
+		//databaseManager.createDatabaseOnDbms(databaseToCreateOnPostgre, "123456");
 	}
 }

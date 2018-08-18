@@ -4,6 +4,9 @@ const NUM_OF_ATTRIBUTES_PER_RELATION = 1;
 const EMPTY_ATTRIBUTE_NAME_MESSAGE = "This name cannot be blank";
 const BAD_ATTRIBUTE_NAME_MESSAGE = "Only letters, digits and underscores are allowed in an attribute's name. The first character must be a letter";
 
+// TODO: check if there are repited names for attributes in the same relation
+const REPEATED_ATTRIBUTE_NAME_MESSAGE = "This attribute name already exists in this relation"
+
 function getAttributeGroup() {
 	return $('<div class="ui input attribute-group"></div>');
 }
