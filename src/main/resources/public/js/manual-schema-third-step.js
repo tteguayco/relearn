@@ -241,12 +241,15 @@ function buildSchemaDSLDefinition() {
 		}
 
 		// Store tuple
-		if (tuplesDict[relationName + "." + attrName] == undefined) {
-			tuplesDict[relationName + "." + attrName] = {};
+		value = { "domain": domain, "value": tupleValue };
+		tuplesDictKey = relationName + "." + attrName;
+		if (tuplesDict[tuplesDictKey] == undefined) {
+			tuplesDict[tuplesDictKey] = [];
 		}
-		tuplesDict[relationName + "." + attrName]["domain"] = domain;
-		tuplesDict[relationName + "." + attrName]["value"] = tupleValue;
+		tuplesDict[tuplesDictKey].push(value);
 	});
+
+	console.log(JSON.stringify(tuplesDict));
 
 	// Build definition
 	schemaDefinition = "";
@@ -257,11 +260,10 @@ function buildSchemaDSLDefinition() {
 		var attributesForCurrentRelation = attributesDict[currentRelationName];
 		var currentAttributeName = "";
 		var currentAttributeDomain = "";
-		var 
 
 		schemaDefinition += "TABLE " + currentRelationName + "(";
 		for (j = 0; j < attributesForCurrentRelation.length; j++) {
-			
+			var currentRelationTuples = 
 
 			currentAttributeName = attributesForCurrentRelation[j];
 			currentAttributeDomain = attributesForCurrentRelation[j];
