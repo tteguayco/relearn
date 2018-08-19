@@ -36,7 +36,7 @@ TABLE S3 (D: Integer, E: Integer)
 (3,1);
 (6,2);
 
-TABLE R4 (A: Char, B: Char ,C: Char)
+TABLE R4 (A: Char, B: Char, C: Char)
 =>
 ('a','b','c');
 ('d','b','c');

@@ -7,8 +7,12 @@ const BAD_INTEGER_MESSAGE = "This is not a valid integer value (10 digits max)."
 const BAD_FLOAT_MESSAGE = "This is not a valid float value (10 digits max). The dot is the only valid separator.";
 const BAD_DATE_MESSAGE = "The date format is DD/MM/YYYY.";
 
-function getNewTupleValueTextbox(attrName, attrDomain) {
-	return $('<input type="text" class="tuple-value-textbox" attribute-name="' + attrName + '" domain="' + attrDomain + '" placeholder="Value"></input>');
+function getNewTupleValueTextbox(attrName, attrDomain, relationName) {
+	return $('<input type="text" class="tuple-value-textbox"' 
+		+ 'relation="' + relationName 
+		+ '" attribute-name="' + attrName 
+		+ '" domain="' + attrDomain 
+		+ '" placeholder="Value"></input>');
 }
 
 function addTuple() {
@@ -103,7 +107,7 @@ function prepareThirdModal() {
 			var domainName = domainListForCurrentRelation[j];
 			var attrLabelContainer = $('<div class="attribute-label-container"></div>');
 			var attrLabel = $('<label class="attribute-name-label"><b>' + attrName + ' (<i>' + domainName + '</i>) </b></label>');
-			var tupleValueTextbox = getNewTupleValueTextbox(attrName, domainName);
+			var tupleValueTextbox = getNewTupleValueTextbox(attrName, domainName, currentRelationName);
 
 			attrNamesRow.append(attrLabelContainer);
 			attrLabelContainer.append(attrLabel);
@@ -203,6 +207,80 @@ function goToSecondStepFromThirdStep() {
 	$("#modal-manual-def-second-step").modal("show");	
 }
 
+function buildSchemaDSLDefinition() {
+	var databaseName = $("#db-name").val();
+	var tuplesTextboxes = $(".tuple-value-textbox");
+	var relationsNamesList = [];
+	var attributesDict = {};
+	var tuplesDict = {};
+
+	// Collect data
+	tuplesTextboxes.each(function() {
+		var relationName = $(this).attr("relation");
+		var attrName = $(this).attr("attribute-name");
+		var domain = $(this).attr("domain");
+		var tupleValue = $(this).val();
+
+		// Store relation name
+		if (relationsNamesList.indexOf(relationName) < 0) {
+			relationsNamesList.push(relationName);
+		}
+
+		// Store attributes' info in dictionary
+		if (attributesDict[relationName] == undefined) {
+			attributesDict[relationName] = {
+				"domains": [],
+				"names": [],
+			}
+		}
+
+		// Store attribute's info if it does not already exist
+		if (attributesDict[relationName]["names"].indexOf(attrName) < 0) {
+			attributesDict[relationName]["names"].push(attrName);
+			attributesDict[relationName]["domains"].push(domain);
+		}
+
+		// Store tuple
+		if (tuplesDict[relationName + "." + attrName] == undefined) {
+			tuplesDict[relationName + "." + attrName] = {};
+		}
+		tuplesDict[relationName + "." + attrName]["domain"] = domain;
+		tuplesDict[relationName + "." + attrName]["value"] = tupleValue;
+	});
+
+	// Build definition
+	schemaDefinition = "";
+	schemaDefinition += "DATABASE " + databaseName + "\n\n";
+
+	for (var i = 0; i < relationsNamesList.length; i++) {
+		var currentRelationName = relationsNamesList[i];
+		var attributesForCurrentRelation = attributesDict[currentRelationName];
+		var currentAttributeName = "";
+		var currentAttributeDomain = "";
+		var 
+
+		schemaDefinition += "TABLE " + currentRelationName + "(";
+		for (j = 0; j < attributesForCurrentRelation.length; j++) {
+			
+
+			currentAttributeName = attributesForCurrentRelation[j];
+			currentAttributeDomain = attributesForCurrentRelation[j];
+			schemaDefinition += currentAttributeName + ": " + currentAttributeDomain;
+
+			// Add comma or final bracket
+			if (j < attributesForCurrentRelation.length - 1) {
+				schemaDefinition += ", ";
+			}
+			else {
+				schemaDefinition += ")\n=>\n";
+			}
+		
+
+
+		}
+	}
+}
+
 function goToMainAppFromThirdStep() {
 
 	resetErrorsFromThirdModal();
@@ -210,6 +288,7 @@ function goToMainAppFromThirdStep() {
 	if (formThirdModalIsValid()) {
 		// TODO go to main app
 		alert("TODO: build schema file using the DSL notation");
+		buildSchemaDSLDefinition();
 	}
 
 	else {
