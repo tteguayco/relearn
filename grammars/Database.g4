@@ -45,7 +45,7 @@ datatype:
 DATABASE:       'DATABASE' | 'Database' | 'database';
 TABLE:          'TABLE' | 'Table' | 'table';
 STRING:         'STRING' | 'String' | 'string';
-CHAR:           'CHAR' | 'Char' | 'char';
+CHAR:           'CHAR' | 'Char' | 'char' | 'Character' | 'character' | 'CHARACTER';
 INT:            'INTEGER' | 'Integer' | 'integer' | 'INT' | 'int';
 FLOAT:          'FLOAT' | 'Float' | 'float';
 DATE:           'DATE' | 'Date' | 'date';

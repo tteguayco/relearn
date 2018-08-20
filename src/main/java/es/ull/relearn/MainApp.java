@@ -30,7 +30,7 @@ public class MainApp {
 		Spark.port(DEFAULT_PORT);
 		
 		// Automatic refresh of static files
-		// ONLY THESE LINES DURING DEVELOPMENT
+		// COMMENT THESE LINES DURING DEVELOPMENT
 		String projectDir = System.getProperty("user.dir");
 	    String staticDir = "/src/main/resources/public";
 	    Spark.staticFiles.externalLocation(projectDir + staticDir);

@@ -213,7 +213,7 @@ function goToThirdStepFromSecondStep() {
 
 	else {
 		// Display errors
-		console.error("Form not valid");
+		console.log("Second modal's form was submitted with errors.");
 		$(".attribute-errors-panel").show();
 	}
 }

@@ -99,7 +99,7 @@ function goToSecondStepFromFirstStep() {
 
 	else {
 		// Display errors
-		console.error("Form not valid");
+		console.log("First modal's form was submitted with errors.");
 	}
 }
 

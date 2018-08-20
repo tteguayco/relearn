@@ -214,7 +214,7 @@ function buildSchemaDSLDefinition() {
 	var attributesDict = {};
 	var tuplesDict = {};
 
-	// Collect data
+	// Collect data about relations and attributes
 	tuplesTextboxes.each(function() {
 		var relationName = $(this).attr("relation");
 		var attrName = $(this).attr("attribute-name");
@@ -230,7 +230,7 @@ function buildSchemaDSLDefinition() {
 		if (attributesDict[relationName] == undefined) {
 			attributesDict[relationName] = {
 				"domains": [],
-				"names": [],
+				"names": []
 			}
 		}
 
@@ -239,48 +239,98 @@ function buildSchemaDSLDefinition() {
 			attributesDict[relationName]["names"].push(attrName);
 			attributesDict[relationName]["domains"].push(domain);
 		}
-
-		// Store tuple
-		value = { "domain": domain, "value": tupleValue };
-		tuplesDictKey = relationName + "." + attrName;
-		if (tuplesDict[tuplesDictKey] == undefined) {
-			tuplesDict[tuplesDictKey] = [];
-		}
-		tuplesDict[tuplesDictKey].push(value);
 	});
 
-	console.log(JSON.stringify(tuplesDict));
+	// Collect data about tuples
+	tuples = [];
+	$(".tuples-and-attributes-names-container").each(function(i, val) {
+		
+		valuesList = $(this).find(".values-list");
+		valuesList.each(function() {
+			
+			tupleValueTextBox = $(this).find(".tuple-value-textbox");
+			tuple = [];	
+			tupleValueTextBox.each(function() {
+				tupleVal = {};
+				tupleVal["relation"] = $(this).attr("relation");
+				tupleVal["attribute-name"] = $(this).attr("attribute-name");
+				tupleVal["domain"] = $(this).attr("domain");
+				tupleVal["value"] = $(this).val();
+				tuple.push(tupleVal);
+			});
+			tuples.push(tuple);
+		});
+	});
+
+	//console.log(databaseName);
+	//console.log(JSON.stringify(relationsNamesList));
+	//console.log(JSON.stringify(attributesDict));
+	//console.log(tuples);
 
 	// Build definition
 	schemaDefinition = "";
-	schemaDefinition += "DATABASE " + databaseName + "\n\n";
+	schemaDefinition += "DATABASE " + databaseName + ";\n";
 
 	for (var i = 0; i < relationsNamesList.length; i++) {
 		var currentRelationName = relationsNamesList[i];
 		var attributesForCurrentRelation = attributesDict[currentRelationName];
-		var currentAttributeName = "";
-		var currentAttributeDomain = "";
+		var currentRelationAttrDomains = attributesForCurrentRelation["domains"];
+		var currentRelationAttrNames = attributesForCurrentRelation["names"];
 
-		schemaDefinition += "TABLE " + currentRelationName + "(";
-		for (j = 0; j < attributesForCurrentRelation.length; j++) {
-			var currentRelationTuples = 
+		schemaDefinition += "\nTABLE " + currentRelationName + "(";
+		if (currentRelationAttrDomains.length == currentRelationAttrNames.length) {
+			for (var j = 0; j < currentRelationAttrDomains.length; j++) {
+				var currentAttrDomain = currentRelationAttrDomains[j];
+				var currentAttrName = currentRelationAttrNames[j];
 
-			currentAttributeName = attributesForCurrentRelation[j];
-			currentAttributeDomain = attributesForCurrentRelation[j];
-			schemaDefinition += currentAttributeName + ": " + currentAttributeDomain;
+				schemaDefinition += currentAttrName + ": " + currentAttrDomain;
 
-			// Add comma or final bracket
-			if (j < attributesForCurrentRelation.length - 1) {
-				schemaDefinition += ", ";
+				// Add comma or final bracket
+				if (j < currentRelationAttrDomains.length - 1) {
+					schemaDefinition += ", ";
+				}
+				else {
+					schemaDefinition += ")\n=>\n";
+				}
 			}
-			else {
-				schemaDefinition += ")\n=>\n";
+		}
+
+		tuplesForCurrentRelation = [];
+		for (var j = 0; j < tuples.length; j++) {
+			if ((tuples[j][0])["relation"] == currentRelationName) {
+				tuplesForCurrentRelation.push(tuples[j]);
 			}
-		
+		}
 
+		// Write tuples
+		for (var j = 0; j < tuplesForCurrentRelation.length; j++) {
+			schemaDefinition += "(";
+			
+			for (var k = 0; k < tuplesForCurrentRelation[j].length; k++) {
+				var domain = tuplesForCurrentRelation[j][k]["domain"];
+				var value = tuplesForCurrentRelation[j][k]["value"];
+				
+				if (domain == "string" || domain == "char") {
+					schemaDefinition += "'" + value + "'";	
+				}
+				else {
+					schemaDefinition += value;
+				}
+				
+				// Add comma or final bracket
+				if (k < tuplesForCurrentRelation[j].length - 1) {
+					schemaDefinition += ", ";
+				}
+				else {
+					schemaDefinition += ");\n";
+				}
+			}
 
+			schemaDefinition += "\n";
 		}
 	}
+
+	console.log(schemaDefinition);
 }
 
 function goToMainAppFromThirdStep() {
@@ -295,7 +345,7 @@ function goToMainAppFromThirdStep() {
 
 	else {
 		// Display errors
-		console.error("Third modal's form not valid.");
+		console.log("Third modal's form was submitted with errors.");
 	}
 }
 
