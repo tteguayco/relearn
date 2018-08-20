@@ -11,7 +11,8 @@ database:
 ;
 
 table:
-    TABLE ID '(' attrlist ')' ('=>' ('(' datalist ')' ';')+)?     # tableCreation
+    TABLE ID '(' attrlist ')' 
+        ('=>' ('(' datalist ')' ';')+)?     # tableCreation
 ;
 
 attrlist:                                                   
@@ -42,23 +43,23 @@ datatype:
 ;
 
 // TERMINALS
-DATABASE:       'DATABASE' | 'Database' | 'database';
-TABLE:          'TABLE' | 'Table' | 'table';
-STRING:         'STRING' | 'String' | 'string';
-CHAR:           'CHAR' | 'Char' | 'char' | 'Character' | 'character' | 'CHARACTER';
-INT:            'INTEGER' | 'Integer' | 'integer' | 'INT' | 'int';
-FLOAT:          'FLOAT' | 'Float' | 'float';
-DATE:           'DATE' | 'Date' | 'date';
+DATABASE:   'DATABASE' | 'Database' | 'database';
+TABLE:      'TABLE' | 'Table' | 'table';
+STRING:     'STRING' | 'String' | 'string';
+CHAR:       'CHAR' | 'Char' | 'char' | 'Character' | 'character' | 'CHARACTER';
+INT:        'INTEGER' | 'Integer' | 'integer' | 'INT' | 'int';
+FLOAT:      'FLOAT' | 'Float' | 'float';
+DATE:       'DATE' | 'Date' | 'date';
 STRING_VAL:     '\'' ([a-zA-Z]| [0-9] | '@' | '_' | '-' | '+' | '*' | '/' | '.')* '\'';
 NUMBER:         [0-9]+ ('.' | [0-9])*;
 ID:             ([a-zA-Z])+([a-zA-Z]| [0-9] | '@' | '_' | '-' | '+' | '*' | '/' | '.')*;
 WHITESPACES:    [ \t\r\n]+ -> skip;
 
 // COMMENTS
-COMMENT:
-    '/*' .*? '*/' -> channel(HIDDEN)
-;
+COMMENT
+    :   '/*' .*? '*/' -> channel(HIDDEN)
+    ;
 
-LINE_COMMENT:
-   '//' ~[\r\n]* -> channel(HIDDEN)
-;
+LINE_COMMENT
+    :   '//' ~[\r\n]* -> channel(HIDDEN)
+    ;

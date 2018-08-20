@@ -41,11 +41,14 @@ public class MainApp {
 	    Spark.init();
 		System.out.println("Server listening on port " + Spark.port());
 		
+		// ROUTES
 		Spark.get("/", (req, res) -> renderContent(HOME_PAGE_PATH));
+		
 		Spark.get("/schema", (req, res) -> renderContent(SCHEMA_PAGE_PATH));
+		
 		Spark.get("/checkSchemaDefinitionFromFile", (req, res) -> {
 			System.out.println("The following definition schema was received from the client:\n\"");
-			String schemaDefinitionDSL = req.queryParams("schemaDefinitionDSL");
+			String schemaDefinitionDSL = req.queryParams("DatabaseSchemaDefinition");
 			System.out.println(schemaDefinitionDSL + "\n\"");
 			return "";
 		});

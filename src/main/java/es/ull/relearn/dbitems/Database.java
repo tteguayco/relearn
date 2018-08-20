@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.Set;
 import java.util.UUID;
 
+import es.ull.relearn.exceptions.DuplicateTableException;
+
 //import es.ull.etsii.jitrax.database.DbmsDriver;
 //import es.ull.etsii.jitrax.exceptions.DuplicateTableException;
 
@@ -37,9 +39,9 @@ public class Database {
 		tables = tableList;
 	}
 	
-	public void addTable(Table newTable) /*throws DuplicateTableException*/ {
+	public void addTable(Table newTable) throws DuplicateTableException {
 		if (containsTable(newTable.getName())) {
-			//throw new DuplicateTableException();
+			throw new DuplicateTableException();
 		}
 		
 		getTables().add(newTable);

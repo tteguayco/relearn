@@ -330,7 +330,8 @@ function buildSchemaDSLDefinition() {
 		}
 	}
 
-	console.log(schemaDefinition);
+	//console.log(schemaDefinition);
+	return schemaDefinition;
 }
 
 function goToMainAppFromThirdStep() {
@@ -338,9 +339,23 @@ function goToMainAppFromThirdStep() {
 	resetErrorsFromThirdModal();
 
 	if (formThirdModalIsValid()) {
-		// TODO go to main app
-		alert("TODO: build schema file using the DSL notation");
-		buildSchemaDSLDefinition();
+		schemaDefinition = buildSchemaDSLDefinition();
+
+		$.ajax({
+			url: "/checkSchemaDefinitionFromFile",
+			data: {
+				"DatabaseSchemaDefinition": schemaDefinition
+			},
+			success: function(dataFromServer) {
+				// TODO: If there are syntax error, display them
+				// TODO: If there are no syntax error, go to the main app page
+
+				alert(dataFromServer);
+			},
+			error: function() {
+				console.error("An error ocurred when sending a schema definition to the server.");
+			}
+		});
 	}
 
 	else {
