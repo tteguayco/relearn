@@ -350,7 +350,7 @@ function goToMainAppFromThirdStep() {
 				// TODO: If there are syntax error, display them
 				// TODO: If there are no syntax error, go to the main app page
 
-				alert(dataFromServer);
+				alert("Errors: " + dataFromServer);
 			},
 			error: function() {
 				console.error("An error ocurred when sending a schema definition to the server.");

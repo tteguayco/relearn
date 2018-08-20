@@ -1,7 +1,17 @@
 package es.ull.relearn;
 
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+
+import es.ull.relearn.analysis.CustomErrorListener;
+import es.ull.relearn.analysis.dbschema.DatabaseEvalVisitor;
+import es.ull.relearn.analysis.dbschema.DatabaseLexer;
+import es.ull.relearn.analysis.dbschema.DatabaseParser;
+import es.ull.relearn.dbitems.Database;
+
 public class SchemaDSLAnalyzer {
-/*
+
 	private Database database;
 	private String errorMessages;
 	
@@ -9,7 +19,6 @@ public class SchemaDSLAnalyzer {
 		database = null;
 		errorMessages = "";
 	}
-*/
 	
 	/**
 	 * Returns a database object which represents the schema defined through the DSL.
@@ -17,7 +26,7 @@ public class SchemaDSLAnalyzer {
 	 * @param schemaDefinition
 	 * @return
 	 */
-/*
+
 	public Database getDatabaseObjectFromDefinition(String schemaDefinition) {
 		CustomErrorListener errorListener = new CustomErrorListener();
 		ANTLRInputStream input = new ANTLRInputStream(schemaDefinition);
@@ -61,6 +70,4 @@ public class SchemaDSLAnalyzer {
 	public String getErrorMessages() {
 		return errorMessages;
 	}
-
-*/
 }

@@ -20,7 +20,7 @@ function definedSchemaIsValid() {
 	} else {
 		// Send the schema definition to the server to check if it is valid
 		var dataForServer = {
-			"schemaDefinitionDSL": schemaDefinitionDSL
+			"DatabaseSchemaDefinition": schemaDefinitionDSL
 		};
 
 		$.ajax({

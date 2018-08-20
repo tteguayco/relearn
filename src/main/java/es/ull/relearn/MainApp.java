@@ -2,6 +2,7 @@ package es.ull.relearn;
 
 import java.io.IOException;
 
+import es.ull.relearn.dbitems.Database;
 import spark.Spark;
 import spark.utils.IOUtils;
 
@@ -11,6 +12,8 @@ public class MainApp {
 	private static final String STATIC_FILES_LOCATION = "/public";
 	private static final String HOME_PAGE_PATH = "/views/home.html";
 	private static final String SCHEMA_PAGE_PATH = "/views/schema.html";
+	
+	private Database definedDatabase = null;
 	
 	private static String renderContent(String htmlFilePath) {
 		String htmlPageAsString = "";
@@ -47,10 +50,27 @@ public class MainApp {
 		Spark.get("/schema", (req, res) -> renderContent(SCHEMA_PAGE_PATH));
 		
 		Spark.get("/checkSchemaDefinitionFromFile", (req, res) -> {
+			SchemaDSLAnalyzer schemaDSLAnalyzer = new SchemaDSLAnalyzer();
+			Database definedDatabase = null;
+			String syntaxErrors = "";
+			
 			System.out.println("The following definition schema was received from the client:\n\"");
 			String schemaDefinitionDSL = req.queryParams("DatabaseSchemaDefinition");
 			System.out.println(schemaDefinitionDSL + "\n\"");
-			return "";
+			
+			definedDatabase = schemaDSLAnalyzer.getDatabaseObjectFromDefinition(schemaDefinitionDSL);
+			
+			// If there are errors, send them to the client
+			if (definedDatabase == null) {
+				syntaxErrors = schemaDSLAnalyzer.getErrorMessages();
+			}
+			
+			// Create database on PostgreSQL
+			else {
+				
+			}
+			
+			return syntaxErrors;
 		});
 	}
 }
