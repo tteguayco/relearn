@@ -12,6 +12,7 @@ public class MainApp {
 	private static final String STATIC_FILES_LOCATION = "/public";
 	private static final String HOME_PAGE_PATH = "/views/home.html";
 	private static final String SCHEMA_PAGE_PATH = "/views/schema.html";
+	private static final String MAIN_PAGE_PATH = "/views/app.html";
 	
 	private Database definedDatabase = null;
 	
@@ -49,6 +50,8 @@ public class MainApp {
 		
 		Spark.get("/schema", (req, res) -> renderContent(SCHEMA_PAGE_PATH));
 		
+		Spark.get("/main", (req, res) -> renderContent(MAIN_PAGE_PATH));
+		
 		Spark.get("/checkSchemaDefinitionFromFile", (req, res) -> {
 			SchemaDSLAnalyzer schemaDSLAnalyzer = new SchemaDSLAnalyzer();
 			DatabaseManager databaseManager = new DatabaseManager();
@@ -71,10 +74,11 @@ public class MainApp {
 			else {
 				String userSessionID = req.session().id();
 				System.out.println("Creating database for the session ID: " + userSessionID);
-				System.out.println(databaseManager);
+				//System.out.println(databaseManager);
 				databaseManager.createDatabaseOnDbms(definedDatabase, userSessionID);
 			}
 			
+			System.out.println("Database created on PostgreSQL with no errors.");
 			return "";
 		});
 	}

@@ -7,13 +7,10 @@ function displayErrorsInSchemaPage(errorsToDisplay) {
 	$(".schema-errors-panel").show();
 }
 
-function definedSchemaIsValid() {
-	var valid = true;
+function createDatabaseFromDefinition() {
 	var schemaDefinitionDSL = $("#db-definition-file-content").text();
 
-
 	if (schemaDefinitionDSL.length <= 0) {
-		valid = false;
 
 		// Display alert in the top left corner
 		$.uiAlert({
@@ -38,27 +35,29 @@ function definedSchemaIsValid() {
 			success: function(syntaxOrSemanticErrors) {
 				// Display errors in panel
 				if (syntaxOrSemanticErrors.length > 0) {
-					valid = false;
 					displayErrorsInSchemaPage(syntaxOrSemanticErrors);
+				}
+
+				// Go to main app
+				else {
+					window.location = "/main";
 				}
 			},
 			error: function(xhr, status, error) {
-				alert(error);
+				displayErrorsInSchemaPage(error);
+			},
+			beforeSend: function() { 
+				$('#loading-db-creation-modal').modal({ closable: false }).modal('show');
+			},
+			complete: function() {
+				$('#loading-db-creation-modal').modal('hide');
 			}
 		});
-	}
-
-	return valid;
-}
-
-function goToMainPage() {
-	
-	if (definedSchemaIsValid()) {
-		//TODO: GO TO MAIN APP
 	}
 }
 
 $(document).ready(function() {
-
-	$("#next-btn").click(goToMainPage);
+	$("#next-btn").click(function() {
+		createDatabaseFromDefinition();
+	});
 });

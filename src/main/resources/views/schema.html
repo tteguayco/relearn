@@ -134,13 +134,11 @@
 	</div>
 
 	<script>
-
 		// UI Components initialization
 		$("#manual-definition-btn").click(function() {
 			$('.ui.modal.manual-definition1').modal('show');
 		});
 	</script>
-
 
 </body>
 </html>
@@ -195,7 +193,7 @@
 	<div class="actions">
 		<div id="first-step-next-btn" class="ui positive right labeled icon button">
 		  Next
-		  <i class="angle double right icon"></i>
+		  <i class="angle double loading right icon"></i>
 		</div>
 	</div>
 </div>
@@ -319,5 +317,13 @@
 		  Next
 		  <i class="angle double right icon"></i>
 		</div>
+	</div>
+</div>
+
+<div id="loading-db-creation-modal" class="ui basic modal">
+	<div class="ui icon header">
+		<i class="spinner icon"></i>
+		You are almost ready to start writing queries
+		<br><h4>Everything is being prepared for you. This will take just a few seconds :-)</h4>
 	</div>
 </div>
