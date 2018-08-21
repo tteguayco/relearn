@@ -51,6 +51,7 @@ public class MainApp {
 		
 		Spark.get("/checkSchemaDefinitionFromFile", (req, res) -> {
 			SchemaDSLAnalyzer schemaDSLAnalyzer = new SchemaDSLAnalyzer();
+			DatabaseManager databaseManager = new DatabaseManager();
 			Database definedDatabase = null;
 			
 			System.out.println("The following definition schema was received from the client:\n\"");
@@ -68,7 +69,10 @@ public class MainApp {
 			
 			// Create database on PostgreSQL
 			else {
-				
+				String userSessionID = req.session().id();
+				System.out.println("Creating database for the session ID: " + userSessionID);
+				System.out.println(databaseManager);
+				databaseManager.createDatabaseOnDbms(definedDatabase, userSessionID);
 			}
 			
 			return "";

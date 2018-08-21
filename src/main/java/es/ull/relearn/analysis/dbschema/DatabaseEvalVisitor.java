@@ -41,9 +41,9 @@ public class DatabaseEvalVisitor extends DatabaseBaseVisitor<Object> {
 		Table newTable = new Table(tableName, attrList);
 		
 		for (int i = 0; i < ctx.datalist().size(); i++) {
-			ArrayList<Datum> data = (ArrayList<Datum>) visit(ctx.datalist(i)); 
+			ArrayList<Datum> data = (ArrayList<Datum>) visit(ctx.datalist(i));
 			Row newRow = new Row(attrList, data);
-			newTable.addRow(newRow);	
+			newTable.addRow(newRow);
 		}
 	
 		return newTable;
@@ -70,7 +70,7 @@ public class DatabaseEvalVisitor extends DatabaseBaseVisitor<Object> {
 		return singleDatum;
 	}
 	
-	public Object visitDataList(DatabaseParser.DListContext ctx) {
+	public Object visitDList(DatabaseParser.DListContext ctx) {
 		String firstDatumValue = ctx.datum().getText();
 		Datum firstDatum = new Datum (firstDatumValue);
 		ArrayList<Datum> dataList = new ArrayList<Datum>();
@@ -83,7 +83,6 @@ public class DatabaseEvalVisitor extends DatabaseBaseVisitor<Object> {
 		String attrName = ctx.ID().getText();
 		String dataTypeString = (String) visit(ctx.datatype());
 		DataType dataType = null;
-		boolean primaryKey = false;
 		
 		if (dataTypeString.equals("string")) {
 			dataType = DataType.STRING;

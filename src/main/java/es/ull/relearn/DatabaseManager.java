@@ -41,6 +41,7 @@ public class DatabaseManager {
 	private String username;
 	private String password;
 	private String connectionURL;
+	private String databaseName;
 	
 	private Connection connection;
 	private ResultSet queryResultSet;
@@ -55,19 +56,28 @@ public class DatabaseManager {
 		dbmsPrefix = DEFAULT_DBMS_PREFIX;
 		hostname = DEFAULT_HOSTNAME;
 		port = DEFAULT_PORT;
-		connectionURL = DEFAULT_DBMS_PREFIX + hostname + ":" + port + "/";
+		databaseName = "";
+		connectionURL = DEFAULT_DBMS_PREFIX + hostname + ":" + port + "/" + databaseName;
 		
+		createConnectionToDbms(connectionURL);
+	}
+	
+	private void createConnectionToDbms(String aConnectionURL) {		
 		Properties props = new Properties();
 		props.setProperty("user", username);
 		props.setProperty("password", password);
 		
 		try {
-			connection = DriverManager.getConnection(connectionURL, props);
+			connection = DriverManager.getConnection(aConnectionURL, props);
 			queryResultSet = null;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private String getDefaultConnectionURL() {
+		return DEFAULT_DBMS_PREFIX + hostname + ":" + port + "/" + databaseName;
 	}
 	
 	/**
@@ -98,15 +108,36 @@ public class DatabaseManager {
 		return credentials;
 	}
 	
+	private void switchToDatabase(String aDatabaseName) {
+		databaseName = aDatabaseName;
+		connectionURL = getDefaultConnectionURL();
+		
+		createConnectionToDbms(connectionURL);
+	}
+	
 	private void executeCreateDatabaseStatement(String databaseName) throws SQLException {
 		databaseName = databaseName.toLowerCase();
 		Statement statement = connection.createStatement();
+		statement.executeUpdate("DROP DATABASE IF EXISTS " + databaseName);
 		statement.executeUpdate("CREATE DATABASE " + databaseName);
+		
+		// Reconnect to the database which has just been created
+		switchToDatabase(databaseName);
 	}
 	
-	private void executeCreateTableStatement(Table table) throws SQLException {
+	private void executeCreateSchemaStatement(String schemaName) throws SQLException {
+		schemaName = schemaName.toLowerCase();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate("DROP SCHEMA IF EXISTS " + schemaName + " CASCADE");
+		statement.executeUpdate("CREATE SCHEMA " + schemaName);
+	}
+	
+	private void executeCreateTableStatement(Table table, String schemaName) throws SQLException {
 		Attribute auxAttr;
 		String createTableStatement = "CREATE TABLE ";
+		
+		// Rename the table to create it with the notation: "schemaName"."tableName"
+		table.setName(schemaName + "." + table.getName());
 		
 		createTableStatement += table.getName();
 		createTableStatement += "(";
@@ -163,28 +194,40 @@ public class DatabaseManager {
 	
 	/**
 	 * TODO complete
-	 * Normally, the "schemaIdName" will be the user session id so that users use
-	 * only their own databases.
+	 * 
+	 * The REAL database will be the USER SESSION ID (CREATE DATABASE userSessionID).
+	 * 
+	 * The name of the database defined by the user in the app will be actually the name of the schema.
+	 * 
 	 * @param aDatabaseToCreate
 	 * @param schemaName
 	 */
-	public void createDatabaseOnDbms(Database aDatabaseToCreate, String schemaIdName) {
+	public void createDatabaseOnDbms(Database aDatabaseToCreate, String userSessionID) {
 		try {
-			if (databaseToCreate != null && connection != null) {
+			if (aDatabaseToCreate != null && connection != null) {
+				
+				System.out.println("Creating database on PostgreSQL...");
 				
 				// DATABASE
+				executeCreateDatabaseStatement(userSessionID);
+				System.out.println("Database created: " + userSessionID);
+				
+				// SCHEMA
 				String databaseName = aDatabaseToCreate.getName();
-				executeCreateDatabaseStatement(databaseName);
+				executeCreateSchemaStatement(databaseName);
+				System.out.println("Schema created: " + databaseName);
 				
 				// TABLES
 				for (int i = 0; i < aDatabaseToCreate.getNumOfTables(); i++) {
 					Table auxTable = aDatabaseToCreate.getTables().get(i);
-					executeCreateTableStatement(auxTable);
+					executeCreateTableStatement(auxTable, databaseName);
+					System.out.println("Table created: " + auxTable.getName());
 					
 					// ROWS
 					for (int j = 0; j < auxTable.getNumOfRows(); j++) {
 						Row auxRow = auxTable.getRowAt(j);
 						executeInsertIntoStatement(auxRow, auxTable);
+						System.out.println("Row inserted: " + auxRow);
 					}
 				}
 			}
@@ -232,16 +275,55 @@ public class DatabaseManager {
 		queryResultSet = statement.executeQuery(query);
 	}
 	
+	public Connection getConnection() {
+		return connection;
+	}
+	
+	public ResultSet getQueryResultSet() {
+		return queryResultSet;
+	}
+	
+	public String getQueryResultSetAsString() {
+		String result = "";
+		
+		try {
+			while (queryResultSet.next()) {
+			    int numColumns = queryResultSet.getMetaData().getColumnCount();
+			    
+			    for ( int i = 1 ; i <= numColumns ; i++ ) {
+			        result += "COLUMN " + i + " = " + queryResultSet.getObject(i) + "\n";
+			    }
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
 	public static void main(String[] args) {
 		DatabaseManager databaseManager = new DatabaseManager();
-		//SchemaDSLAnalyzer schemaDSLAnalyzer = new SchemaDSLAnalyzer();
+		SchemaDSLAnalyzer schemaDSLAnalyzer = new SchemaDSLAnalyzer();
 		
 		String schemaDefinition = DatabaseManager.getSchemaDefinitionFromFile(TEST_SCHEMA_DEFINITION_FILE_PATH);
 		
 		System.out.println(schemaDefinition);
 		System.out.println(databaseManager);
 		
-		//Database databaseToCreateOnPostgre = schemaDSLAnalyzer.getDatabaseObjectFromDefinition(schemaDefinition);
-		//databaseManager.createDatabaseOnDbms(databaseToCreateOnPostgre, "123456");
+		Database databaseToCreateOnPostgre = schemaDSLAnalyzer.getDatabaseObjectFromDefinition(schemaDefinition);
+		
+		databaseManager.createDatabaseOnDbms(databaseToCreateOnPostgre, "dssdfewr322423v");
+		
+		// Try SELECT * statement
+		String selectStatement = "SELECT * FROM " + databaseToCreateOnPostgre.getTables().get(0).getName();
+		try {
+			databaseManager.executeQuery(selectStatement);
+			//System.out.println(selectStatement);
+			//System.out.println(databaseManager.getQueryResultSetAsString());
+		}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
