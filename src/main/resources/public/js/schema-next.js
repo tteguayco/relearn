@@ -1,7 +1,16 @@
 
+function displayErrorsInSchemaPage(errorsToDisplay) {
+	// Add HTML breaklines
+	errorsToDisplay = errorsToDisplay.replace("\n", "<br>");
+
+	$("#errors-messages").html(errorsToDisplay);
+	$(".schema-errors-panel").show();
+}
+
 function definedSchemaIsValid() {
 	var valid = true;
 	var schemaDefinitionDSL = $("#db-definition-file-content").text();
+
 
 	if (schemaDefinitionDSL.length <= 0) {
 		valid = false;
@@ -26,8 +35,12 @@ function definedSchemaIsValid() {
 		$.ajax({
 			data: dataForServer,
 			url: "/checkSchemaDefinitionFromFile",
-			success: function(response) {
-				alert(response);
+			success: function(syntaxOrSemanticErrors) {
+				// Display errors in panel
+				if (syntaxOrSemanticErrors.length > 0) {
+					valid = false;
+					displayErrorsInSchemaPage(syntaxOrSemanticErrors);
+				}
 			},
 			error: function(xhr, status, error) {
 				alert(error);
@@ -41,11 +54,7 @@ function definedSchemaIsValid() {
 function goToMainPage() {
 	
 	if (definedSchemaIsValid()) {
-		alert("Not implemented yet: going to main app...");
-	}
-
-	else {
-		
+		//TODO: GO TO MAIN APP
 	}
 }
 

@@ -214,7 +214,6 @@ function goToThirdStepFromSecondStep() {
 	else {
 		// Display errors
 		console.log("Second modal's form was submitted with errors.");
-		$(".attribute-errors-panel").show();
 	}
 }
 

@@ -346,11 +346,16 @@ function goToMainAppFromThirdStep() {
 			data: {
 				"DatabaseSchemaDefinition": schemaDefinition
 			},
-			success: function(dataFromServer) {
-				// TODO: If there are syntax error, display them
-				// TODO: If there are no syntax error, go to the main app page
+			success: function(syntaxOrSemanticErrors) {
+				if (syntaxOrSemanticErrors.length > 0) {
+					// in schema-next.js
+					displayErrorsInSchemaPage(syntaxOrSemanticErrors);
+				} 
 
-				alert("Errors: " + dataFromServer);
+				else {
+					// TODO: go to main app
+				}
+				
 			},
 			error: function() {
 				console.error("An error ocurred when sending a schema definition to the server.");

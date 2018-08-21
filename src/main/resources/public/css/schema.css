@@ -133,3 +133,11 @@ html, body {
 	overflow-y: auto !important;
 	padding: 20px;
 }
+
+.schema-errors-panel {
+	display: none;
+}
+
+#errors-messages {
+	font-family: Courier;
+}

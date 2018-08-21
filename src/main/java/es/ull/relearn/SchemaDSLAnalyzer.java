@@ -15,7 +15,7 @@ public class SchemaDSLAnalyzer {
 	private Database database;
 	private String errorMessages;
 	
-	public void SchemaDSLChecker() {
+	public SchemaDSLAnalyzer() {
 		database = null;
 		errorMessages = "";
 	}
@@ -56,7 +56,7 @@ public class SchemaDSLAnalyzer {
 	    else {
 	    	// Save errors
 	    	for (int i = 0; i < errorListener.getSyntaxErrorsList().size(); i++) {
-	    		errorMessages += errorListener.getSyntaxErrorsList().get(i) + "\n";
+    			errorMessages += errorListener.getSyntaxErrorsList().get(i) + "\n";
 	    	}
 	    	
 	    	return null;

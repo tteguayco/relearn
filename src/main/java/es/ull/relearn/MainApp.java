@@ -52,7 +52,6 @@ public class MainApp {
 		Spark.get("/checkSchemaDefinitionFromFile", (req, res) -> {
 			SchemaDSLAnalyzer schemaDSLAnalyzer = new SchemaDSLAnalyzer();
 			Database definedDatabase = null;
-			String syntaxErrors = "";
 			
 			System.out.println("The following definition schema was received from the client:\n\"");
 			String schemaDefinitionDSL = req.queryParams("DatabaseSchemaDefinition");
@@ -62,7 +61,9 @@ public class MainApp {
 			
 			// If there are errors, send them to the client
 			if (definedDatabase == null) {
-				syntaxErrors = schemaDSLAnalyzer.getErrorMessages();
+				System.out.println("The following errors were encountered:");
+				System.out.println(schemaDSLAnalyzer.getErrorMessages());
+				return schemaDSLAnalyzer.getErrorMessages();
 			}
 			
 			// Create database on PostgreSQL
@@ -70,7 +71,7 @@ public class MainApp {
 				
 			}
 			
-			return syntaxErrors;
+			return "";
 		});
 	}
 }
