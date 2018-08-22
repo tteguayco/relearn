@@ -18,7 +18,7 @@ public class MainApp {
 	private static final String SCHEMA_PAGE_PATH = "/views/schema.html";
 	private static final String MAIN_PAGE_PATH = "/views/app.html";
 	
-	private static Database definedDatabase = null;
+	//private Database definedDatabase = null;
 	
 	private static String renderContent(String htmlFilePath) {
 		String htmlPageAsString = "";
@@ -57,12 +57,14 @@ public class MainApp {
 		Spark.get("/checkSchemaDefinitionFromFile", (req, res) -> {
 			SchemaDSLAnalyzer schemaDSLAnalyzer = new SchemaDSLAnalyzer();
 			DatabaseManager databaseManager = new DatabaseManager();
+			Database definedDatabase = null;
 			
 			System.out.println("The following definition schema was received from the client:\n\"");
 			String schemaDefinitionDSL = req.queryParams("DatabaseSchemaDefinition");
 			System.out.println(schemaDefinitionDSL + "\n\"");
 			
 			definedDatabase = schemaDSLAnalyzer.getDatabaseObjectFromDefinition(schemaDefinitionDSL);
+			req.session().attribute("definedDatabase", definedDatabase);
 			
 			// If there are errors, send them to the client
 			if (definedDatabase == null) {
@@ -84,7 +86,10 @@ public class MainApp {
 		});
 		
 		Spark.get("/main", (req, res) -> {
+			System.out.println("\n/main visited. Session ID: " + req.session().id());
+			
 			Map<String, Object> model = new HashMap<String, Object>();
+			Database definedDatabase = req.session().attribute("definedDatabase");
 			
 			if (definedDatabase != null) {
 				model.put("database", definedDatabase);
@@ -95,12 +100,9 @@ public class MainApp {
 			// If the user visits /main and there are no databases defined, 
 			// redirect him/her to the schema page
 			else {
-				System.out.println("No database defined. Redirecting to schema definition page...");
-				//return new ModelAndView(model, "/views/schema.html");
 				res.redirect("/schema");
+				return null;
 			}
-			
-			return null;
 			
 		}, new VelocityTemplateEngine());
 	}

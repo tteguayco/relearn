@@ -157,6 +157,19 @@ public class Table {
 	public String getName() {
 		return name;
 	}
+	
+	/**
+	 * If the name of the table is in the form "relationName.tableName",
+	 * this function only returns "tableName"
+	 * @return
+	 */
+	public String getNameWithoutRelation() {
+		if (name.contains(".")) {
+			return name.substring(name.lastIndexOf(".") + 1);
+		}
+		
+		return name;
+	}
 
 	public void setName(String name) {
 		this.name = name;

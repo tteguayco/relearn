@@ -186,19 +186,30 @@
 				<div class="four wide column schema-viewer">	
 
 					#if ($database)
-					<div class="ui compact menu" style="width:100%;">
-						<div class="ui simple dropdown item" id="databases-dropdown">
-							$database.getName()
-							<i class="dropdown icon"></i>
-							<div class="menu">
-							  <div class="item">MyDatabase2</div>
-							  <div class="item">MyDatabase3</div>
+						<div class="ui compact menu" style="width:100%;">
+							<div class="ui simple dropdown item" id="databases-dropdown">
+								$database.getName()
+								<i class="dropdown icon"></i>
+								<!--
+								<div class="menu">
+								  <div class="item">MyDatabase2</div>
+								  <div class="item">MyDatabase3</div>
+								</div>
+								-->
 							</div>
 						</div>
-					</div>
-					#end
 
-					<div class="ui segment schema-viewer-tables">
+						<div class="ui segment schema-viewer-tables">
+						#foreach ($table in $database.getTables())
+					
+							<b>$table.getNameWithoutRelation()</b>
+							<ul>
+								#foreach ($attr in $table.getAttributes())
+									<li>$attr.getName() <span style="color:grey"><i>$attr.getDataType().toString()</i></span></li>
+								#end
+							</ul>
+
+						<!--
 						<b>Table1</b><br/>
 						<ul>
 							<li>Column1 <span style="color:grey"><i>String</i></span></li>
@@ -218,7 +229,10 @@
 							<li>Column2 <span style="color:grey"><i>Float</i></span></li>
 							<li>Column3 <span style="color:grey"><i>Float</i></span></li>
 						</ul>
-					</div>
+						-->	
+						#end
+						</div>
+					#end
 
 					<div class="database-schema-btn" style="text-align: center">
 						<button id="create-db-btn" class="ui icon button schema-viewer-btn" data-position="bottom center">
