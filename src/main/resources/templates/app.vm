@@ -185,9 +185,10 @@
 
 				<div class="four wide column schema-viewer">	
 
+					#if ($database)
 					<div class="ui compact menu" style="width:100%;">
 						<div class="ui simple dropdown item" id="databases-dropdown">
-							MyDatabase
+							$database.getName()
 							<i class="dropdown icon"></i>
 							<div class="menu">
 							  <div class="item">MyDatabase2</div>
@@ -195,6 +196,7 @@
 							</div>
 						</div>
 					</div>
+					#end
 
 					<div class="ui segment schema-viewer-tables">
 						<b>Table1</b><br/>
