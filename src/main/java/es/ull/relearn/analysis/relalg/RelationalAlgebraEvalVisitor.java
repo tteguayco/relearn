@@ -454,6 +454,30 @@ public class RelationalAlgebraEvalVisitor extends RelationalAlgebraBaseVisitor<S
 		return left + " INNER JOIN " + right + " ON " + conditionList;
 	}
 	
+	@Override
+	public String visitLeftOuterJoin(RelationalAlgebraParser.LeftOuterJoinContext ctx) {
+		String left = preppendSelectStarIfNeeded(ctx.expr(0), visit(ctx.expr(0)));
+		String right = preppendSelectStarIfNeeded(ctx.expr(1), visit(ctx.expr(1)));
+		String conditionList = visit(ctx.condlist());
+		return left + " LEFT JOIN " + right + " ON " + conditionList;
+	}
+	
+	@Override
+	public String visitRightOuterJoin(RelationalAlgebraParser.RightOuterJoinContext ctx) {
+		String left = preppendSelectStarIfNeeded(ctx.expr(0), visit(ctx.expr(0)));
+		String right = preppendSelectStarIfNeeded(ctx.expr(1), visit(ctx.expr(1)));
+		String conditionList = visit(ctx.condlist());
+		return left + " RIGHT JOIN " + right + " ON " + conditionList;
+	}
+	
+	@Override
+	public String visitFullOuterJoin(RelationalAlgebraParser.FullOuterJoinContext ctx) {
+		String left = preppendSelectStarIfNeeded(ctx.expr(0), visit(ctx.expr(0)));
+		String right = preppendSelectStarIfNeeded(ctx.expr(1), visit(ctx.expr(1)));
+		String conditionList = visit(ctx.condlist());
+		return left + " RIGHT OUTER JOIN " + right + " ON " + conditionList;
+	}
+	
 	/**
 	 * https://users.dcc.uchile.cl/~cgutierr/cursos/BD/divisionSQL.pdf
 	 */

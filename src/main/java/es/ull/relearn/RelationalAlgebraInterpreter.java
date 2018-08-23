@@ -83,7 +83,8 @@ public class RelationalAlgebraInterpreter {
 		String sqlQuery = "";
 		
 		//sqlQuery = relalgInterpreter.translate("PROJECT (A, B, C) (R1 natural join R2);");
-		sqlQuery = relalgInterpreter.translate("RENAME (D, E, F) (PROJECT (A, B, C) (R1 NATURAL JOIN R2));");
+		//sqlQuery = relalgInterpreter.translate("RENAME (D, E, F) (PROJECT (A, B, C) (R1 NATURAL JOIN R2));");
+		//sqlQuery = relalgInterpreter.translate("PROJECT (A, B) (REL1) RIGHT OUTER JOIN PROJECT (C, D) (REL2) (rel1.A = rel2.C);");
 		System.out.println("SQL Translation:");
 		System.out.println(sqlQuery);
 	}
