@@ -6,3 +6,34 @@ function downloadContentAsFile(content, filename) {
     a.download = filename;
     a.click();
 }
+
+function sendSchemaDefinitionToServerAndHandleResponse(schemaDefinition) {
+    dataForServer = {
+        "DatabaseSchemaDefinition": schemaDefinition
+    };
+
+    $.ajax({
+        data: dataForServer,
+        url: "/checkSchemaDefinitionFromFile",
+        success: function(syntaxOrSemanticErrors) {
+            // Display errors in panel
+            if (syntaxOrSemanticErrors.length > 0) {
+                displayErrorsInSchemaPage(syntaxOrSemanticErrors);
+            }
+
+            // Go to main app
+            else {
+                window.location = "/main";
+            }
+        },
+        error: function(xhr, status, error) {
+            displayErrorsInSchemaPage(error);
+        },
+        beforeSend: function() { 
+            $('#loading-db-creation-modal').modal({ closable: false }).modal('show');
+        },
+        complete: function() {
+            //$('#loading-db-creation-modal').modal('hide');
+        }
+    });
+}

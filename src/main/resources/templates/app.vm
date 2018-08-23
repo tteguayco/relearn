@@ -269,8 +269,8 @@
 
 						<div class="btn-bottom-query-editor">
 							<div class="btn-bottom-query-editor-left">
-								<button id="run-query-btn" class="positive ui button" data-position="right center"><i class="play icon"></i>Run</button>
-								<button id="save-query-btn" class="ui primary button" data-position="right center"><i class="save icon"></i>Save</button>
+								<button id="run-query-btn" class="positive ui button" data-position="top left"><i class="play icon"></i>Run</button>
+								<button id="save-query-btn" class="ui primary button" data-position="top left"><i class="save icon"></i>Save</button>
 							</div>
 						</div>
 					</div>

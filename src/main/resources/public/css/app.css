@@ -55,12 +55,12 @@ html, body {
 
 #success-execution-msg {
 	margin-top: 10px !important;
-	//display: none;
+	display: none;
 }
 
 #error-execution-msg {
 	margin-top: 10px !important;
-	//display: none;
+	display: none;
 }
 
 .schema-viewer-btn {
@@ -69,7 +69,7 @@ html, body {
 
 #result-table-row {
 	margin-top: 10px !important;
-	//display: none;
+	display: none;
 	overflow-x: auto;
 }
 
@@ -77,4 +77,5 @@ html, body {
 	margin-top: 10px;
 	margin-bottom: 10px;
 	float: right;
+	display: none;
 }

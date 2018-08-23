@@ -340,27 +340,7 @@ function goToMainAppFromThirdStep() {
 
 	if (formThirdModalIsValid()) {
 		schemaDefinition = buildSchemaDSLDefinition();
-
-		$.ajax({
-			url: "/checkSchemaDefinitionFromFile",
-			data: {
-				"DatabaseSchemaDefinition": schemaDefinition
-			},
-			success: function(syntaxOrSemanticErrors) {
-				if (syntaxOrSemanticErrors.length > 0) {
-					// in schema-next.js
-					displayErrorsInSchemaPage(syntaxOrSemanticErrors);
-				} 
-
-				else {
-					// TODO: go to main app
-				}
-				
-			},
-			error: function() {
-				console.error("An error ocurred when sending a schema definition to the server.");
-			}
-		});
+		sendSchemaDefinitionToServerAndHandleResponse(schemaDefinition);
 	}
 
 	else {

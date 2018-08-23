@@ -68,6 +68,8 @@ function sendCurrentQueryToServer() {
     var queryToSend = getRelationalAlgebraEditorContent();
     var selectedDatabaseName = $("#databases-dropdown").text().trim();
 
+    alert("Running Relational Algebra query!");
+
     if (queryToSend.length > 0) {
         dataForServer = {
             "RelationalAlgebraQuery": queryToSend,
