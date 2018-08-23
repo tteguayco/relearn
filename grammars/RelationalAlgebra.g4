@@ -27,7 +27,7 @@ expr:    relation                                               # relationFromEx
 ;
 
 aggrlist:    aggrfunction                                       # aggrFromAggrList
-    |    aggrfunction ',' aggrlist                              # aggrList
+    |    aggrfunction ',' aggrlist                              # aggregateList
 ;
 
 attrlist:   attribute                                           # attributeFromAttrlist
