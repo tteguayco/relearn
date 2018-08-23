@@ -3,6 +3,9 @@ CREATE_NEW_DB_MSG = "Create a new database";
 ALTER_CURRENT_DB_MSG = "Alter database";
 DELETE_CURRENT_DB_MSG = "Delete/drop database";
 SAVE_CURRENT_DB = "Dump database definition to file";
+DEFAULT_NAME_DOWNLOADED_RELALG_QUERY = "query.ra";
+RUN_RELALG_QUERY_MSG = "Run Relational Algebra query";
+SAVE_RELALG_QUERY_MSG = "Download Relational Algebra query";
 
 function setEditorsConfiguration() {
 	var relalgEditor = ace.edit("relalg-editor");
@@ -47,6 +50,8 @@ function setUpToolTips() {
 	$('#alter-db-btn').popup({ content: ALTER_CURRENT_DB_MSG });
 	$('#delete-db-btn').popup({ content: DELETE_CURRENT_DB_MSG });
 	$('#save-db-btn').popup({ content: SAVE_CURRENT_DB });
+    $('#run-query-btn').popup({ content: RUN_RELALG_QUERY_MSG });
+    $('#save-query-btn').popup({ content: SAVE_RELALG_QUERY_MSG });
 }
 
 function setUpMessageBoxesClosing() {
@@ -55,10 +60,59 @@ function setUpMessageBoxesClosing() {
 	});
 }
 
+function getRelationalAlgebraEditorContent() {
+    return ace.edit("relalg-editor").getValue();
+}
+
+function sendCurrentQueryToServer() {
+    var queryToSend = getRelationalAlgebraEditorContent();
+    var selectedDatabaseName = $("#databases-dropdown").text().trim();
+
+    if (queryToSend.length > 0) {
+        dataForServer = {
+            "RelationalAlgebraQuery": queryToSend,
+            "SelectedDatabaseName": selectedDatabaseName
+        }
+
+        $.ajax({
+            data: dataForServer,
+            url: "/executeQuery",
+            success: function() {
+
+            },
+            error: function() {
+
+            },
+            beforeSend: function() {
+
+            },
+            complete: function() {
+
+            }
+        });
+    }
+}
+
+function saveCurrentQuery() {
+    var queryToSave = getRelationalAlgebraEditorContent();
+
+    if (queryToSave.length > 0) {
+        downloadContentAsFile(queryToSave, DEFAULT_NAME_DOWNLOADED_RELALG_QUERY);
+    }
+}
+
 $(document).ready(function() {
 	setEditorsConfiguration();
 	setTabsConfiguration();
 	setAccordionsConfiguration();
 	setUpToolTips();
 	setUpMessageBoxesClosing();
+
+    $("#run-query-btn").click(function() {
+        sendCurrentQueryToServer();
+    });
+
+    $("#save-query-btn").click(function() {
+        saveCurrentQuery();
+    });
 });

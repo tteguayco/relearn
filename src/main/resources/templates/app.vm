@@ -20,6 +20,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/components/tab.min.js"></script>
 
 	<script src="vendor/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/utils.js" type="text/javascript"></script>
     <script src="js/app-general.js" type="text/javascript"></script>
 </head>
 <body>
@@ -268,8 +269,8 @@
 
 						<div class="btn-bottom-query-editor">
 							<div class="btn-bottom-query-editor-left">
-								<button class="positive ui button"><i class="play icon"></i>Run</button>
-								<button class="ui primary button"><i class="save icon"></i>Save</button>
+								<button id="run-query-btn" class="positive ui button" data-position="right center"><i class="play icon"></i>Run</button>
+								<button id="save-query-btn" class="ui primary button" data-position="right center"><i class="save icon"></i>Save</button>
 							</div>
 						</div>
 					</div>

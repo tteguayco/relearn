@@ -100,10 +100,19 @@ public class MainApp {
 			// If the user visits /main and there are no databases defined, 
 			// redirect him/her to the schema page
 			else {
-				res.redirect("/schema");
+				String routeToRedirect = "/schema";
+				System.out.println("No databases defined. Redirecting to " + routeToRedirect);
+				res.redirect(routeToRedirect);
 				return null;
 			}
 			
 		}, new VelocityTemplateEngine());
+	
+		Spark.get("/executeQuery", (req, res) -> {
+			
+			
+			return "";
+		});
+	
 	}
 }
