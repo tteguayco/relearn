@@ -1,10 +1,17 @@
 package es.ull.relearn;
 
+import java.util.Arrays;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import es.ull.relearn.analysis.CustomErrorListener;
+import es.ull.relearn.analysis.relalg.RelationalAlgebraBaseVisitor;
 import es.ull.relearn.analysis.relalg.RelationalAlgebraEvalVisitor;
 import es.ull.relearn.analysis.relalg.RelationalAlgebraLexer;
 import es.ull.relearn.analysis.relalg.RelationalAlgebraParser;
@@ -44,6 +51,7 @@ public class RelationalAlgebraInterpreter {
 		parser = new RelationalAlgebraParser(tokens);
 		parser.removeErrorListeners();
 	    parser.addErrorListener(errorListener);
+	    tree = parser.start();
 	}
 	
 	private void runSemanticAnalysis() {
@@ -61,7 +69,6 @@ public class RelationalAlgebraInterpreter {
 	public String translate(String relationalAlgebraInput) {
 		errorListener = new CustomErrorListener();
 	    runSyntaxAnalysis(relationalAlgebraInput);
-		tree = parser.start();
 		
 	    // Semantic analysis if syntax analysis was successful
 	    if (errorListener.getSyntaxErrorsList().size() == 0) {	
@@ -75,6 +82,30 @@ public class RelationalAlgebraInterpreter {
 		return sqlTranslation;
 	}
 	
+	/**
+	 * Shows in a JFrame the AST (Abstract Syntax Tree) for a given
+	 * Relational Algebra query.
+	 * 
+	 * It can be very useful for grammar-debugging tasks.
+	 * 
+	 * @param relationalAlgebraQuery
+	 */
+	public void visualizeParseTree(String relationalAlgebraQuery) {
+		JFrame frame = new JFrame("Relational Algebra ANTLR AST");
+        JPanel panel = new JPanel();
+        TreeViewer viewer = null;
+		
+        runSyntaxAnalysis(relationalAlgebraQuery);
+        viewer = new TreeViewer(Arrays.asList(parser.getRuleNames()), tree);
+        
+        viewer.setScale(1.5);
+        panel.add(viewer);
+        frame.add(panel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setVisible(true);
+	}
+	
 	public static void main(String args[]) {
 		String databaseDefinition = FileUtils.readFileContentToString(DATABASE_FILE_DEFINITION_PATH);
 		SchemaDSLAnalyzer schemaAnalyzer = new SchemaDSLAnalyzer();
@@ -85,6 +116,10 @@ public class RelationalAlgebraInterpreter {
 		//sqlQuery = relalgInterpreter.translate("PROJECT (A, B, C) (R1 natural join R2);");
 		//sqlQuery = relalgInterpreter.translate("RENAME (D, E, F) (PROJECT (A, B, C) (R1 NATURAL JOIN R2));");
 		//sqlQuery = relalgInterpreter.translate("PROJECT (A, B) (REL1) RIGHT OUTER JOIN PROJECT (C, D) (REL2) (rel1.A = rel2.C);");
+		//sqlQuery = relalgInterpreter.translate("PROJECT (A, B, C) (R1 natural join R2) GROUP BY (A, B);");
+		sqlQuery = relalgInterpreter.translate("PROJECT (A, B, C) (R1 natural join R2) GROUP BY (A, B) HAVING SUM(C) > 0 and a < c;");
+		//relalgInterpreter.visualizeParseTree("PROJECT (A, B, C) (R1 natural join R2) GROUP BY (A, B) HAVING SUM(C) > 0 and a < c;");
+		sqlQuery = relalgInterpreter.translate("R2 / S2");
 		System.out.println("SQL Translation:");
 		System.out.println(sqlQuery);
 	}

@@ -3,6 +3,8 @@ package es.ull.relearn.analysis.relalg;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -295,7 +297,8 @@ public class RelationalAlgebraEvalVisitor extends RelationalAlgebraBaseVisitor<S
 	
 	@Override
 	public String visitProjection(RelationalAlgebraParser.ProjectionContext ctx) {
-		String translation = "SELECT " + visit(ctx.attrlist().get(0)) + " FROM " + visit(ctx.expr());
+		String projectionAttrList = visit(ctx.attrlist().get(0));
+		String translation = "SELECT " + projectionAttrList + " FROM " + visit(ctx.expr());
 		
 		/**
 		 * CASCADE OF PROJECTIONS: PROJECT [...] (PROJECT [...] (...));
@@ -303,7 +306,6 @@ public class RelationalAlgebraEvalVisitor extends RelationalAlgebraBaseVisitor<S
 		 * in the outer projection's attributes list.
 		 */
 		// If its parent it's a projection as well...
-		
 		if (ctx.getParent() instanceof RelationalAlgebraParser.ProjectionContext) {
 			RelationalAlgebraParser.ProjectionContext currentProjectAttrList = ctx;
 			RelationalAlgebraParser.ProjectionContext outerProjectAttrList = 
@@ -319,13 +321,40 @@ public class RelationalAlgebraEvalVisitor extends RelationalAlgebraBaseVisitor<S
 			outerProjectAttributes = new ArrayList<String>(Arrays.asList(outerProjectAttrListSplitted));
 		
 			if (!currentProjectAttributes.containsAll(outerProjectAttributes)) {
-				appendError("The projection attributes list " + currentProjectAttributes
+				appendError("The projection attributes list " 
+						+ currentProjectAttributes
 						+ " does not contain its outer projection attributes list "
 						+ outerProjectAttributes);
 			}
 			
 			// Return only the RELATION
 			return visit(ctx.expr());
+		}
+		
+		// GROUP BY?
+		if (ctx.attrlist().size() > 1) {
+			String groupByAttrList = visit(ctx.attrlist().get(1));
+			//Set<String> groupByAttrListSplitted = new HashSet<String>(Arrays.asList(groupByAttrList.split(",\\s+"))); 
+			//Set<String> projectionAttrListSplitted = new HashSet<String>(Arrays.asList(projectionAttrList));
+			
+			//System.out.println(projectionAttrListSplitted);
+			//System.out.println(groupByAttrListSplitted);
+			
+			// Attributes list in the GROUP BY statement should be a subset (or the same) than
+			// the attributes list in the SELECT statement
+			// TODO check for the position of attributes
+			//if (projectionAttrListSplitted.containsAll(groupByAttrListSplitted)) {
+				translation += " GROUP BY " + groupByAttrList;
+			//} else {
+			//	appendError("The attributes specified in the GROUP BY statement must match the attributes list "
+			//			+ "specified for the SELECT statement, strictly in the same order.");
+			//}
+			
+			// HAVING?
+			if (ctx.condlistaggr() != null) {
+				String condlist = (String) visit(ctx.condlistaggr());
+				translation += " HAVING " + condlist;
+			}
 		}
 		
 		return translation;
@@ -541,9 +570,22 @@ public class RelationalAlgebraEvalVisitor extends RelationalAlgebraBaseVisitor<S
 		return "(" + left + " OR " + right + ")";
 	}
 	
+	@Override
+	public String visitOrCondlistAggr(RelationalAlgebraParser.OrCondlistAggrContext ctx) {
+		String left = (String) visit(ctx.condlistaggr(0));
+		String right = (String) visit(ctx.condlistaggr(1));
+		return "(" + left + " OR " + right + ")";
+	}
+	
 	@Override public String visitAndCondlist(RelationalAlgebraParser.AndCondlistContext ctx) {
 		String left = (String) visit(ctx.condlist(0));
 		String right = (String) visit(ctx.condlist(1));
+		return left + " AND " + right;
+	}
+	
+	@Override public String visitAndCondlistAggr(RelationalAlgebraParser.AndCondlistAggrContext ctx) {
+		String left = (String) visit(ctx.condlistaggr(0));
+		String right = (String) visit(ctx.condlistaggr(1));
 		return left + " AND " + right;
 	}
 	
@@ -558,10 +600,23 @@ public class RelationalAlgebraEvalVisitor extends RelationalAlgebraBaseVisitor<S
 	}
 	
 	@Override 
+	public String visitBracketsCondlistaggr(RelationalAlgebraParser.BracketsCondlistaggrContext ctx) {
+		return "(" + visit(ctx.condlistaggr()) + ")";
+	}
+	
+	@Override 
 	public String visitComparedCondlist(RelationalAlgebraParser.ComparedCondlistContext ctx) {
 		String left = (String) visit(ctx.compared(0));
 		String right = (String) visit(ctx.compared(1));
 		String comparator = (String) visit(ctx.comparator());
+		return "(" + left + " " + comparator + " " + right + ")";
+	}
+	
+	@Override 
+	public String visitComparedCondlistaggr(RelationalAlgebraParser.ComparedCondlistaggrContext ctx) {
+		String left = visit(ctx.getChild(0));
+		String comparator = visit(ctx.getChild(1));
+		String right = visit(ctx.getChild(2));
 		return "(" + left + " " + comparator + " " + right + ")";
 	}
 	
@@ -624,4 +679,39 @@ public class RelationalAlgebraEvalVisitor extends RelationalAlgebraBaseVisitor<S
 	public String visitAttributeIdentifier(RelationalAlgebraParser.AttributeIdentifierContext ctx) {
 		return ctx.IDENTIFIER().getText();
 	}
+	
+	/**
+	 * RELATIONAL ALGEBRA AGGREGATE FUNCTIONS
+	 */
+	
+	@Override
+	public String visitAggrCount(RelationalAlgebraParser.AggrCountContext ctx) {
+		String attrToCount = visit(ctx.attribute());
+		
+		if (attrToCount == null) {
+			attrToCount = "*";
+		}
+		return "COUNT(" + attrToCount + ")";
+	}
+	
+	@Override
+	public String visitAggrSum(RelationalAlgebraParser.AggrSumContext ctx) {
+		return "SUM(" + visit(ctx.attribute()) + ")";
+	}
+	
+	@Override
+	public String visitAggrMin(RelationalAlgebraParser.AggrMinContext ctx) {
+		return "MIN(" + visit(ctx.attribute()) + ")";
+	}
+	
+	@Override
+	public String visitAggrMax(RelationalAlgebraParser.AggrMaxContext ctx) {
+		return "MAX(" + visit(ctx.attribute()) + ")";
+	}
+	
+	@Override
+	public String visitAggrAvg(RelationalAlgebraParser.AggrAvgContext ctx) {
+		return "AVG(" + visit(ctx.attribute()) + ")";
+	}
+	
 }
