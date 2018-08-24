@@ -55,11 +55,13 @@ html, body {
 
 #success-execution-msg {
 	margin-top: 10px !important;
+	margin-bottom: 20px !important;
 	display: none;
 }
 
 #error-execution-msg {
 	margin-top: 10px !important;
+	margin-bottom: 20px !important;
 	display: none;
 }
 
@@ -78,4 +80,21 @@ html, body {
 	margin-bottom: 10px;
 	float: right;
 	display: none;
+}
+
+.schema-errors-panel {
+	display: none;
+	font-family: Courier;
+}
+
+#errors-messages {
+	font-family: Courier;
+}
+
+.btn-bottom-query-editor-left {
+	margin-bottom: 20px;
+}
+
+.success-or-errors-msg-panels-container {
+	margin-bottom: 20px !important;
 }

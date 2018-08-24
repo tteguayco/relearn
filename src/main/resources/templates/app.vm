@@ -275,7 +275,7 @@
 						</div>
 					</div>
 
-					<div class="row">
+					<div class="row" id="success-or-errors-msg-panels-container">
 						<div id="success-execution-msg" class="ui success message">
 							<i class="close icon"></i>
 							<div class="header">
@@ -293,6 +293,14 @@
 								Details are shown below.
 							</ul>
 						</div>
+					</div>
+
+					<div class="row">
+						<div class="five wide column schema-errors-panel">
+							<div class="ui red segment" style="text-align: left;">
+								<p id="errors-messages">line 12: missing ')' near token ';'</p>
+							</div>
+						</div>						
 					</div>
 
 					<div id="result-table-row" class="row">

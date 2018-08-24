@@ -136,6 +136,7 @@ html, body {
 
 .schema-errors-panel {
 	display: none;
+	margin-bottom: 20px;
 }
 
 #errors-messages {

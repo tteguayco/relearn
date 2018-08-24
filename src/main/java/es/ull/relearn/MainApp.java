@@ -3,6 +3,7 @@ package es.ull.relearn;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.json.JSONObject;
 
@@ -128,10 +129,12 @@ public class MainApp {
 			translationErrors = raInterpreter.getErrors();
 			
 			// Format SQL translation
-			BasicFormatterImpl sqlFormatter = new BasicFormatterImpl();
-			sqlTranslation = sqlFormatter.format(sqlTranslation);
-			//sqlTranslation = sqlTranslation.replaceAll("^\\s{4}", "");
-			sqlTranslation = sqlTranslation.replaceAll("^\\t", "");
+			if (translationErrors.length() <= 0) {
+				BasicFormatterImpl sqlFormatter = new BasicFormatterImpl();
+				sqlTranslation = sqlFormatter.format(sqlTranslation);
+				//sqlTranslation = sqlTranslation.replaceAll("^\\s{4}", "");
+				//sqlTranslation = sqlTranslation.replaceAll("^\\t", "");
+			}
 			
 			JSONObject response = new JSONObject();
 			response.put("SQLTranslation", sqlTranslation);

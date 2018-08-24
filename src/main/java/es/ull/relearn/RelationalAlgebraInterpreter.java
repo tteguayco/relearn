@@ -109,8 +109,8 @@ public class RelationalAlgebraInterpreter {
 	public String getErrors() {
 		String errors = "";
 		
-		for (int i = 0; i < eval.getErrorsList().size(); i++) {
-			errors += eval.getErrorsList().get(i) + "\n";
+		for (int i = 0; i < errorListener.getSyntaxErrorsList().size(); i++) {
+			errors += errorListener.getSyntaxErrorsList().get(i) + "\n";
 		}
 		
 		return errors;
@@ -129,7 +129,10 @@ public class RelationalAlgebraInterpreter {
 		//sqlQuery = relalgInterpreter.translate("PROJECT (A, B, C) (R1 natural join R2) GROUP BY (A, B);");
 		sqlQuery = relalgInterpreter.translate("PROJECT (A, B, C) (R1 natural join R2) GROUP BY (A, B) HAVING SUM(C) > 0 and a < c;");
 		//relalgInterpreter.visualizeParseTree("PROJECT (A, B, C) (R1 natural join R2) GROUP BY (A, B) HAVING SUM(C) > 0 and a < c;");
-		sqlQuery = relalgInterpreter.translate("R2 / S2");
+		sqlQuery = relalgInterpreter.translate("R2 / S");
+		
+		System.out.println(relalgInterpreter.getErrors());
+		
 		System.out.println("SQL Translation:");
 		System.out.println(sqlQuery);
 	}

@@ -73,6 +73,17 @@ function activateSQLEditorTab() {
     $.tab("change tab", "sql-tab");     // Tab content
 }
 
+function displayErrorMessages(errorsToDisplay) {
+    // Display errors panels
+    $("#errors-messages").text(errorsToDisplay);
+    $(".schema-errors-panel").show();
+    $("#error-execution-msg").show();
+
+    // Hide success panels
+    $("#result-table-row").hide();
+    $("#success-execution-msg").hide();
+}
+
 function sendCurrentQueryToServer() {
     var queryToSend = getRelationalAlgebraEditorContent();
     var selectedDatabaseName = $("#databases-dropdown").text().trim();
@@ -96,6 +107,11 @@ function sendCurrentQueryToServer() {
                 if (translationErrors.length == 0) {
                     sqlEditor.setValue(sqlTranslation, 1);
                     activateSQLEditorTab();
+                }
+
+                // ERRORS
+                else {
+                    displayErrorMessages(translationErrors);
                 }
             },
             error: function() {
