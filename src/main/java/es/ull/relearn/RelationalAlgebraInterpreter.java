@@ -106,6 +106,16 @@ public class RelationalAlgebraInterpreter {
         frame.setVisible(true);
 	}
 	
+	public String getErrors() {
+		String errors = "";
+		
+		for (int i = 0; i < eval.getErrorsList().size(); i++) {
+			errors += eval.getErrorsList().get(i) + "\n";
+		}
+		
+		return errors;
+	}
+	
 	public static void main(String args[]) {
 		String databaseDefinition = FileUtils.readFileContentToString(DATABASE_FILE_DEFINITION_PATH);
 		SchemaDSLAnalyzer schemaAnalyzer = new SchemaDSLAnalyzer();

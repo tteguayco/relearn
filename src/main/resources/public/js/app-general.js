@@ -18,7 +18,7 @@ function setEditorsConfiguration() {
 	var sqlEditor = ace.edit("sql-editor");
     sqlEditor.setTheme("ace/theme/dawn");
     document.getElementById('sql-editor').style.fontSize='18px';
-    sqlEditor.session.setMode("ace/mode/javascript");
+    sqlEditor.session.setMode("ace/mode/sql");
     sqlEditor.setShowPrintMargin(false);
     sqlEditor.resize();
     sqlEditor.setReadOnly(true);
@@ -36,8 +36,8 @@ function setTabsConfiguration() {
 	// Set focus on the relalg editor when its tab is clicked
 	$('#relalg-tab').click(function() {
 		// TODO make this work
-		$("#relalg-editor").focus();
-		$("#relalg-editor").navigateFileEnd();
+		//$("#relalg-editor").focus();
+		//$("#relalg-editor").navigateFileEnd();
 	});
 }
 
@@ -64,11 +64,19 @@ function getRelationalAlgebraEditorContent() {
     return ace.edit("relalg-editor").getValue();
 }
 
+function activateSQLEditorTab() {
+    // Deselect all tabs
+    $(".item.disabled").removeClass("active");
+
+    // Select SQL tab
+    $("#sql-tab").addClass("active");   // Tab title
+    $.tab("change tab", "sql-tab");     // Tab content
+}
+
 function sendCurrentQueryToServer() {
     var queryToSend = getRelationalAlgebraEditorContent();
     var selectedDatabaseName = $("#databases-dropdown").text().trim();
-
-    alert("Running Relational Algebra query!");
+    var sqlEditor = ace.edit("sql-editor");
 
     if (queryToSend.length > 0) {
         dataForServer = {
@@ -79,17 +87,26 @@ function sendCurrentQueryToServer() {
         $.ajax({
             data: dataForServer,
             url: "/executeQuery",
-            success: function() {
+            success: function(responseFromServer) {
+                var responseAsJson = JSON.parse(responseFromServer);
+                var translationErrors = responseAsJson["map"]["RelationalAlgebraTranslationErrors"];
+                var sqlTranslation = responseAsJson["map"]["SQLTranslation"];
 
+                // If no errors, set the SQL Translation on the SQL editor and switch to its tab
+                if (translationErrors.length == 0) {
+                    sqlEditor.setValue(sqlTranslation, 1);
+                    activateSQLEditorTab();
+                }
             },
             error: function() {
 
             },
             beforeSend: function() {
-
+                // Loading icon in RUN button
+                $("#run-query-btn").addClass("loading");
             },
             complete: function() {
-
+                $("#run-query-btn").removeClass("loading");
             }
         });
     }

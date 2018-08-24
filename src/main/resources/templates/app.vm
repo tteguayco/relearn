@@ -256,12 +256,12 @@
 
 					<div class="row">
 						<div class="ui top attached tabular menu">
-							<div class="active item disabled" id="relalg-tab" data-tab="relalg-tab">Relational Algebra</div>
-							<div class="item disabled" data-tab="sql-tab">SQL</div>
+							<div id="relalg-tab" class="active item disabled" id="relalg-tab" data-tab="relalg-tab">Relational Algebra</div>
+							<div id="sql-tab" class="item disabled" data-tab="sql-tab">SQL</div>
 						</div>
 						
 						<div class="ui bottom attached active tab segment code-editor-panel" data-tab="relalg-tab">
-							<div id="relalg-editor"></div>
+							<div id="relalg-editor">PROJECT (A, B) (R1);</div>
 						</div>
 						<div class="ui bottom attached tab segment code-editor-panel" data-tab="sql-tab">
 							<div id="sql-editor"></div>

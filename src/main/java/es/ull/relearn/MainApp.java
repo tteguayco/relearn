@@ -4,11 +4,17 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 import es.ull.relearn.dbitems.Database;
 import spark.ModelAndView;
 import spark.Spark;
 import spark.utils.IOUtils;
 import spark.template.velocity.*;
+
+import static es.ull.relearn.utils.JsonUtils.*;
+
+import org.hibernate.engine.jdbc.internal.BasicFormatterImpl;
 
 public class MainApp {
 
@@ -108,11 +114,36 @@ public class MainApp {
 			
 		}, new VelocityTemplateEngine());
 	
-		Spark.get("/executeQuery", (req, res) -> {
+		Spark.get("/executeQuery", "application/json", (req, res) -> {
+			String relationalAlgebraQuery = "";
+			String sqlTranslation = "";
+			String translationErrors = "";
+			Database definedDatabase = null;
+			RelationalAlgebraInterpreter raInterpreter = null;
 			
+			relationalAlgebraQuery = req.queryParams("RelationalAlgebraQuery");
+			raInterpreter = new RelationalAlgebraInterpreter(definedDatabase);
 			
-			return "";
-		});
+			sqlTranslation = raInterpreter.translate(relationalAlgebraQuery);
+			translationErrors = raInterpreter.getErrors();
+			
+			// Format SQL translation
+			BasicFormatterImpl sqlFormatter = new BasicFormatterImpl();
+			sqlTranslation = sqlFormatter.format(sqlTranslation);
+			//sqlTranslation = sqlTranslation.replaceAll("^\\s{4}", "");
+			sqlTranslation = sqlTranslation.replaceAll("^\\t", "");
+			
+			JSONObject response = new JSONObject();
+			response.put("SQLTranslation", sqlTranslation);
+			response.put("RelationalAlgebraTranslationErrors", translationErrors);
+			
+			System.out.println("Received the following Relational Algebra query to translate:");
+			System.out.println(relationalAlgebraQuery);
+			System.out.println("SQL Translation:");
+			System.out.println(sqlTranslation);
+			
+			return response;
+		}, json());
 	
 	}
 }
