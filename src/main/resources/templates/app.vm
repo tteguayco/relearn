@@ -275,6 +275,8 @@
 						</div>
 					</div>
 
+					<div class="row" style="padding:5px"></div>
+
 					<div class="row" id="success-or-errors-msg-panels-container">
 						<div id="success-execution-msg" class="ui success message">
 							<i class="close icon"></i>

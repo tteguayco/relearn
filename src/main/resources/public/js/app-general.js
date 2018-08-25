@@ -14,6 +14,7 @@ function setEditorsConfiguration() {
     relalgEditor.session.setMode("ace/mode/javascript");
     relalgEditor.setShowPrintMargin(false);
     relalgEditor.resize();
+    relalgEditor.getSession().setUseWorker(false);
 
 	var sqlEditor = ace.edit("sql-editor");
     sqlEditor.setTheme("ace/theme/dawn");

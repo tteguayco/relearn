@@ -1,9 +1,9 @@
 package es.ull.relearn;
 
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import org.json.JSONObject;
 
@@ -25,7 +25,7 @@ public class MainApp {
 	private static final String SCHEMA_PAGE_PATH = "/views/schema.html";
 	private static final String MAIN_PAGE_PATH = "/views/app.html";
 	
-	//private Database definedDatabase = null;
+	public static DatabaseManager databaseManager = new DatabaseManager();
 	
 	private static String renderContent(String htmlFilePath) {
 		String htmlPageAsString = "";
@@ -63,7 +63,6 @@ public class MainApp {
 		
 		Spark.get("/checkSchemaDefinitionFromFile", (req, res) -> {
 			SchemaDSLAnalyzer schemaDSLAnalyzer = new SchemaDSLAnalyzer();
-			DatabaseManager databaseManager = new DatabaseManager();
 			Database definedDatabase = null;
 			
 			System.out.println("The following definition schema was received from the client:\n\"");
@@ -119,10 +118,13 @@ public class MainApp {
 			String relationalAlgebraQuery = "";
 			String sqlTranslation = "";
 			String translationErrors = "";
+			String selectedDatabaseName = "";
 			Database definedDatabase = null;
 			RelationalAlgebraInterpreter raInterpreter = null;
 			
 			relationalAlgebraQuery = req.queryParams("RelationalAlgebraQuery");
+			selectedDatabaseName = req.queryParams("SelectedDatabaseName");
+			
 			raInterpreter = new RelationalAlgebraInterpreter(definedDatabase);
 			
 			sqlTranslation = raInterpreter.translate(relationalAlgebraQuery);
@@ -136,6 +138,16 @@ public class MainApp {
 				//sqlTranslation = sqlTranslation.replaceAll("^\\t", "");
 			}
 			
+			// Execute query on DBMS and get result table
+			String databaseName = req.session().id();
+			String schemaName = selectedDatabaseName;
+			
+			databaseManager.switchToDatabase(databaseName);
+			databaseManager.switchToSchema(schemaName);
+			databaseManager.executeQuery(sqlTranslation);
+			String result = databaseManager.getQueryResultSetAsString();
+			System.out.println(result);
+			
 			JSONObject response = new JSONObject();
 			response.put("SQLTranslation", sqlTranslation);
 			response.put("RelationalAlgebraTranslationErrors", translationErrors);
@@ -147,6 +159,5 @@ public class MainApp {
 			
 			return response;
 		}, json());
-	
 	}
 }

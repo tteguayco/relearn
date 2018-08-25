@@ -42,6 +42,7 @@ public class DatabaseManager {
 	private String password;
 	private String connectionURL;
 	private String databaseName;
+	private String databaseSchemaName;
 	
 	private Connection connection;
 	private ResultSet queryResultSet;
@@ -57,6 +58,7 @@ public class DatabaseManager {
 		hostname = DEFAULT_HOSTNAME;
 		port = DEFAULT_PORT;
 		databaseName = "";
+		databaseSchemaName = "";
 		connectionURL = DEFAULT_DBMS_PREFIX + hostname + ":" + port + "/" + databaseName;
 		
 		createConnectionToDbms(connectionURL);
@@ -108,9 +110,16 @@ public class DatabaseManager {
 		return credentials;
 	}
 	
-	private void switchToDatabase(String aDatabaseName) {
+	public void switchToDatabase(String aDatabaseName) {
 		databaseName = aDatabaseName;
 		connectionURL = getDefaultConnectionURL();
+		
+		createConnectionToDbms(connectionURL);
+	}
+	
+	public void switchToSchema(String aDatabaseSchemaName) {
+		databaseSchemaName = aDatabaseSchemaName;
+		connectionURL = getDefaultConnectionURL() + "?currentSchema=" + databaseSchemaName;
 		
 		createConnectionToDbms(connectionURL);
 	}
