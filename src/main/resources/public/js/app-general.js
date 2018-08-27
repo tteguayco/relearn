@@ -85,6 +85,48 @@ function displayErrorMessages(errorsToDisplay) {
     $("#success-execution-msg").hide();
 }
 
+function displayResultTable(resultTableAsJson) {
+    var htmlTableContent = "";
+    var head = "<thead><tr>";
+    var body = "<tbody>";
+    var resultTable = $("#result-table");
+
+    for (var key in resultTableAsJson) {
+        if (resultTableAsJson.hasOwnProperty(key)) {
+
+            // COLUMNS NAMES
+            if (key.trim() === "columnNames") {
+                for (columnName in resultTableAsJson[key]) {
+                    head += "<th>" + resultTableAsJson[key][columnName].toUpperCase() + "</th>";
+                }
+            }
+
+            // ROWS VALUES
+            else {
+                body += "<tr>";
+                for (rowValue in resultTableAsJson[key]) {
+                    body += "<td>" + resultTableAsJson[key][rowValue] + "</td>";
+                }
+                body += "</tr>";
+            }
+        }
+    }
+
+    head += "</tr></thead>";
+    body += "</tbody>";
+    htmlTableContent = head + body;
+
+    resultTable.html(htmlTableContent);
+
+    // Display result table
+    $("#success-execution-msg").show();
+    $("#result-table-row").show();
+
+    // Hide errors messages
+    $(".schema-errors-panel").hide();
+    $("#error-execution-msg").hide();
+}
+    
 function sendCurrentQueryToServer() {
     var queryToSend = getRelationalAlgebraEditorContent();
     var selectedDatabaseName = $("#databases-dropdown").text().trim();
@@ -101,17 +143,25 @@ function sendCurrentQueryToServer() {
             url: "/executeQuery",
             success: function(responseFromServer) {
                 var responseAsJson = JSON.parse(responseFromServer);
-                var translationErrors = responseAsJson["map"]["RelationalAlgebraTranslationErrors"];
-                var sqlTranslation = responseAsJson["map"]["SQLTranslation"];
+                var translationErrors = "";
+                var sqlTranslation = "";
+                var queryTableResult = "";
 
-                // If no errors, set the SQL Translation on the SQL editor and switch to its tab
                 if (translationErrors.length == 0) {
+                    sqlTranslation = responseAsJson["map"]["SQLTranslation"];
+                    queryTableResult = responseAsJson["map"]["TranslationExecutionResult"]["map"];
+
+                    // Set SQL query and switch to SQL tab
                     sqlEditor.setValue(sqlTranslation, 1);
                     activateSQLEditorTab();
+
+                    // Build query result table and show it
+                    displayResultTable(queryTableResult);
                 }
 
                 // ERRORS
                 else {
+                    responseAsJson["map"]["RelationalAlgebraTranslationErrors"];
                     displayErrorMessages(translationErrors);
                 }
             },

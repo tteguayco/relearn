@@ -24,6 +24,8 @@ public class MainApp {
 	private static final String HOME_PAGE_PATH = "/views/home.html";
 	private static final String SCHEMA_PAGE_PATH = "/views/schema.html";
 	private static final String MAIN_PAGE_PATH = "/views/app.html";
+	private static final String ABOUT_PAGE_PATH = "/views/about.html";
+	private static final String STATISTICS_PAGE_PATH = "/views/statistics.html";
 	
 	public static DatabaseManager databaseManager = new DatabaseManager();
 	
@@ -58,6 +60,8 @@ public class MainApp {
 		
 		// ROUTES
 		Spark.get("/", (req, res) -> renderContent(HOME_PAGE_PATH));
+		
+		Spark.get("/about", (req, res) -> renderContent(ABOUT_PAGE_PATH));
 		
 		Spark.get("/schema", (req, res) -> renderContent(SCHEMA_PAGE_PATH));
 		
@@ -121,6 +125,7 @@ public class MainApp {
 			String selectedDatabaseName = "";
 			Database definedDatabase = null;
 			RelationalAlgebraInterpreter raInterpreter = null;
+			JSONObject response = new JSONObject();
 			
 			relationalAlgebraQuery = req.queryParams("RelationalAlgebraQuery");
 			selectedDatabaseName = req.queryParams("SelectedDatabaseName");
@@ -136,21 +141,26 @@ public class MainApp {
 				sqlTranslation = sqlFormatter.format(sqlTranslation);
 				//sqlTranslation = sqlTranslation.replaceAll("^\\s{4}", "");
 				//sqlTranslation = sqlTranslation.replaceAll("^\\t", "");
+				
+				// Execute query on DBMS and get result table
+				String databaseName = req.session().id();
+				String schemaName = selectedDatabaseName;
+				
+				databaseManager.switchToDatabase(databaseName);
+				databaseManager.switchToSchema(schemaName);
+				databaseManager.executeQuery(sqlTranslation);
+				String result = databaseManager.getQueryResultSetAsString();
+				JSONObject resultAsJson = databaseManager.getResultSetAsJson();
+				System.out.println(resultAsJson);
+				System.out.println(result);
+				
+				response.put("SQLTranslation", sqlTranslation);
+				response.put("TranslationExecutionResult", resultAsJson);
 			}
 			
-			// Execute query on DBMS and get result table
-			String databaseName = req.session().id();
-			String schemaName = selectedDatabaseName;
-			
-			databaseManager.switchToDatabase(databaseName);
-			databaseManager.switchToSchema(schemaName);
-			databaseManager.executeQuery(sqlTranslation);
-			String result = databaseManager.getQueryResultSetAsString();
-			System.out.println(result);
-			
-			JSONObject response = new JSONObject();
-			response.put("SQLTranslation", sqlTranslation);
-			response.put("RelationalAlgebraTranslationErrors", translationErrors);
+			else {
+				response.put("RelationalAlgebraTranslationErrors", translationErrors);
+			}
 			
 			System.out.println("Received the following Relational Algebra query to translate:");
 			System.out.println(relationalAlgebraQuery);
@@ -158,6 +168,7 @@ public class MainApp {
 			System.out.println(sqlTranslation);
 			
 			return response;
+			
 		}, json());
 	}
 }

@@ -22,6 +22,9 @@ import es.ull.relearn.dbitems.Datum;
 import es.ull.relearn.dbitems.Row;
 import es.ull.relearn.dbitems.Table;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 /**
  * Creates the specified database on PostgreSQL.
  * @author Teguayco
@@ -280,7 +283,9 @@ public class DatabaseManager {
 	}
 	
 	public void executeQuery(String query) throws SQLException {
-		Statement statement = connection.createStatement();
+		// The created statement must return a scrollable Result Set;
+		// that is, it must be iterable more than once (ResultSet.TYPE_SCROLL_SENSITIVE).
+		Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		queryResultSet = statement.executeQuery(query);
 	}
 	
@@ -296,13 +301,48 @@ public class DatabaseManager {
 		String result = "";
 		
 		try {
+			queryResultSet.first();
 			while (queryResultSet.next()) {
 			    int numColumns = queryResultSet.getMetaData().getColumnCount();
 			    
-			    for ( int i = 1 ; i <= numColumns ; i++ ) {
+			    for (int i = 1; i <= numColumns; i++) {
 			        result += "COLUMN " + i + " = " + queryResultSet.getObject(i) + "\n";
 			    }
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public JSONObject getResultSetAsJson() {
+		JSONObject result = new JSONObject();
+		String[] columnNames = null;
+		String[] rowValues = null;
+		int numColumns = 0;
+		int row = 0;
+		
+		try {
+			queryResultSet.first();
+			numColumns = queryResultSet.getMetaData().getColumnCount();
+			columnNames = new String[numColumns];
+			
+			do {
+			    rowValues = new String[numColumns];
+			    for (int i = 1; i <= numColumns; i++) {
+			    	String valueFromDatabase = (String) queryResultSet.getObject(i);
+			    	rowValues[i - 1] = valueFromDatabase;
+			    	columnNames[i - 1] = queryResultSet.getMetaData().getColumnName(i);
+			    }
+			    
+			    result.put(Integer.toString(row), rowValues);
+			    row++;
+			    
+			} while (queryResultSet.next());
+			
+			result.put("columnNames", columnNames);
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
