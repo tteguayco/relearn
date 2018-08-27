@@ -218,28 +218,22 @@ public class DatabaseManager {
 		try {
 			if (aDatabaseToCreate != null && connection != null) {
 				
-				System.out.println("Creating database on PostgreSQL...");
-				
 				// DATABASE
 				executeCreateDatabaseStatement(userSessionID);
-				System.out.println("Database created: " + userSessionID);
 				
 				// SCHEMA
 				String databaseName = aDatabaseToCreate.getName();
 				executeCreateSchemaStatement(databaseName);
-				System.out.println("Schema created: " + databaseName);
 				
 				// TABLES
 				for (int i = 0; i < aDatabaseToCreate.getNumOfTables(); i++) {
 					Table auxTable = aDatabaseToCreate.getTables().get(i);
 					executeCreateTableStatement(auxTable, databaseName);
-					System.out.println("Table created: " + auxTable.getName());
 					
 					// ROWS
 					for (int j = 0; j < auxTable.getNumOfRows(); j++) {
 						Row auxRow = auxTable.getRowAt(j);
 						executeInsertIntoStatement(auxRow, auxTable);
-						System.out.println("Row inserted: " + auxRow);
 					}
 				}
 			}

@@ -20,7 +20,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/components/tab.min.js"></script>
 
 	<script src="vendor/ace/ace.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/left-menu.js" type="text/javascript"></script>
     <script src="js/utils.js" type="text/javascript"></script>
     <script src="js/app-general.js" type="text/javascript"></script>
 </head>
@@ -78,22 +77,22 @@
 							<div class="five wide column">
 								<b>PROJECTION</b><br/>
 								<p class="operator-body-explanation">
-									<span>PROJECT [attrlist] (expression);</span><br/>
-									<span style="color:grey">E.g. <i>PROJECT [A, B] (R);</i></span>
+									<span>PROJECT (attrlist) (expression);</span><br/>
+									<span style="color:grey">E.g. <i>PROJECT (A, B) (R);</i></span>
 								</p>	
 							</div>
 							<div class="five wide column">
 								<b>SELECTION</b><br/>
 								<p class="operator-body-explanation">
-									<span>SELECT [condlist] (expression);</span><br/>
-									<span style="color:grey">E.g. <i>SELECT [(A < 1) AND (B = 'b')] (R);</i></span>
+									<span>SELECT (condlist) (expression);</span><br/>
+									<span style="color:grey">E.g. <i>SELECT ((A < 1) AND (B = 'b')) (R);</i></span>
 								</p>
 							</div>
 							<div class="five wide column">
 								<b>RENAME</b><br/>
 								<p class="operator-body-explanation">
-									<span>RENAME [attrlist] (expression);</span><br/>
-									<span style="color:grey">E.g. <i>RENAME [C, D] (R);</i></span>
+									<span>RENAME (attrlist) (expression);</span><br/>
+									<span style="color:grey">E.g. <i>RENAME (C, D) (R);</i></span>
 								</p>	
 							</div>
 							<div class="five wide column">
@@ -160,11 +159,15 @@
 							<div class="five wide column">
 								<b>GROUP BY</b><br/>
 								<p class="operator-body-explanation">
+									<span>PROJECT (attrlist) (expression)<br>GROUP BY (attrlist);</span><br/>
+									<span style="color:grey">E.g. <br><i>PROJECT (A, COUNT(B)) (R)<br>GROUP BY (A);</i></span>
 								</p>
 							</div>
 							<div class="five wide column">
 								<b>HAVING</b><br/>
 								<p class="operator-body-explanation">
+									<span>PROJECT (attrlist) (expression)<br>GROUP BY (attrlist)<br>HAVING (condlist);</span><br/>
+									<span style="color:grey">E.g. <br><i>PROJECT (A, COUNT(B)) (R)<br>GROUP BY A<br>HAVING SUM(C) > 5;</i></span>
 								</p>
 							</div>
 							<div class="five wide column">
@@ -237,10 +240,10 @@
 					#end
 
 					<div class="database-schema-btn" style="text-align: center">
-						<button id="create-db-btn" class="ui icon button schema-viewer-btn" data-position="bottom center">
+						<button id="create-db-btn" tabindex="0" class="ui icon button schema-viewer-btn" data-position="bottom center">
 							<i class="plus icon"></i>
 						</button>
-						<button id="alter-db-btn" class="ui icon button schema-viewer-btn" data-position="bottom center">
+						<button id="alter-db-btn" tabindex="1" class="ui icon button schema-viewer-btn" data-position="bottom center">
 							<i class="pencil icon"></i>
 						</button>
 						<button id="delete-db-btn" class="ui icon button schema-viewer-btn" data-position="bottom center">
@@ -303,7 +306,7 @@
 							<div class="ui red segment" style="text-align: left;">
 								<p id="errors-messages">line 12: missing ')' near token ';'</p>
 							</div>
-						</div>						
+						</div>
 					</div>
 
 					<div id="result-table-row" class="row">

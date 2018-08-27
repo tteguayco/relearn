@@ -72,6 +72,7 @@ html, body {
 #result-table-row {
 	margin-top: 10px !important;
 	display: none;
+	max-height: 350px;
 	overflow-x: auto;
 }
 
@@ -97,4 +98,12 @@ html, body {
 
 .success-or-errors-msg-panels-container {
 	margin-bottom: 20px !important;
+}
+
+#run-query-btn:focus {
+	outline: none;
+}
+
+*:focus {
+    outline: 0 !important;
 }

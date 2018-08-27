@@ -23,7 +23,7 @@ public class MainApp {
 	private static final String STATIC_FILES_LOCATION = "/public";
 	private static final String HOME_PAGE_PATH = "/views/home.html";
 	private static final String SCHEMA_PAGE_PATH = "/views/schema.html";
-	private static final String MAIN_PAGE_PATH = "/views/app.html";
+	private static final String MAIN_PAGE_PATH = "/templates/app.vm";
 	private static final String ABOUT_PAGE_PATH = "/views/about.html";
 	private static final String STATISTICS_PAGE_PATH = "/views/statistics.html";
 	
@@ -60,58 +60,44 @@ public class MainApp {
 		
 		// ROUTES
 		Spark.get("/", (req, res) -> renderContent(HOME_PAGE_PATH));
-		
 		Spark.get("/about", (req, res) -> renderContent(ABOUT_PAGE_PATH));
-		
 		Spark.get("/schema", (req, res) -> renderContent(SCHEMA_PAGE_PATH));
+		Spark.get("/statistics", (req, res) -> renderContent(STATISTICS_PAGE_PATH));
 		
 		Spark.get("/checkSchemaDefinitionFromFile", (req, res) -> {
 			SchemaDSLAnalyzer schemaDSLAnalyzer = new SchemaDSLAnalyzer();
 			Database definedDatabase = null;
-			
-			System.out.println("The following definition schema was received from the client:\n\"");
 			String schemaDefinitionDSL = req.queryParams("DatabaseSchemaDefinition");
-			System.out.println(schemaDefinitionDSL + "\n\"");
 			
 			definedDatabase = schemaDSLAnalyzer.getDatabaseObjectFromDefinition(schemaDefinitionDSL);
 			req.session().attribute("definedDatabase", definedDatabase);
 			
-			// If there are errors, send them to the client
 			if (definedDatabase == null) {
-				System.out.println("The following errors were encountered:");
-				System.out.println(schemaDSLAnalyzer.getErrorMessages());
+				System.out.println(">> The creation of the specified database on PostgreSQL raised errors.");
 				return schemaDSLAnalyzer.getErrorMessages();
 			}
 			
-			// Create database on PostgreSQL
 			else {
 				String userSessionID = req.session().id();
-				System.out.println("Creating database for the session ID: " + userSessionID);
-				//System.out.println(databaseManager);
+				String definedDatabaseName = definedDatabase.getName();
 				databaseManager.createDatabaseOnDbms(definedDatabase, userSessionID);
+				System.out.println(">> Database " + definedDatabaseName + " was created on PostgreSQL.");
 			}
 			
-			System.out.println("Database created on PostgreSQL with no errors.");
 			return "";
 		});
 		
 		Spark.get("/main", (req, res) -> {
-			System.out.println("\n/main visited. Session ID: " + req.session().id());
-			
 			Map<String, Object> model = new HashMap<String, Object>();
 			Database definedDatabase = req.session().attribute("definedDatabase");
 			
 			if (definedDatabase != null) {
 				model.put("database", definedDatabase);
-				System.out.println("Serving main app page...");
-				return new ModelAndView(model, "/templates/app.vm");
+				return new ModelAndView(model, MAIN_PAGE_PATH);
 			}
 			
-			// If the user visits /main and there are no databases defined, 
-			// redirect him/her to the schema page
 			else {
 				String routeToRedirect = "/schema";
-				System.out.println("No databases defined. Redirecting to " + routeToRedirect);
 				res.redirect(routeToRedirect);
 				return null;
 			}
@@ -124,50 +110,39 @@ public class MainApp {
 			String translationErrors = "";
 			String selectedDatabaseName = "";
 			Database definedDatabase = null;
-			RelationalAlgebraInterpreter raInterpreter = null;
-			JSONObject response = new JSONObject();
+			RelationalAlgebraInterpreter relalgInterpreter = null;
+			JSONObject responseForClient = new JSONObject();
+			JSONObject resultTable = null;
 			
+			// Collect data sent from the client
 			relationalAlgebraQuery = req.queryParams("RelationalAlgebraQuery");
 			selectedDatabaseName = req.queryParams("SelectedDatabaseName");
 			
-			raInterpreter = new RelationalAlgebraInterpreter(definedDatabase);
+			// Translation Relational Algebra into SQL
+			relalgInterpreter = new RelationalAlgebraInterpreter(definedDatabase);
+			sqlTranslation = relalgInterpreter.translate(relationalAlgebraQuery);
+			translationErrors = relalgInterpreter.getErrors();
 			
-			sqlTranslation = raInterpreter.translate(relationalAlgebraQuery);
-			translationErrors = raInterpreter.getErrors();
-			
-			// Format SQL translation
 			if (translationErrors.length() <= 0) {
+				// Format SQL output
 				BasicFormatterImpl sqlFormatter = new BasicFormatterImpl();
 				sqlTranslation = sqlFormatter.format(sqlTranslation);
-				//sqlTranslation = sqlTranslation.replaceAll("^\\s{4}", "");
-				//sqlTranslation = sqlTranslation.replaceAll("^\\t", "");
 				
-				// Execute query on DBMS and get result table
+				// Execute the SQL translation on PostgreSQL and get the result table
 				String databaseName = req.session().id();
 				String schemaName = selectedDatabaseName;
 				
 				databaseManager.switchToDatabase(databaseName);
 				databaseManager.switchToSchema(schemaName);
 				databaseManager.executeQuery(sqlTranslation);
-				String result = databaseManager.getQueryResultSetAsString();
-				JSONObject resultAsJson = databaseManager.getResultSetAsJson();
-				System.out.println(resultAsJson);
-				System.out.println(result);
-				
-				response.put("SQLTranslation", sqlTranslation);
-				response.put("TranslationExecutionResult", resultAsJson);
+				resultTable = databaseManager.getResultSetAsJson();
 			}
 			
-			else {
-				response.put("RelationalAlgebraTranslationErrors", translationErrors);
-			}
+			responseForClient.put("SQLTranslation", sqlTranslation);
+			responseForClient.put("TranslationExecutionResult", resultTable);
+			responseForClient.put("RelationalAlgebraTranslationErrors", translationErrors);
 			
-			System.out.println("Received the following Relational Algebra query to translate:");
-			System.out.println(relationalAlgebraQuery);
-			System.out.println("SQL Translation:");
-			System.out.println(sqlTranslation);
-			
-			return response;
+			return responseForClient;
 			
 		}, json());
 	}

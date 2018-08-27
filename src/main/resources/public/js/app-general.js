@@ -143,13 +143,17 @@ function sendCurrentQueryToServer() {
             url: "/executeQuery",
             success: function(responseFromServer) {
                 var responseAsJson = JSON.parse(responseFromServer);
-                var translationErrors = "";
+                var translationErrors = responseAsJson["map"]["RelationalAlgebraTranslationErrors"];
                 var sqlTranslation = "";
-                var queryTableResult = "";
+                var queryTableResult = null;
 
                 if (translationErrors.length == 0) {
                     sqlTranslation = responseAsJson["map"]["SQLTranslation"];
-                    queryTableResult = responseAsJson["map"]["TranslationExecutionResult"]["map"];
+                    queryTableResult = responseAsJson["map"]["TranslationExecutionResult"];
+
+                    if (queryTableResult.hasOwnProperty("map")) {
+                        queryTableResult = queryTableResult["map"];
+                    }
 
                     // Set SQL query and switch to SQL tab
                     sqlEditor.setValue(sqlTranslation, 1);
@@ -161,11 +165,10 @@ function sendCurrentQueryToServer() {
 
                 // ERRORS
                 else {
-                    responseAsJson["map"]["RelationalAlgebraTranslationErrors"];
                     displayErrorMessages(translationErrors);
                 }
             },
-            error: function() {
+            error: function(error) {
 
             },
             beforeSend: function() {
