@@ -239,7 +239,8 @@
 						</div>
 					#end
 
-					<div class="database-schema-btn" style="text-align: center">
+					<div class="database-schema-btn" style="text-align: left">
+						<!--
 						<button id="create-db-btn" tabindex="0" class="ui icon button schema-viewer-btn" data-position="bottom center">
 							<i class="plus icon"></i>
 						</button>
@@ -249,7 +250,8 @@
 						<button id="delete-db-btn" class="ui icon button schema-viewer-btn" data-position="bottom center">
 							<i class="remove icon"></i>
 						</button>
-						<button id="save-db-btn" class="ui icon button schema-viewer-btn" data-position="bottom center">
+						-->
+						<button id="save-db-btn" class="ui icon button schema-viewer-btn" data-position="right center">
 							<i class="download outline icon"></i>
 						</button>
 					</div>

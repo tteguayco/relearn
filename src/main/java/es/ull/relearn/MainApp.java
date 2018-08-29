@@ -138,7 +138,14 @@ public class MainApp {
 				databaseManager.switchToDatabase(databaseName);
 				databaseManager.switchToSchema(schemaName);
 				databaseManager.executeQuery(sqlTranslation);
-				resultTable = databaseManager.getResultSetAsJson();
+				
+				String queryExecutionErrors = databaseManager.getErrors();
+				
+				if (queryExecutionErrors.length() > 0) {
+					translationErrors += queryExecutionErrors;
+				} else {
+					resultTable = databaseManager.getResultSetAsJson();
+				}
 			}
 		
 			translationErrors = prepareErrorsMessages(translationErrors);
@@ -150,26 +157,9 @@ public class MainApp {
 			return responseForClient;
 			
 		}, json());
-		
-		// Drop all defined databases on program exit
-		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-		    public void run() {
-		    	System.out.println("Dropping databases...");
-		        deleteAllDefinedDatabases();
-		    }
-		}));
 	}
 	
 	private static String prepareErrorsMessages(String errorsMessage) {
 		return errorsMessage.replaceAll("\n", "<br>");
-	}
-	
-	private static void deleteAllDefinedDatabases() {
-		String databaseName = "";
-		
-		for (int i = 0; i < definedDatabases.size(); i++) {
-			databaseName = definedDatabases.get(i).getName();
-			databaseManager.dropDatabase(databaseName);
-		}
 	}
 }

@@ -51,7 +51,7 @@ public class DatabaseManager {
 	private ResultSet queryResultSet;
 	
 	private Database databaseToCreate;
-	private boolean errors;
+	private ArrayList<String> errors;
 	
 	public DatabaseManager() {
 		String[] credentials = readCredentialsFromFile();
@@ -63,6 +63,7 @@ public class DatabaseManager {
 		databaseName = "";
 		databaseSchemaName = "";
 		connectionURL = DEFAULT_DBMS_PREFIX + hostname + ":" + port + "/" + databaseName;
+		errors = new ArrayList<String>();
 		
 		createConnectionToDbms(connectionURL);
 	}
@@ -287,11 +288,15 @@ public class DatabaseManager {
 		return new String(fileBytes, StandardCharsets.UTF_8);
 	}
 	
-	public void executeQuery(String query) throws SQLException {
+	public void executeQuery(String query) {
 		// The created statement must return a scrollable Result Set;
 		// that is, it must be iterable more than once (ResultSet.TYPE_SCROLL_SENSITIVE).
-		Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-		queryResultSet = statement.executeQuery(query);
+		try {
+			Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			queryResultSet = statement.executeQuery(query);
+		} catch (SQLException e) {
+			errors.add(e.getMessage());
+		}
 	}
 	
 	public Connection getConnection() {
@@ -355,6 +360,16 @@ public class DatabaseManager {
 		return result;
 	}
 	
+	public String getErrors() {
+		String result = "";
+		
+		for (int i = 0; i < errors.size(); i++) {
+			result += errors.get(i);
+		}
+		
+		return result;
+	}
+	
 	public static void main(String[] args) {
 		DatabaseManager databaseManager = new DatabaseManager();
 		SchemaDSLAnalyzer schemaDSLAnalyzer = new SchemaDSLAnalyzer();
@@ -376,7 +391,7 @@ public class DatabaseManager {
 			//System.out.println(databaseManager.getQueryResultSetAsString());
 		}
 		
-		catch (SQLException e) {
+		catch (/*SQL*/Exception e) {
 			e.printStackTrace();
 		}
 	}
