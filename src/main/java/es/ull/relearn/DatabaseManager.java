@@ -137,6 +137,17 @@ public class DatabaseManager {
 		switchToDatabase(databaseName);
 	}
 	
+	public void dropDatabase(String databaseName) {
+		Statement statement;
+		
+		try {
+			statement = connection.createStatement();
+			statement.executeUpdate("DROP DATABASE IF EXISTS " + databaseName);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private void executeCreateSchemaStatement(String schemaName) throws SQLException {
 		schemaName = schemaName.toLowerCase();
 		Statement statement = connection.createStatement();

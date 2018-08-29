@@ -76,7 +76,7 @@ function activateSQLEditorTab() {
 
 function displayErrorMessages(errorsToDisplay) {
     // Display errors panels
-    $("#errors-messages").text(errorsToDisplay);
+    $("#errors-messages").html(errorsToDisplay);
     $(".schema-errors-panel").show();
     $("#error-execution-msg").show();
 

@@ -2,6 +2,7 @@ package es.ull.relearn;
 
 import java.io.IOException;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ public class MainApp {
 	private static final String STATISTICS_PAGE_PATH = "/views/statistics.html";
 	
 	public static DatabaseManager databaseManager = new DatabaseManager();
+	public static ArrayList<Database> definedDatabases = new ArrayList<Database>();
 	
 	private static String renderContent(String htmlFilePath) {
 		String htmlPageAsString = "";
@@ -81,7 +83,8 @@ public class MainApp {
 				String userSessionID = req.session().id();
 				String definedDatabaseName = definedDatabase.getName();
 				databaseManager.createDatabaseOnDbms(definedDatabase, userSessionID);
-				System.out.println(">> Database " + definedDatabaseName + " was created on PostgreSQL.");
+				definedDatabases.add(definedDatabase);
+				System.out.println(">> Database '" + definedDatabaseName + "' was created on PostgreSQL.");
 			}
 			
 			return "";
@@ -137,6 +140,8 @@ public class MainApp {
 				databaseManager.executeQuery(sqlTranslation);
 				resultTable = databaseManager.getResultSetAsJson();
 			}
+		
+			translationErrors = prepareErrorsMessages(translationErrors);
 			
 			responseForClient.put("SQLTranslation", sqlTranslation);
 			responseForClient.put("TranslationExecutionResult", resultTable);
@@ -145,5 +150,26 @@ public class MainApp {
 			return responseForClient;
 			
 		}, json());
+		
+		// Drop all defined databases on program exit
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+		    public void run() {
+		    	System.out.println("Dropping databases...");
+		        deleteAllDefinedDatabases();
+		    }
+		}));
+	}
+	
+	private static String prepareErrorsMessages(String errorsMessage) {
+		return errorsMessage.replaceAll("\n", "<br>");
+	}
+	
+	private static void deleteAllDefinedDatabases() {
+		String databaseName = "";
+		
+		for (int i = 0; i < definedDatabases.size(); i++) {
+			databaseName = definedDatabases.get(i).getName();
+			databaseManager.dropDatabase(databaseName);
+		}
 	}
 }

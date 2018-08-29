@@ -151,12 +151,6 @@
 								</p>	
 							</div>
 							<div class="five wide column">
-								<b>FULL OUTER JOIN</b><br/>
-								<p class="operator-body-explanation">
-									<span>expression FULL OUTER JOIN expression (condlist);</span><br/>
-								</p>
-							</div>
-							<div class="five wide column">
 								<b>GROUP BY</b><br/>
 								<p class="operator-body-explanation">
 									<span>PROJECT (attrlist) (expression)<br>GROUP BY (attrlist);</span><br/>
@@ -168,6 +162,12 @@
 								<p class="operator-body-explanation">
 									<span>PROJECT (attrlist) (expression)<br>GROUP BY (attrlist)<br>HAVING (condlist);</span><br/>
 									<span style="color:grey">E.g. <br><i>PROJECT (A, COUNT(B)) (R)<br>GROUP BY A<br>HAVING SUM(C) > 5;</i></span>
+								</p>
+							</div>
+							<div class="five wide column">
+								<b>FULL OUTER JOIN</b><br/>
+								<p class="operator-body-explanation">
+									<span>expression FULL OUTER JOIN expression (condlist);</span><br/>
 								</p>
 							</div>
 							<div class="five wide column">
