@@ -110,7 +110,7 @@ public class Database {
 		toString += "DATABASE " + getName() + ";\n";
 		
 		for (int i = 0; i < getTables().size(); i++) {
-			toString += "\nTABLE " + getTables().get(i).getName() + " (";
+			toString += "\nTABLE " + getTables().get(i).getNameWithoutRelation() + " (";
 			
 			// Attributes with domains
 			for (int j = 0; j < getTables().get(i).getAttributes().size(); j++) {
@@ -119,7 +119,7 @@ public class Database {
 				
 				// Add semicolon
 				if (j < getTables().get(i).getAttributes().size() - 1) {
-					toString += ",\n";
+					toString += ", ";
 				} 
 				
 				else {

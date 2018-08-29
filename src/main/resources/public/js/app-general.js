@@ -6,6 +6,7 @@ SAVE_CURRENT_DB = "Dump database definition to file";
 DEFAULT_NAME_DOWNLOADED_RELALG_QUERY = "query.ra";
 RUN_RELALG_QUERY_MSG = "Run Relational Algebra query";
 SAVE_RELALG_QUERY_MSG = "Download Relational Algebra query";
+SCHEMA_DEFINITION_FORMAT_FILE = ".db";
 
 function setEditorsConfiguration() {
 	var relalgEditor = ace.edit("relalg-editor");
@@ -190,6 +191,15 @@ function saveCurrentQuery() {
     }
 }
 
+function dumpCurrentDatabaseSchemaDefinitionToFile() {
+    var schemaDefinition = $("#schema-definition").text().trim();
+    var databaseName = $("#databases-dropdown").text().trim();
+
+    if (schemaDefinition.length > 0) {
+        downloadContentAsFile(schemaDefinition, databaseName + SCHEMA_DEFINITION_FORMAT_FILE);
+    }
+}
+
 $(document).ready(function() {
 	setEditorsConfiguration();
 	setTabsConfiguration();
@@ -203,5 +213,9 @@ $(document).ready(function() {
 
     $("#save-query-btn").click(function() {
         saveCurrentQuery();
+    });
+
+    $("#save-db-btn").click(function() {
+        dumpCurrentDatabaseSchemaDefinitionToFile();
     });
 });

@@ -203,6 +203,7 @@
 								-->
 							</div>
 						</div>
+						<p id="schema-definition" style="display:none">$database.toDSL()</p>
 
 						<div class="ui segment schema-viewer-tables">
 						#foreach ($table in $database.getTables())
