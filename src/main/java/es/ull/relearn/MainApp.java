@@ -154,6 +154,9 @@ public class MainApp {
 			responseForClient.put("TranslationExecutionResult", resultTable);
 			responseForClient.put("RelationalAlgebraTranslationErrors", translationErrors);
 			
+			System.out.println("SQL Translation: " + sqlTranslation);
+			System.out.println("Translation errors: " + translationErrors);
+			
 			return responseForClient;
 			
 		}, json());

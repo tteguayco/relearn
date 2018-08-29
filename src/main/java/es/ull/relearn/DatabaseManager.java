@@ -51,7 +51,7 @@ public class DatabaseManager {
 	private ResultSet queryResultSet;
 	
 	private Database databaseToCreate;
-	private ArrayList<String> errors;
+	private ArrayList<String> executionErrors;
 	
 	public DatabaseManager() {
 		String[] credentials = readCredentialsFromFile();
@@ -63,7 +63,7 @@ public class DatabaseManager {
 		databaseName = "";
 		databaseSchemaName = "";
 		connectionURL = DEFAULT_DBMS_PREFIX + hostname + ":" + port + "/" + databaseName;
-		errors = new ArrayList<String>();
+		executionErrors = new ArrayList<String>();
 		
 		createConnectionToDbms(connectionURL);
 	}
@@ -294,8 +294,9 @@ public class DatabaseManager {
 		try {
 			Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			queryResultSet = statement.executeQuery(query);
+			executionErrors = new ArrayList<String>();
 		} catch (SQLException e) {
-			errors.add(e.getMessage());
+			executionErrors.add(e.getMessage());
 		}
 	}
 	
@@ -363,8 +364,8 @@ public class DatabaseManager {
 	public String getErrors() {
 		String result = "";
 		
-		for (int i = 0; i < errors.size(); i++) {
-			result += errors.get(i);
+		for (int i = 0; i < executionErrors.size(); i++) {
+			result += executionErrors.get(i);
 		}
 		
 		return result;
