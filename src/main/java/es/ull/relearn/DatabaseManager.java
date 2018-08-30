@@ -342,7 +342,7 @@ public class DatabaseManager {
 			do {
 			    rowValues = new String[numColumns];
 			    for (int i = 1; i <= numColumns; i++) {
-			    	String valueFromDatabase = (String) queryResultSet.getObject(i);
+			    	String valueFromDatabase = queryResultSet.getObject(i).toString();
 			    	rowValues[i - 1] = valueFromDatabase;
 			    	columnNames[i - 1] = queryResultSet.getMetaData().getColumnName(i);
 			    }

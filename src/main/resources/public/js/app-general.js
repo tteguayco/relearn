@@ -18,7 +18,7 @@ function setEditorsConfiguration() {
     relalgEditor.getSession().setUseWorker(false);
 
 	var sqlEditor = ace.edit("sql-editor");
-    sqlEditor.setTheme("ace/theme/dawn");
+    sqlEditor.setTheme("ace/theme/sqlserver");
     document.getElementById('sql-editor').style.fontSize='18px';
     sqlEditor.session.setMode("ace/mode/sql");
     sqlEditor.setShowPrintMargin(false);
