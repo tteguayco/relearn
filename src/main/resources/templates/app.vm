@@ -268,7 +268,16 @@
 						</div>
 						
 						<div class="ui bottom attached active tab segment code-editor-panel" data-tab="relalg-tab">
-							<div id="relalg-editor">PROJECT (A, B) (R1);</div>
+							<div id="relalg-editor">/*
+ * Your Relational Algebra queries go here. 
+ * 
+ * The SQL translations will be placed in the SQL tab.
+ */
+ #if ($database)
+  
+ PROJECT (#foreach ($attr in $database.getTables().get(0).getAttributes())$attr.getName()#if( $foreach.hasNext ), #end#end) ($database.getTables().get(0).getNameWithoutRelation());
+ #end
+</div>
 						</div>
 						<div class="ui bottom attached tab segment code-editor-panel" data-tab="sql-tab">
 							<div id="sql-editor"></div>

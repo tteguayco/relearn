@@ -10,9 +10,9 @@ SCHEMA_DEFINITION_FORMAT_FILE = ".db";
 
 function setEditorsConfiguration() {
 	var relalgEditor = ace.edit("relalg-editor");
-	relalgEditor.setTheme("ace/theme/dawn");
-    document.getElementById('relalg-editor').style.fontSize='18px';
-    relalgEditor.session.setMode("ace/mode/javascript");
+	relalgEditor.setTheme("ace/theme/sqlserver");
+    document.getElementById('relalg-editor').style.fontSize='16px';
+    relalgEditor.session.setMode("ace/mode/relalg");
     relalgEditor.setShowPrintMargin(false);
     relalgEditor.resize();
     relalgEditor.getSession().setUseWorker(false);

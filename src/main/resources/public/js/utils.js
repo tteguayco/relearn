@@ -33,7 +33,7 @@ function sendSchemaDefinitionToServerAndHandleResponse(schemaDefinition) {
             $('#loading-db-creation-modal').modal({ closable: false }).modal('show');
         },
         complete: function() {
-            //$('#loading-db-creation-modal').modal('hide');
+            $('#loading-db-creation-modal').modal('hide');
         }
     });
 }

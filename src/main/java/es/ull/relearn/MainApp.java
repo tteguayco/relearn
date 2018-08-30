@@ -63,8 +63,19 @@ public class MainApp {
 		// ROUTES
 		Spark.get("/", (req, res) -> renderContent(HOME_PAGE_PATH));
 		Spark.get("/about", (req, res) -> renderContent(ABOUT_PAGE_PATH));
-		Spark.get("/schema", (req, res) -> renderContent(SCHEMA_PAGE_PATH));
 		Spark.get("/statistics", (req, res) -> renderContent(STATISTICS_PAGE_PATH));
+		
+		Spark.get("/schema", (req, res) -> {
+			Database definedDatabase = req.session().attribute("definedDatabase");
+			String routeToRedirect = "/main";
+			
+			if (definedDatabase != null) {
+				res.redirect(routeToRedirect);
+				return null;
+			}
+			
+			return renderContent(SCHEMA_PAGE_PATH);
+		});
 		
 		Spark.get("/checkSchemaDefinitionFromFile", (req, res) -> {
 			SchemaDSLAnalyzer schemaDSLAnalyzer = new SchemaDSLAnalyzer();

@@ -120,7 +120,7 @@ public class Database {
 				// Add semicolon
 				if (j < getTables().get(i).getAttributes().size() - 1) {
 					toString += ", ";
-				} 
+				}
 				
 				else {
 					toString += ")\n";
