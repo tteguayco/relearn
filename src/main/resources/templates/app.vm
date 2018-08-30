@@ -271,12 +271,11 @@
 							<div id="relalg-editor">/*
  * Your Relational Algebra queries go here. 
  * 
- * The SQL translations will be placed in the SQL tab.
+ * The SQL translations will appear in the SQL tab.
  */
  #if ($database)
   
- PROJECT (#foreach ($attr in $database.getTables().get(0).getAttributes())$attr.getName()#if( $foreach.hasNext ), #end#end) ($database.getTables().get(0).getNameWithoutRelation());
- #end
+ PROJECT (#foreach ($attr in $database.getTables().get(0).getAttributes())$attr.getName()#if( $foreach.hasNext ), #end#end) ($database.getTables().get(0).getNameWithoutRelation());#end
 </div>
 						</div>
 						<div class="ui bottom attached tab segment code-editor-panel" data-tab="sql-tab">

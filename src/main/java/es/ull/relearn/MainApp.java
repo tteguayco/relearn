@@ -9,6 +9,11 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import es.ull.relearn.dbitems.Database;
+import gudusoft.gsqlparser.EDbVendor;
+import gudusoft.gsqlparser.TGSqlParser;
+import gudusoft.gsqlparser.pp.para.GFmtOpt;
+import gudusoft.gsqlparser.pp.para.GFmtOptFactory;
+import gudusoft.gsqlparser.pp.stmtformattor.FormattorFactory;
 import spark.ModelAndView;
 import spark.Spark;
 import spark.utils.IOUtils;
@@ -16,7 +21,7 @@ import spark.template.velocity.*;
 
 import static es.ull.relearn.utils.JsonUtils.*;
 
-import org.hibernate.engine.jdbc.internal.BasicFormatterImpl;
+
 
 public class MainApp {
 
@@ -138,9 +143,7 @@ public class MainApp {
 			translationErrors = relalgInterpreter.getErrors();
 			
 			if (translationErrors.length() <= 0) {
-				// Format SQL output
-				BasicFormatterImpl sqlFormatter = new BasicFormatterImpl();
-				sqlTranslation = sqlFormatter.format(sqlTranslation);
+				sqlTranslation = formatSqlQuery(sqlTranslation);
 				
 				// Execute the SQL translation on PostgreSQL and get the result table
 				String databaseName = req.session().id();
@@ -175,5 +178,18 @@ public class MainApp {
 	
 	private static String prepareErrorsMessages(String errorsMessage) {
 		return errorsMessage.replaceAll("\n", "<br>");
+	}
+	
+	private static String formatSqlQuery(String sqlQuery) {
+		TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvoracle);
+		sqlparser.sqltext = sqlQuery;
+        int ret = sqlparser.parse();
+        
+        if (ret == 0) {
+            GFmtOpt option = GFmtOptFactory.newInstance();
+            return FormattorFactory.pp(sqlparser, option);
+        }
+        
+        return sqlQuery;
 	}
 }
