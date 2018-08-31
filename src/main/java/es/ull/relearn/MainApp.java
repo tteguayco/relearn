@@ -53,7 +53,8 @@ public class MainApp {
 	public static void main(String[] args) {
 		
 		// Server initialization
-		Spark.port(DEFAULT_PORT);
+		//Spark.port(DEFAULT_PORT);
+		Spark.port(getHerokuAssignedPort());
 		
 		// Automatic refresh of static files
 		// COMMENT THESE LINES DURING DEVELOPMENT
@@ -199,4 +200,14 @@ public class MainApp {
         
         return sqlQuery;
 	}
+	
+	private static int getHerokuAssignedPort() {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        
+        if (processBuilder.environment().get("PORT") != null) {
+            return Integer.parseInt(processBuilder.environment().get("PORT"));
+        }
+        
+        return DEFAULT_PORT;
+    }
 }
