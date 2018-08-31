@@ -36,6 +36,7 @@ public class MainApp {
 	
 	public static DatabaseManager databaseManager = new DatabaseManager();
 	public static HashMap<String, Timestamp> definedDatabases = new HashMap<String, Timestamp>();
+	public static ScheduledDatabaseDropper databaseDropper = new ScheduledDatabaseDropper(definedDatabases, databaseManager);
 	
 	private static String renderContent(String htmlFilePath) {
 		String htmlPageAsString = "";
@@ -103,7 +104,7 @@ public class MainApp {
 				long time = date.getTime();
 				
 				databaseManager.createDatabaseOnDbms(definedDatabase, userSessionID);
-				definedDatabases.put(definedDatabase.getName(), new Timestamp(time));
+				definedDatabases.put(userSessionID, new Timestamp(time));
 				System.out.println(">> Database '" + definedDatabaseName + "' was created on PostgreSQL.");
 			}
 			
@@ -178,6 +179,8 @@ public class MainApp {
 			return responseForClient;
 			
 		}, json());
+		
+		databaseDropper.start();
 	}
 	
 	private static String prepareErrorsMessages(String errorsMessage) {

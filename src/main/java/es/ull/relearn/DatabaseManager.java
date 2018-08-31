@@ -114,7 +114,9 @@ public class DatabaseManager {
 		return credentials;
 	}
 	
-	public void switchToDatabase(String aDatabaseName) {
+	public void switchToDatabase(String aDatabaseName) throws SQLException {
+		connection.close();
+		
 		databaseName = aDatabaseName;
 		connectionURL = getDefaultConnectionURL();
 		
@@ -138,15 +140,11 @@ public class DatabaseManager {
 		switchToDatabase(databaseName);
 	}
 	
-	public void dropDatabase(String databaseName) {
+	public void dropDatabase(String databaseName) throws SQLException {
 		Statement statement;
 		
-		try {
-			statement = connection.createStatement();
-			statement.executeUpdate("DROP DATABASE IF EXISTS " + databaseName);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		statement = connection.createStatement();
+		statement.executeUpdate("DROP DATABASE IF EXISTS " + databaseName);
 	}
 	
 	private void executeCreateSchemaStatement(String schemaName) throws SQLException {
