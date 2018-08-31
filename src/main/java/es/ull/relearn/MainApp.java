@@ -2,9 +2,12 @@ package es.ull.relearn;
 
 import java.io.IOException;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import java.util.Date;
 
 import org.json.JSONObject;
 
@@ -21,8 +24,6 @@ import spark.template.velocity.*;
 
 import static es.ull.relearn.utils.JsonUtils.*;
 
-
-
 public class MainApp {
 
 	private static final int DEFAULT_PORT = 8080;
@@ -34,7 +35,7 @@ public class MainApp {
 	private static final String STATISTICS_PAGE_PATH = "/views/statistics.html";
 	
 	public static DatabaseManager databaseManager = new DatabaseManager();
-	public static ArrayList<Database> definedDatabases = new ArrayList<Database>();
+	public static HashMap<String, Timestamp> definedDatabases = new HashMap<String, Timestamp>();
 	
 	private static String renderContent(String htmlFilePath) {
 		String htmlPageAsString = "";
@@ -98,8 +99,11 @@ public class MainApp {
 			else {
 				String userSessionID = req.session().id();
 				String definedDatabaseName = definedDatabase.getName();
+				Date date = new Date();
+				long time = date.getTime();
+				
 				databaseManager.createDatabaseOnDbms(definedDatabase, userSessionID);
-				definedDatabases.add(definedDatabase);
+				definedDatabases.put(definedDatabase.getName(), new Timestamp(time));
 				System.out.println(">> Database '" + definedDatabaseName + "' was created on PostgreSQL.");
 			}
 			
