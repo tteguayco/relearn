@@ -122,6 +122,8 @@ function prepareThirdModal() {
 		}
 	}
 
+	disableExclamationWarnings();
+
 	// Initialize UI components
 	$(".ui.accordion").accordion();
 }
@@ -171,7 +173,7 @@ function valueIsValid(value, domain, textbox) {
 		textbox.popup({ content : errorText	});
 
 		// Display exclamation warnings
-		exclamationMark = $(".tuple-value-textbox").parents(".content").siblings(".title").children(".exclamation-warning");
+		exclamationMark = textbox.parents(".content").prev(".title").children(".exclamation-warning");
 		exclamationMark.show();
 
 		valid = false;

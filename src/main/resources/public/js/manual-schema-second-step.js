@@ -86,6 +86,8 @@ function prepareSecondModal() {
 	var formSecondModal = $("#form-second-modal");
 	var accordion = $('<div class="ui accordion attribute-list-accordion"></div>');
 
+	disableExclamationWarnings();
+
 	formSecondModal.empty();
 	formSecondModal.append(accordion);
 
@@ -167,7 +169,6 @@ function attributeNameIsValid(name, textbox) {
 
 		// Display exclamation mark in relation's title
 		exclamationMark = textbox.parents(".content").prev(".title").children(".exclamation-warning");
-		console.log(exclamationMark);
 		exclamationMark.show();
 
 		valid = false;
