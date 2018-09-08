@@ -76,6 +76,10 @@ function removeAttribute() {
 	}
 }
 
+function disableExclamationWarnings() {
+	$(".exclamation-warning").hide();
+}
+
 function prepareSecondModal() {
 	var databaseName = $("#db-name").text();
 	var relationsList = $(".rel-name").map(function(i, elem) { if (elem.value.length > 0) { return elem.value } });
@@ -95,6 +99,7 @@ function prepareSecondModal() {
 		accordion.append(accordionContent);
 		accordionTitle.append('<i class="dropdown icon"></i>');
 		accordionTitle.append('<label><b>Relation <span class="relation-name-second-step"><i>' + currentRelationName + ' </i></span></b></label>');
+		accordionTitle.append('<i class="exclamation-warning red icon">!</i>');
 
 		// Buttons to add/remove attribute
 		var attributeLabel = $('<label class="attribute-label-second-modal"><b>Attributes </b></label>');
@@ -133,6 +138,8 @@ function prepareSecondModal() {
 		}
 	}
 
+	disableExclamationWarnings();
+
 	// Initialize UI components
 	$(".ui.accordion").accordion();
 }
@@ -140,6 +147,7 @@ function prepareSecondModal() {
 function attributeNameIsValid(name, textbox) {
 	var valid = true;
 	var errorText = "";
+	var exclamationMark = null;
 
 	if (name.length <= 0) {
 		errorText = EMPTY_ATTRIBUTE_NAME_MESSAGE;
@@ -151,10 +159,17 @@ function attributeNameIsValid(name, textbox) {
 		}
 	}
 
-	// Show tooltip (popup) with a detailed message of the error
+	
 	if (errorText.length > 0) {
+		// Show tooltip (popup) with a detailed message of the error
 		textbox.addClass("input-text-with-errors");
 		textbox.popup({ content : errorText	});
+
+		// Display exclamation mark in relation's title
+		exclamationMark = textbox.parents(".content").prev(".title").children(".exclamation-warning");
+		console.log(exclamationMark);
+		exclamationMark.show();
+
 		valid = false;
 	}
 
@@ -167,6 +182,8 @@ function attributeNameIsValid(name, textbox) {
  function formSecondModalIsValid() {
 	var valid = true;
 	var attrLists = $(".attribute-list");
+
+	disableExclamationWarnings();
 
 	for (i = 0; i < attrLists.length; i++) {
 		var attrNames = attrLists.eq(i).find(".attribute-name").map(function(i, elem) { return elem.value; });

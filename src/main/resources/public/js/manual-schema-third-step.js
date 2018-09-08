@@ -73,6 +73,7 @@ function prepareThirdModal() {
 		accordion.append(accordionContent);
 		accordionTitle.append('<i class="dropdown icon"></i>');
 		accordionTitle.append('<label><b>Relation <span class="relation-name-second-step"><i>' + currentRelationName + ' </i></span></b></label>');
+		accordionTitle.append('<i class="exclamation-warning red icon">!</i>');
 
 		// Buttons to add/remove attribute
 		var tupleLabel = $('<label class="tuple-label-third-modal"><b>Tuples </b></label>');
@@ -131,6 +132,7 @@ function prepareThirdModal() {
 function valueIsValid(value, domain, textbox) {
 	var valid = true;
 	var errorText = "";
+	var exclamationMark = null;
 
 	switch (domain) {
 		case "string":
@@ -167,6 +169,11 @@ function valueIsValid(value, domain, textbox) {
 	if (errorText.length > 0) {
 		textbox.addClass("input-text-with-errors");
 		textbox.popup({ content : errorText	});
+
+		// Display exclamation warnings
+		exclamationMark = $(".tuple-value-textbox").parents(".content").siblings(".title").children(".exclamation-warning");
+		exclamationMark.show();
+
 		valid = false;
 	}
 
@@ -181,6 +188,8 @@ function formThirdModalIsValid() {
 	var valuesElem = $(".tuple-value-textbox");
 	var auxValue = "";
 	var auxDomain = "";
+
+	disableExclamationWarnings();
 
 	for (i = 0; i < valuesElem.length; i++) {
 		auxValue = valuesElem.eq(i).val();

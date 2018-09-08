@@ -32,8 +32,8 @@ import org.json.JSONObject;
  */
 public class DatabaseManager {
 	
-	private static final String CREDENTIALS_FILE_PATH = "C:/Users/Teguayco/Desktop/postgresql_credentials.txt";
-	private static final String TEST_SCHEMA_DEFINITION_FILE_PATH = "C:/Users/Teguayco/Desktop/r1r2r3r4.db";
+	private static final String CREDENTIALS_FILE_PATH = "../postgresql_credentials.txt";
+	private static final String TEST_SCHEMA_DEFINITION_FILE_PATH = "./examples/r1r2r3r4.db";
 	private static final String DEFAULT_DBMS_PREFIX = "jdbc:postgresql://";
 	private static final String DEFAULT_HOSTNAME = "localhost";
 	private static final String DEFAULT_PORT = "5432";
@@ -376,18 +376,16 @@ public class DatabaseManager {
 		String schemaDefinition = DatabaseManager.getSchemaDefinitionFromFile(TEST_SCHEMA_DEFINITION_FILE_PATH);
 		
 		System.out.println(schemaDefinition);
-		System.out.println(databaseManager);
+		System.out.println("\n" + databaseManager);
 		
 		Database databaseToCreateOnPostgre = schemaDSLAnalyzer.getDatabaseObjectFromDefinition(schemaDefinition);
 		
 		databaseManager.createDatabaseOnDbms(databaseToCreateOnPostgre, "dssdfewr322423v");
 		
-		// Try SELECT * statement
 		String selectStatement = "SELECT * FROM " + databaseToCreateOnPostgre.getTables().get(0).getName();
+		
 		try {
 			databaseManager.executeQuery(selectStatement);
-			//System.out.println(selectStatement);
-			//System.out.println(databaseManager.getQueryResultSetAsString());
 		}
 		
 		catch (/*SQL*/Exception e) {
