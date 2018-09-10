@@ -1,0 +1,15 @@
+body {
+	min-width: 500px;
+}
+
+p, li {
+	font-size: 16px;
+}
+
+.starting-question {
+	margin-top: 50px;
+}
+
+.non-starting-question {
+	margin-top: 40px;
+}
