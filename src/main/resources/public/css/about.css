@@ -7,9 +7,13 @@ p, li {
 }
 
 .starting-question {
-	margin-top: 50px;
+	margin-top: 70px;
 }
 
 .non-starting-question {
 	margin-top: 40px;
+}
+
+.li-separator {
+	margin-top: 10px;
 }

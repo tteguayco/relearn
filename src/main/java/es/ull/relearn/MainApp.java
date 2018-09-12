@@ -73,9 +73,14 @@ public class MainApp {
 		System.out.println("Server listening on port " + Spark.port());
 		
 		// ROUTES
-		Spark.get("/", (req, res) -> renderContent(HOME_PAGE_PATH));
 		Spark.get("/about", (req, res) -> renderContent(ABOUT_PAGE_PATH));
 		Spark.get("/statistics", (req, res) -> renderContent(STATISTICS_PAGE_PATH));
+		
+		Spark.get("/", (req, res) -> {
+			String routeToRedirect = "/main";
+			res.redirect(routeToRedirect);
+			return null;
+		});
 		
 		Spark.get("/schema", (req, res) -> {
 			Database definedDatabase = req.session().attribute("definedDatabase");
