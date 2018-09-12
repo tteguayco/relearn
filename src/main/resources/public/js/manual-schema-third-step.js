@@ -363,4 +363,11 @@ function goToMainAppFromThirdStep() {
 $(document).ready(function() {
 	$("#third-step-next-btn").click(goToMainAppFromThirdStep);
 	$("#third-step-back-btn").click(goToSecondStepFromThirdStep);
+
+	$('#modal-manual-def-third-step').modal();
+	$('#modal-manual-def-third-step').modal({
+		onApprove: function () {
+			return false;
+		}
+	});
 });

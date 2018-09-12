@@ -110,7 +110,8 @@ $(document).ready(function() {
 	$("#first-step-next-btn").click(goToSecondStepFromFirstStep);
 
 	// To prevent a modal action from causing the modal to close
-	$('.modal').modal({
+	$('#modal-manual-def-first-step').modal();
+	$('#modal-manual-def-first-step').modal({
 		onApprove: function () {
 			return false;
 		}

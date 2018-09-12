@@ -242,4 +242,11 @@ function goToFirstStepFromSecondStep() {
 $(document).ready(function() {
 	$("#second-step-next-btn").click(goToThirdStepFromSecondStep);
 	$("#second-step-back-btn").click(goToFirstStepFromSecondStep);
+
+	$('#modal-manual-def-second-step').modal();
+	$('#modal-manual-def-second-step').modal({
+		onApprove: function () {
+			return false;
+		}
+	});
 });
