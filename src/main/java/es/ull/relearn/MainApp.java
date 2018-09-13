@@ -55,26 +55,35 @@ public class MainApp {
 		return htmlPageAsString;
 	}
 	
+	static int getHerokuAssignedPort() {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        if (processBuilder.environment().get("PORT") != null) {
+            return Integer.parseInt(processBuilder.environment().get("PORT"));
+        }
+        
+        return DEFAULT_PORT;
+    }
+	
 	public static void main(String[] args) {
 		
 		// Server initialization
-		Spark.port(DEFAULT_PORT);
+		Spark.port(getHerokuAssignedPort());
 		
-		// Automatic refresh of static files
-		// COMMENT THESE LINES DURING DEVELOPMENT
-		String projectDir = System.getProperty("user.dir");
-	    String staticDir = "/src/main/resources/public";
-	    Spark.staticFiles.externalLocation(projectDir + staticDir);
+		// Automatic refresh of static files while development
+		// UNCOMMENT THESE LINES DURING DEVELOPMENT
+		//String projectDir = System.getProperty("user.dir");
+	    //String staticDir = "/src/main/resources/public";
+	    //Spark.staticFiles.externalLocation(projectDir + staticDir);
 		
 	    // Uncomment the following line when deploying the app
-		//Spark.staticFiles.location(STATIC_FILES_LOCATION);
+		Spark.staticFiles.location(STATIC_FILES_LOCATION);
 		
 	    Spark.init();
 		System.out.println("Server listening on port " + Spark.port());
 		
 		// ROUTES
 		Spark.get("/about", (req, res) -> renderContent(ABOUT_PAGE_PATH));
-		Spark.get("/statistics", (req, res) -> renderContent(STATISTICS_PAGE_PATH));
+		//Spark.get("/statistics", (req, res) -> renderContent(STATISTICS_PAGE_PATH));
 		
 		Spark.get("/", (req, res) -> {
 			String routeToRedirect = "/main";
@@ -157,8 +166,10 @@ public class MainApp {
 			sqlTranslation = relalgInterpreter.translate(relationalAlgebraQuery);
 			translationErrors = relalgInterpreter.getErrors();
 			
+			System.out.println("Got the following SQL translation: " + sqlTranslation);
+			
 			if (translationErrors.length() <= 0) {
-				sqlTranslation = formatSqlQuery(sqlTranslation);
+				//sqlTranslation = formatSqlQuery(sqlTranslation);
 				
 				// Execute the SQL translation on PostgreSQL and get the result table
 				String databaseName = req.session().id();

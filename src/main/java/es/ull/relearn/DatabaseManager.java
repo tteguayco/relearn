@@ -70,8 +70,17 @@ public class DatabaseManager {
 	
 	private void createConnectionToDbms(String aConnectionURL) {		
 		Properties props = new Properties();
-		props.setProperty("user", username);
-		props.setProperty("password", password);
+		
+		// If there are username and password defined, send them
+		if (username != "" && username != null) {
+			if (password != "" && password != null) {
+				props.setProperty("user", username);
+				props.setProperty("password", password);
+			}
+		}
+		
+		System.out.println("Connection URL = " + aConnectionURL);
+		System.out.println("Username = " + username);
 		
 		try {
 			connection = DriverManager.getConnection(aConnectionURL, props);
@@ -83,6 +92,15 @@ public class DatabaseManager {
 	}
 	
 	private String getDefaultConnectionURL() {
+		String herokuDatabaseURL = System.getenv("JDBC_DATABASE_URL");
+		
+		System.out.println("JDBC_DATABASE_URL = " + herokuDatabaseURL);
+		
+		// Heroku's PostgreSQL URL connection
+		if (herokuDatabaseURL.length() > 0) {
+			return DEFAULT_DBMS_PREFIX + herokuDatabaseURL;
+		}
+		
 		return DEFAULT_DBMS_PREFIX + hostname + ":" + port + "/" + databaseName;
 	}
 	
