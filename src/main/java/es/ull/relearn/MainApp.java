@@ -121,8 +121,10 @@ public class MainApp {
 				String definedDatabaseName = definedDatabase.getName();
 				Date date = new Date();
 				long time = date.getTime();
+				String schemaToExecuteQueryOn = databaseManager.getCleanSchemaName(userSessionID, definedDatabaseName);
 				
 				databaseManager.createDatabaseOnDbms(definedDatabase, userSessionID);
+				databaseManager.switchToSchema(schemaToExecuteQueryOn);
 				definedDatabases.put(userSessionID, new Timestamp(time));
 			}
 			
