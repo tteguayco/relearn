@@ -15,6 +15,10 @@ import es.ull.relearn.analysis.dbschema.DatabaseLexer;
 import es.ull.relearn.analysis.dbschema.DatabaseParser;
 import es.ull.relearn.dbitems.Database;
 
+/*
+ * TODO there should be a class inherinting from TestCase
+ * including tests for the class SchemaDSLAnalyzer
+ */
 public class SchemaDSLAnalysisTest {
 
 	private static final String GRAMMAR_PATH = "C:/development/relearn/grammars/Database.g4";

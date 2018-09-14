@@ -3,6 +3,9 @@ package es.ull.relearn;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.ConnectException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -29,6 +32,9 @@ import org.json.JSONObject;
  * Creates the specified database on PostgreSQL.
  * @author Teguayco
  *
+ *
+ * TODO this class needs a full review and refactor.
+ *
  */
 public class DatabaseManager {
 	
@@ -37,6 +43,7 @@ public class DatabaseManager {
 	private static final String DEFAULT_DBMS_PREFIX = "jdbc:postgresql://";
 	private static final String DEFAULT_HOSTNAME = "localhost";
 	private static final String DEFAULT_PORT = "5432";
+	private static final char SCHEMA_NAME_SEPARATOR_CHAR = '_';
 	
 	private String dbmsPrefix;
 	private String hostname;
@@ -54,9 +61,18 @@ public class DatabaseManager {
 	private ArrayList<String> executionErrors;
 	
 	public DatabaseManager() {
-		String[] credentials = readCredentialsFromFile();
-		username = credentials[0];
-		password = credentials[1];
+		
+		try {
+			String[] credentials = readCredentialsFromFile();
+			username = credentials[0];
+			password = credentials[1];
+		}
+		
+		catch (FileNotFoundException e) {
+			username = "";
+			password = "";
+		}
+		
 		dbmsPrefix = DEFAULT_DBMS_PREFIX;
 		hostname = DEFAULT_HOSTNAME;
 		port = DEFAULT_PORT;
@@ -69,62 +85,80 @@ public class DatabaseManager {
 	}
 	
 	private void createConnectionToDbms(String aConnectionURL) {		
-		Properties props = new Properties();
 		
-		// If there are username and password defined, send them
-		if (username != "" && username != null) {
-			if (password != "" && password != null) {
-				props.setProperty("user", username);
-				props.setProperty("password", password);
-			}
+		/*
+		 * Connect to Heroku Postgres
+		 */
+		try {
+			URI dbUri = new URI(System.getenv("DATABASE_URL"));
+	
+		    String username = dbUri.getUserInfo().split(":")[0];
+		    String password = dbUri.getUserInfo().split(":")[1];
+		    String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
+	
+		    connection =  DriverManager.getConnection(dbUrl, username, password);
+		    queryResultSet = null;
 		}
 		
-		System.out.println("Connection URL = " + aConnectionURL);
-		System.out.println("Username = " + username);
-		
-		try {
-			connection = DriverManager.getConnection(aConnectionURL, props);
-			queryResultSet = null;
+		/*
+		 * The app is running locally (not Heroku deploy)
+		 */
+		catch (Exception e) {
+			System.out.println("Connection URL = " + aConnectionURL);
+			System.out.println("Username = " + username);
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
+			try {
+				Properties props = new Properties();
+				
+				props.setProperty("user", username);
+				props.setProperty("password", password);
+				
+				connection = DriverManager.getConnection(aConnectionURL, props);
+				queryResultSet = null;
+				
+			} catch (SQLException e1) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	private String getDefaultConnectionURL() {
-		String herokuDatabaseURL = System.getenv("JDBC_DATABASE_URL");
 		
-		System.out.println("JDBC_DATABASE_URL = " + herokuDatabaseURL);
+		/*
+		 * Heroku Postgres' URL
+		 */
+		try {
+			URI dbUri = new URI(System.getenv("DATABASE_URL"));
+			
+			String username = dbUri.getUserInfo().split(":")[0];
+		    String password = dbUri.getUserInfo().split(":")[1];
+		    return "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+		} 
 		
-		// Heroku's PostgreSQL URL connection
-		if (herokuDatabaseURL.length() > 0) {
-			return DEFAULT_DBMS_PREFIX + herokuDatabaseURL;
+		catch (Exception e) {
+			return DEFAULT_DBMS_PREFIX + hostname + ":" + port + "/" + databaseName;
 		}
 		
-		return DEFAULT_DBMS_PREFIX + hostname + ":" + port + "/" + databaseName;
 	}
 	
 	/**
 	 * The file which contains the credentials should have the username
 	 * in its first line and the password in the second one.
+	 * 
+	 * This method is used when working locally.
 	 * @return
 	 */
-	private String[] readCredentialsFromFile() {
+	private String[] readCredentialsFromFile() throws FileNotFoundException {
 		String readUsername = "";
 		String readPassword = "";
 		String[] credentials = new String[2];
 		
-		try {
-			File credentialsFile = new File(CREDENTIALS_FILE_PATH);
-			Scanner in = new Scanner(credentialsFile);
-			
-			readUsername = in.nextLine();
-			readPassword = in.nextLine();
-            in.close();
+		File credentialsFile = new File(CREDENTIALS_FILE_PATH);
+		Scanner in = new Scanner(credentialsFile);
 		
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		readUsername = in.nextLine();
+		readPassword = in.nextLine();
+        in.close();
 		
 		credentials[0] = readUsername;
 		credentials[1] = readPassword;
@@ -145,7 +179,27 @@ public class DatabaseManager {
 		databaseSchemaName = aDatabaseSchemaName;
 		connectionURL = getDefaultConnectionURL() + "?currentSchema=" + databaseSchemaName;
 		
+		System.out.println("URL to connect to schema: " + connectionURL);
+		
 		createConnectionToDbms(connectionURL);
+		
+		try {
+			URI dbUri = new URI(System.getenv("DATABASE_URL"));
+			String databaseName = dbUri.getPath().substring(1);
+			
+			// Set the schema as default
+			String defaultSchemaStatement = "ALTER database \"" + databaseName + "\" SET search_path TO " + aDatabaseSchemaName + ";";
+			Statement statement = connection.createStatement();
+			statement.executeUpdate(defaultSchemaStatement);
+		}
+		
+		catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void executeCreateDatabaseStatement(String databaseName) throws SQLException {
@@ -156,6 +210,8 @@ public class DatabaseManager {
 		
 		// Reconnect to the database which has just been created
 		switchToDatabase(databaseName);
+		
+		System.out.println(">> Database '" + databaseName + "' was created on PostgreSQL.");
 	}
 	
 	public void dropDatabase(String databaseName) throws SQLException {
@@ -170,6 +226,8 @@ public class DatabaseManager {
 		Statement statement = connection.createStatement();
 		statement.executeUpdate("DROP SCHEMA IF EXISTS " + schemaName + " CASCADE");
 		statement.executeUpdate("CREATE SCHEMA " + schemaName);
+		
+		System.out.println(">> Schema '" + schemaName + "' was created on PostgreSQL.");
 	}
 	
 	private void executeCreateTableStatement(Table table, String schemaName) throws SQLException {
@@ -247,16 +305,17 @@ public class DatabaseManager {
 			if (aDatabaseToCreate != null && connection != null) {
 				
 				// DATABASE
-				executeCreateDatabaseStatement(userSessionID);
+				//executeCreateDatabaseStatement(userSessionID);
 				
 				// SCHEMA
 				String databaseName = aDatabaseToCreate.getName();
-				executeCreateSchemaStatement(databaseName);
+				String schemaName = getCleanSchemaName(userSessionID, databaseName);
+				executeCreateSchemaStatement(schemaName);
 				
 				// TABLES
 				for (int i = 0; i < aDatabaseToCreate.getNumOfTables(); i++) {
 					Table auxTable = aDatabaseToCreate.getTables().get(i);
-					executeCreateTableStatement(auxTable, databaseName);
+					executeCreateTableStatement(auxTable, schemaName);
 					
 					// ROWS
 					for (int j = 0; j < auxTable.getNumOfRows(); j++) {
@@ -387,7 +446,15 @@ public class DatabaseManager {
 		return result;
 	}
 	
+	public String getCleanSchemaName(String userSessionID, String appDatabaseName) {
+		return userSessionID + SCHEMA_NAME_SEPARATOR_CHAR + appDatabaseName;
+	}
+	
 	public static void main(String[] args) {
+		
+		/*
+		 * TODO this should be done with unit tests.
+		 */
 		DatabaseManager databaseManager = new DatabaseManager();
 		SchemaDSLAnalyzer schemaDSLAnalyzer = new SchemaDSLAnalyzer();
 		

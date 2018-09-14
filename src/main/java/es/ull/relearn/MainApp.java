@@ -124,7 +124,6 @@ public class MainApp {
 				
 				databaseManager.createDatabaseOnDbms(definedDatabase, userSessionID);
 				definedDatabases.put(userSessionID, new Timestamp(time));
-				System.out.println(">> Database '" + definedDatabaseName + "' was created on PostgreSQL.");
 			}
 			
 			return "";
@@ -172,11 +171,10 @@ public class MainApp {
 				//sqlTranslation = formatSqlQuery(sqlTranslation);
 				
 				// Execute the SQL translation on PostgreSQL and get the result table
-				String databaseName = req.session().id();
-				String schemaName = selectedDatabaseName;
+				String userSessionID = req.session().id();
+				String schemaToExecuteQueryOn = databaseManager.getCleanSchemaName(userSessionID, selectedDatabaseName);
 				
-				databaseManager.switchToDatabase(databaseName);
-				databaseManager.switchToSchema(schemaName);
+				databaseManager.switchToSchema(schemaToExecuteQueryOn);
 				databaseManager.executeQuery(sqlTranslation);
 				
 				String queryExecutionErrors = databaseManager.getErrors();
