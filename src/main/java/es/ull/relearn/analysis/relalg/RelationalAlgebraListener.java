@@ -211,30 +211,6 @@ public interface RelationalAlgebraListener extends ParseTreeListener {
 	 */
 	void exitLeftOuterJoin(RelationalAlgebraParser.LeftOuterJoinContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code aggrFromAggrList}
-	 * labeled alternative in {@link RelationalAlgebraParser#aggrlist}.
-	 * @param ctx the parse tree
-	 */
-	void enterAggrFromAggrList(RelationalAlgebraParser.AggrFromAggrListContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code aggrFromAggrList}
-	 * labeled alternative in {@link RelationalAlgebraParser#aggrlist}.
-	 * @param ctx the parse tree
-	 */
-	void exitAggrFromAggrList(RelationalAlgebraParser.AggrFromAggrListContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code aggrList}
-	 * labeled alternative in {@link RelationalAlgebraParser#aggrlist}.
-	 * @param ctx the parse tree
-	 */
-	void enterAggrList(RelationalAlgebraParser.AggrListContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code aggrList}
-	 * labeled alternative in {@link RelationalAlgebraParser#aggrlist}.
-	 * @param ctx the parse tree
-	 */
-	void exitAggrList(RelationalAlgebraParser.AggrListContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code attributeFromAttrlist}
 	 * labeled alternative in {@link RelationalAlgebraParser#attrlist}.
 	 * @param ctx the parse tree
@@ -318,54 +294,6 @@ public interface RelationalAlgebraListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitOrCondlist(RelationalAlgebraParser.OrCondlistContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code andCondlistAggr}
-	 * labeled alternative in {@link RelationalAlgebraParser#condlistaggr}.
-	 * @param ctx the parse tree
-	 */
-	void enterAndCondlistAggr(RelationalAlgebraParser.AndCondlistAggrContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code andCondlistAggr}
-	 * labeled alternative in {@link RelationalAlgebraParser#condlistaggr}.
-	 * @param ctx the parse tree
-	 */
-	void exitAndCondlistAggr(RelationalAlgebraParser.AndCondlistAggrContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code orCondlistAggr}
-	 * labeled alternative in {@link RelationalAlgebraParser#condlistaggr}.
-	 * @param ctx the parse tree
-	 */
-	void enterOrCondlistAggr(RelationalAlgebraParser.OrCondlistAggrContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code orCondlistAggr}
-	 * labeled alternative in {@link RelationalAlgebraParser#condlistaggr}.
-	 * @param ctx the parse tree
-	 */
-	void exitOrCondlistAggr(RelationalAlgebraParser.OrCondlistAggrContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code bracketsCondlistaggr}
-	 * labeled alternative in {@link RelationalAlgebraParser#condlistaggr}.
-	 * @param ctx the parse tree
-	 */
-	void enterBracketsCondlistaggr(RelationalAlgebraParser.BracketsCondlistaggrContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code bracketsCondlistaggr}
-	 * labeled alternative in {@link RelationalAlgebraParser#condlistaggr}.
-	 * @param ctx the parse tree
-	 */
-	void exitBracketsCondlistaggr(RelationalAlgebraParser.BracketsCondlistaggrContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code comparedCondlistaggr}
-	 * labeled alternative in {@link RelationalAlgebraParser#condlistaggr}.
-	 * @param ctx the parse tree
-	 */
-	void enterComparedCondlistaggr(RelationalAlgebraParser.ComparedCondlistaggrContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code comparedCondlistaggr}
-	 * labeled alternative in {@link RelationalAlgebraParser#condlistaggr}.
-	 * @param ctx the parse tree
-	 */
-	void exitComparedCondlistaggr(RelationalAlgebraParser.ComparedCondlistaggrContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code equal}
 	 * labeled alternative in {@link RelationalAlgebraParser#comparator}.
@@ -475,62 +403,86 @@ public interface RelationalAlgebraListener extends ParseTreeListener {
 	 */
 	void exitNumberFromCompared(RelationalAlgebraParser.NumberFromComparedContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code nullFromCompared}
+	 * labeled alternative in {@link RelationalAlgebraParser#compared}.
+	 * @param ctx the parse tree
+	 */
+	void enterNullFromCompared(RelationalAlgebraParser.NullFromComparedContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code nullFromCompared}
+	 * labeled alternative in {@link RelationalAlgebraParser#compared}.
+	 * @param ctx the parse tree
+	 */
+	void exitNullFromCompared(RelationalAlgebraParser.NullFromComparedContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code attributeIdentifier}
+	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
+	 * @param ctx the parse tree
+	 */
+	void enterAttributeIdentifier(RelationalAlgebraParser.AttributeIdentifierContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code attributeIdentifier}
+	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
+	 * @param ctx the parse tree
+	 */
+	void exitAttributeIdentifier(RelationalAlgebraParser.AttributeIdentifierContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code aggrSum}
-	 * labeled alternative in {@link RelationalAlgebraParser#aggrfunction}.
+	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
 	 * @param ctx the parse tree
 	 */
 	void enterAggrSum(RelationalAlgebraParser.AggrSumContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code aggrSum}
-	 * labeled alternative in {@link RelationalAlgebraParser#aggrfunction}.
+	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
 	 * @param ctx the parse tree
 	 */
 	void exitAggrSum(RelationalAlgebraParser.AggrSumContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code aggrCount}
-	 * labeled alternative in {@link RelationalAlgebraParser#aggrfunction}.
+	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
 	 * @param ctx the parse tree
 	 */
 	void enterAggrCount(RelationalAlgebraParser.AggrCountContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code aggrCount}
-	 * labeled alternative in {@link RelationalAlgebraParser#aggrfunction}.
+	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
 	 * @param ctx the parse tree
 	 */
 	void exitAggrCount(RelationalAlgebraParser.AggrCountContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code aggrMin}
-	 * labeled alternative in {@link RelationalAlgebraParser#aggrfunction}.
+	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
 	 * @param ctx the parse tree
 	 */
 	void enterAggrMin(RelationalAlgebraParser.AggrMinContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code aggrMin}
-	 * labeled alternative in {@link RelationalAlgebraParser#aggrfunction}.
+	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
 	 * @param ctx the parse tree
 	 */
 	void exitAggrMin(RelationalAlgebraParser.AggrMinContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code aggrMax}
-	 * labeled alternative in {@link RelationalAlgebraParser#aggrfunction}.
+	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
 	 * @param ctx the parse tree
 	 */
 	void enterAggrMax(RelationalAlgebraParser.AggrMaxContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code aggrMax}
-	 * labeled alternative in {@link RelationalAlgebraParser#aggrfunction}.
+	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
 	 * @param ctx the parse tree
 	 */
 	void exitAggrMax(RelationalAlgebraParser.AggrMaxContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code aggrAvg}
-	 * labeled alternative in {@link RelationalAlgebraParser#aggrfunction}.
+	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
 	 * @param ctx the parse tree
 	 */
 	void enterAggrAvg(RelationalAlgebraParser.AggrAvgContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code aggrAvg}
-	 * labeled alternative in {@link RelationalAlgebraParser#aggrfunction}.
+	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
 	 * @param ctx the parse tree
 	 */
 	void exitAggrAvg(RelationalAlgebraParser.AggrAvgContext ctx);
@@ -546,16 +498,4 @@ public interface RelationalAlgebraListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitRelationIdentifier(RelationalAlgebraParser.RelationIdentifierContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code attributeIdentifier}
-	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
-	 * @param ctx the parse tree
-	 */
-	void enterAttributeIdentifier(RelationalAlgebraParser.AttributeIdentifierContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code attributeIdentifier}
-	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
-	 * @param ctx the parse tree
-	 */
-	void exitAttributeIdentifier(RelationalAlgebraParser.AttributeIdentifierContext ctx);
 }

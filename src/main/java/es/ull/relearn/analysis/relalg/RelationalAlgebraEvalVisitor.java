@@ -351,10 +351,10 @@ public class RelationalAlgebraEvalVisitor extends RelationalAlgebraBaseVisitor<S
 			//}
 			
 			// HAVING?
-			if (ctx.condlistaggr() != null) {
-				String condlist = (String) visit(ctx.condlistaggr());
-				translation += " HAVING " + condlist;
-			}
+			//if (ctx.condlistaggr() != null) {
+			//	String condlist = (String) visit(ctx.condlistaggr());
+			//	translation += " HAVING " + condlist;
+			//}
 		}
 		
 		return translation;
@@ -570,22 +570,9 @@ public class RelationalAlgebraEvalVisitor extends RelationalAlgebraBaseVisitor<S
 		return "(" + left + " OR " + right + ")";
 	}
 	
-	@Override
-	public String visitOrCondlistAggr(RelationalAlgebraParser.OrCondlistAggrContext ctx) {
-		String left = (String) visit(ctx.condlistaggr(0));
-		String right = (String) visit(ctx.condlistaggr(1));
-		return "(" + left + " OR " + right + ")";
-	}
-	
 	@Override public String visitAndCondlist(RelationalAlgebraParser.AndCondlistContext ctx) {
 		String left = (String) visit(ctx.condlist(0));
 		String right = (String) visit(ctx.condlist(1));
-		return left + " AND " + right;
-	}
-	
-	@Override public String visitAndCondlistAggr(RelationalAlgebraParser.AndCondlistAggrContext ctx) {
-		String left = (String) visit(ctx.condlistaggr(0));
-		String right = (String) visit(ctx.condlistaggr(1));
 		return left + " AND " + right;
 	}
 	
@@ -600,23 +587,10 @@ public class RelationalAlgebraEvalVisitor extends RelationalAlgebraBaseVisitor<S
 	}
 	
 	@Override 
-	public String visitBracketsCondlistaggr(RelationalAlgebraParser.BracketsCondlistaggrContext ctx) {
-		return "(" + visit(ctx.condlistaggr()) + ")";
-	}
-	
-	@Override 
 	public String visitComparedCondlist(RelationalAlgebraParser.ComparedCondlistContext ctx) {
 		String left = (String) visit(ctx.compared(0));
 		String right = (String) visit(ctx.compared(1));
 		String comparator = (String) visit(ctx.comparator());
-		return "(" + left + " " + comparator + " " + right + ")";
-	}
-	
-	@Override 
-	public String visitComparedCondlistaggr(RelationalAlgebraParser.ComparedCondlistaggrContext ctx) {
-		String left = visit(ctx.getChild(0));
-		String comparator = visit(ctx.getChild(1));
-		String right = visit(ctx.getChild(2));
 		return "(" + left + " " + comparator + " " + right + ")";
 	}
 	
@@ -686,32 +660,33 @@ public class RelationalAlgebraEvalVisitor extends RelationalAlgebraBaseVisitor<S
 	
 	@Override
 	public String visitAggrCount(RelationalAlgebraParser.AggrCountContext ctx) {
-		String attrToCount = visit(ctx.attribute());
+		String attrToCount = visit(ctx.IDENTIFIER());
 		
 		if (attrToCount == null) {
 			attrToCount = "*";
 		}
+		
 		return "COUNT(" + attrToCount + ")";
 	}
 	
 	@Override
 	public String visitAggrSum(RelationalAlgebraParser.AggrSumContext ctx) {
-		return "SUM(" + visit(ctx.attribute()) + ")";
+		return "SUM(" + visit(ctx.IDENTIFIER()) + ")";
 	}
 	
 	@Override
 	public String visitAggrMin(RelationalAlgebraParser.AggrMinContext ctx) {
-		return "MIN(" + visit(ctx.attribute()) + ")";
+		return "MIN(" + visit(ctx.IDENTIFIER()) + ")";
 	}
 	
 	@Override
 	public String visitAggrMax(RelationalAlgebraParser.AggrMaxContext ctx) {
-		return "MAX(" + visit(ctx.attribute()) + ")";
+		return "MAX(" + visit(ctx.IDENTIFIER()) + ")";
 	}
 	
 	@Override
 	public String visitAggrAvg(RelationalAlgebraParser.AggrAvgContext ctx) {
-		return "AVG(" + visit(ctx.attribute()) + ")";
+		return "AVG(" + visit(ctx.IDENTIFIER()) + ")";
 	}
 	
 }

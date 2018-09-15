@@ -2,49 +2,39 @@
 grammar RelationalAlgebra;
 
 // PRODUCTION RULES
-start:     (view ';')*  expr (';')* EOF
+start:   (view SEMICOLON)*  expr (SEMICOLON)* EOF
 ;
 
-view:    IDENTIFIER '=' expr                                    # viewAssignment
+view:    IDENTIFIER EQUAL expr SEMICOLON                                                                                # viewAssignment
 ;
 
-expr:    relation                                               # relationFromExpr
-    |    '(' expr ')'                                           # bracketsExpr
-    |    PROJECTION '(' attrlist ')' '(' expr ')'      
-           (GROUP_BY '(' attrlist ')' (HAVING condlistaggr)?)?  # projection
-    |    SELECTION  '(' condlist ')' '(' expr ')'               # selection
-    |    RENAME '(' attrlist ')' '(' expr ')'                   # rename
-    |    expr UNION expr                                        # union
-    |    expr CARTESIAN_PRODUCT expr                            # cartesianProduct
-    |    expr DIFFERENCE expr                                   # difference
-    |    expr NATURAL_JOIN expr                                 # naturalJoin
-    |    expr INTERSECTION expr                                 # intersection
-    |    expr JOIN expr '(' condlist ')'                        # join
-    |    expr LEFT_OUTER_JOIN expr '(' condlist ')'             # leftOuterJoin
-    |    expr RIGHT_OUTER_JOIN expr '(' condlist ')'            # rightOuterJoin
-    |    expr FULL_OUTER_JOIN expr '(' condlist ')'             # fullOuterJoin
-    |    expr DIVISION expr                                     # division
-;
-
-aggrlist:    aggrfunction                                       # aggrFromAggrList
-    |    aggrfunction ',' aggrlist                              # aggregateList
+expr:    relation                                                                                                       # relationFromExpr
+    |    LEFT_BRACKET expr RIGHT_BRACKET                                                                                # bracketsExpr
+    |    PROJECTION attrlist LEFT_BRACKET expr RIGHT_BRACKET      
+           (GROUP_BY attrlist ((HAVING condlist) | (LEFT_SQUARE_BRACKET condlist RIGHT_SQUARE_BRACKET))?)?              # projection
+    |    SELECTION LEFT_SQUARE_BRACKET condlist RIGHT_SQUARE_BRACKET LEFT_BRACKET expr RIGHT_BRACKET                    # selection
+    |    RENAME attrlist LEFT_BRACKET expr RIGHT_BRACKET                                                                # rename
+    |    expr UNION expr                                                                                                # union
+    |    expr CARTESIAN_PRODUCT expr                                                                                    # cartesianProduct
+    |    expr DIFFERENCE expr                                                                                           # difference
+    |    expr NATURAL_JOIN expr                                                                                         # naturalJoin
+    |    expr INTERSECTION expr                                                                                         # intersection
+    |    expr JOIN expr LEFT_SQUARE_BRACKET condlist RIGHT_SQUARE_BRACKET                                               # join
+    |    expr LEFT_OUTER_JOIN expr LEFT_SQUARE_BRACKET condlist RIGHT_SQUARE_BRACKET                                    # leftOuterJoin
+    |    expr RIGHT_OUTER_JOIN expr LEFT_SQUARE_BRACKET condlist RIGHT_SQUARE_BRACKET                                   # rightOuterJoin
+    |    expr FULL_OUTER_JOIN expr LEFT_SQUARE_BRACKET condlist RIGHT_SQUARE_BRACKET                                    # fullOuterJoin
+    |    expr DIVISION expr                                                                                             # division
 ;
 
 attrlist:   attribute                                           # attributeFromAttrlist
-    |       attribute ',' attrlist                              # attributeList
+    |       attribute COMMA attrlist                            # attributeList
 ;
 
 condlist:   condlist BOOLEAN_AND condlist                       # andCondlist
     |    condlist BOOLEAN_OR condlist                           # orCondlist
     |    BOOLEAN_NOT condlist                                   # notCondlist
-    |    '(' condlist ')'                                       # bracketsCondlist
+    |    LEFT_BRACKET condlist RIGHT_BRACKET                    # bracketsCondlist
     |    compared comparator compared                           # comparedCondlist
-;
-
-condlistaggr:   condlistaggr BOOLEAN_OR condlistaggr                                # orCondlistAggr
-    |           condlistaggr BOOLEAN_AND condlistaggr                               # andCondlistAggr
-    |           '(' condlistaggr ')'                                                # bracketsCondlistaggr
-    |           (compared | aggrfunction) comparator (compared | aggrfunction)      # comparedCondlistaggr
 ;
 
 comparator:     EQUAL                                           # equal
@@ -58,19 +48,18 @@ comparator:     EQUAL                                           # equal
 compared:   attribute                                           # attributeFromCompared
     |       STRING                                              # stringFromCompared
     |       NUMBER                                              # numberFromCompared
+    |       NULL_VAL                                            # nullFromCompared
 ;
 
-aggrfunction:    SUM '(' attribute ')'                          # aggrSum
-    |    COUNT   '(' (attribute | '*') ')'                      # aggrCount
-    |    MIN     '(' attribute ')'                              # aggrMin
-    |    MAX     '(' attribute ')'                              # aggrMax
-    |    AVERAGE '(' attribute ')'                              # aggrAvg
+attribute:   IDENTIFIER                                                # attributeIdentifier
+    |    SUM     LEFT_BRACKET IDENTIFIER RIGHT_BRACKET                 # aggrSum
+    |    COUNT   LEFT_BRACKET (IDENTIFIER | ASTERISK) RIGHT_BRACKET    # aggrCount
+    |    MIN     LEFT_BRACKET IDENTIFIER RIGHT_BRACKET                 # aggrMin
+    |    MAX     LEFT_BRACKET IDENTIFIER RIGHT_BRACKET                 # aggrMax
+    |    AVERAGE LEFT_BRACKET IDENTIFIER RIGHT_BRACKET                 # aggrAvg
 ;
 
 relation:   IDENTIFIER                                          # relationIdentifier
-;        
-            
-attribute:  IDENTIFIER                                          # attributeIdentifier
 ;
 
 // TABLE BINARY OPERATORS
@@ -81,10 +70,10 @@ UNION:              'UNION'             | 'union'               | 'U';
 DIFFERENCE:         'MINUS'             | 'minus'               | '-';
 CARTESIAN_PRODUCT:  'CROSS JOIN'        | 'cross join'          | 'X'    | 'x';
 INTERSECTION:       'INTERSECT'         | 'intersect'           | '∩';
-NATURAL_JOIN:       'NATURAL JOIN'      | 'natural join'        | '*';
+NATURAL_JOIN:       'NATURAL JOIN'      | 'natural join'        | ASTERISK;
 JOIN:               'JOIN'              | 'join'                | 'Y';
 GROUP_BY:           'GROUP BY'          | 'group by';
-HAVING :            'HAVING'            | 'having';
+HAVING:             'HAVING'            | 'having';
 LEFT_OUTER_JOIN:    'LEFT OUTER JOIN'   | 'left outer join';
 RIGHT_OUTER_JOIN:   'RIGHT OUTER JOIN'  | 'right outer join';
 FULL_OUTER_JOIN:    'FULL OUTER JOIN'   | 'full outer join';
@@ -115,6 +104,15 @@ STRING:          '"' (.)*? '"' | '\'' (.)*? '\'';
 IDENTIFIER:      [a-zA-Z]+([0-9] | [a-zA-Z] | '_')* ('.' ([a-zA-Z]+([0-9] | [a-zA-Z] | '_')*)+ )?;
 NUMBER:          [0-9]+;
 WHITESPACES:     [ \t\r\n]+ -> skip;
+NULL_VAL:        'NULL' | 'null';
+
+SEMICOLON:              ';';
+COMMA:                  ',';
+LEFT_BRACKET:           '(';
+RIGHT_BRACKET:          ')';
+LEFT_SQUARE_BRACKET:    '[';
+RIGHT_SQUARE_BRACKET:   ']'; 
+ASTERISK:               '*';
 
 // COMMENTS
 MULTILINE_COMMENT:  '/*' .*? '*/' -> channel(HIDDEN);

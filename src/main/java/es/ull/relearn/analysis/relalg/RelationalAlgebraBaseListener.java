@@ -221,30 +221,6 @@ public class RelationalAlgebraBaseListener implements RelationalAlgebraListener 
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAggrFromAggrList(RelationalAlgebraParser.AggrFromAggrListContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAggrFromAggrList(RelationalAlgebraParser.AggrFromAggrListContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAggrList(RelationalAlgebraParser.AggrListContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAggrList(RelationalAlgebraParser.AggrListContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterAttributeFromAttrlist(RelationalAlgebraParser.AttributeFromAttrlistContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -324,54 +300,6 @@ public class RelationalAlgebraBaseListener implements RelationalAlgebraListener 
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitOrCondlist(RelationalAlgebraParser.OrCondlistContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAndCondlistAggr(RelationalAlgebraParser.AndCondlistAggrContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAndCondlistAggr(RelationalAlgebraParser.AndCondlistAggrContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterOrCondlistAggr(RelationalAlgebraParser.OrCondlistAggrContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitOrCondlistAggr(RelationalAlgebraParser.OrCondlistAggrContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBracketsCondlistaggr(RelationalAlgebraParser.BracketsCondlistaggrContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBracketsCondlistaggr(RelationalAlgebraParser.BracketsCondlistaggrContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterComparedCondlistaggr(RelationalAlgebraParser.ComparedCondlistaggrContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitComparedCondlistaggr(RelationalAlgebraParser.ComparedCondlistaggrContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -485,6 +413,30 @@ public class RelationalAlgebraBaseListener implements RelationalAlgebraListener 
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterNullFromCompared(RelationalAlgebraParser.NullFromComparedContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNullFromCompared(RelationalAlgebraParser.NullFromComparedContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAttributeIdentifier(RelationalAlgebraParser.AttributeIdentifierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAttributeIdentifier(RelationalAlgebraParser.AttributeIdentifierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterAggrSum(RelationalAlgebraParser.AggrSumContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -552,18 +504,6 @@ public class RelationalAlgebraBaseListener implements RelationalAlgebraListener 
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitRelationIdentifier(RelationalAlgebraParser.RelationIdentifierContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAttributeIdentifier(RelationalAlgebraParser.AttributeIdentifierContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAttributeIdentifier(RelationalAlgebraParser.AttributeIdentifierContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
