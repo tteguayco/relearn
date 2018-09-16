@@ -245,6 +245,78 @@ public class RelationalAlgebraBaseListener implements RelationalAlgebraListener 
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterAggrSum(RelationalAlgebraParser.AggrSumContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAggrSum(RelationalAlgebraParser.AggrSumContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAggrCount(RelationalAlgebraParser.AggrCountContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAggrCount(RelationalAlgebraParser.AggrCountContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAggrMin(RelationalAlgebraParser.AggrMinContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAggrMin(RelationalAlgebraParser.AggrMinContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAggrMax(RelationalAlgebraParser.AggrMaxContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAggrMax(RelationalAlgebraParser.AggrMaxContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAggrAvg(RelationalAlgebraParser.AggrAvgContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAggrAvg(RelationalAlgebraParser.AggrAvgContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAttributeIdentifier(RelationalAlgebraParser.AttributeIdentifierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAttributeIdentifier(RelationalAlgebraParser.AttributeIdentifierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterBracketsCondlist(RelationalAlgebraParser.BracketsCondlistContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -420,78 +492,6 @@ public class RelationalAlgebraBaseListener implements RelationalAlgebraListener 
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitNullFromCompared(RelationalAlgebraParser.NullFromComparedContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAttributeIdentifier(RelationalAlgebraParser.AttributeIdentifierContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAttributeIdentifier(RelationalAlgebraParser.AttributeIdentifierContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAggrSum(RelationalAlgebraParser.AggrSumContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAggrSum(RelationalAlgebraParser.AggrSumContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAggrCount(RelationalAlgebraParser.AggrCountContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAggrCount(RelationalAlgebraParser.AggrCountContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAggrMin(RelationalAlgebraParser.AggrMinContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAggrMin(RelationalAlgebraParser.AggrMinContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAggrMax(RelationalAlgebraParser.AggrMaxContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAggrMax(RelationalAlgebraParser.AggrMaxContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAggrAvg(RelationalAlgebraParser.AggrAvgContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAggrAvg(RelationalAlgebraParser.AggrAvgContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

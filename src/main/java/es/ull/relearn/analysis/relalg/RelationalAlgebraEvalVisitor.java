@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 import es.ull.relearn.analysis.relalg.RelationalAlgebraParser.ProjectionContext;
 import es.ull.relearn.dbitems.Attribute;
@@ -660,33 +661,38 @@ public class RelationalAlgebraEvalVisitor extends RelationalAlgebraBaseVisitor<S
 	
 	@Override
 	public String visitAggrCount(RelationalAlgebraParser.AggrCountContext ctx) {
-		String attrToCount = visit(ctx.IDENTIFIER());
+		TerminalNode attr = ctx.IDENTIFIER();
+		String attrToCount = "";
 		
-		if (attrToCount == null) {
-			attrToCount = "*";
+		if (attr != null) {
+			attrToCount += attr;
 		}
 		
+		else {
+			attrToCount = "*";
+		}
+
 		return "COUNT(" + attrToCount + ")";
 	}
 	
 	@Override
 	public String visitAggrSum(RelationalAlgebraParser.AggrSumContext ctx) {
-		return "SUM(" + visit(ctx.IDENTIFIER()) + ")";
+		return "SUM(" + ctx.IDENTIFIER() + ")";
 	}
 	
 	@Override
 	public String visitAggrMin(RelationalAlgebraParser.AggrMinContext ctx) {
-		return "MIN(" + visit(ctx.IDENTIFIER()) + ")";
+		return "MIN(" + ctx.IDENTIFIER() + ")";
 	}
 	
 	@Override
 	public String visitAggrMax(RelationalAlgebraParser.AggrMaxContext ctx) {
-		return "MAX(" + visit(ctx.IDENTIFIER()) + ")";
+		return "MAX(" + ctx.IDENTIFIER() + ")";
 	}
 	
 	@Override
 	public String visitAggrAvg(RelationalAlgebraParser.AggrAvgContext ctx) {
-		return "AVG(" + visit(ctx.IDENTIFIER()) + ")";
+		return "AVG(" + ctx.IDENTIFIER() + ")";
 	}
 	
 }

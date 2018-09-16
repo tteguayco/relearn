@@ -5,10 +5,11 @@ grammar RelationalAlgebra;
 start:   (view SEMICOLON)*  expr (SEMICOLON)* EOF
 ;
 
-view:    IDENTIFIER EQUAL expr SEMICOLON                                                                                # viewAssignment
+view:    IDENTIFIER EQUAL expr                                                                                          # viewAssignment
 ;
 
-expr:    relation                                                                                                       # relationFromExpr
+expr:   
+         relation                                                                                                       # relationFromExpr
     |    LEFT_BRACKET expr RIGHT_BRACKET                                                                                # bracketsExpr
     |    PROJECTION attrlist LEFT_BRACKET expr RIGHT_BRACKET      
            (GROUP_BY attrlist ((HAVING condlist) | (LEFT_SQUARE_BRACKET condlist RIGHT_SQUARE_BRACKET))?)?              # projection
@@ -26,18 +27,30 @@ expr:    relation                                                               
     |    expr DIVISION expr                                                                                             # division
 ;
 
-attrlist:   attribute                                           # attributeFromAttrlist
+attrlist:   
+            attribute                                           # attributeFromAttrlist
     |       attribute COMMA attrlist                            # attributeList
 ;
 
-condlist:   condlist BOOLEAN_AND condlist                       # andCondlist
+attribute:  
+         SUM        LEFT_BRACKET IDENTIFIER RIGHT_BRACKET                  # aggrSum
+    |    COUNT      LEFT_BRACKET (IDENTIFIER | '*') RIGHT_BRACKET          # aggrCount
+    |    MIN        LEFT_BRACKET IDENTIFIER RIGHT_BRACKET                  # aggrMin
+    |    MAX        LEFT_BRACKET IDENTIFIER RIGHT_BRACKET                  # aggrMax
+    |    AVERAGE    LEFT_BRACKET IDENTIFIER RIGHT_BRACKET                  # aggrAvg
+    |    IDENTIFIER                                                        # attributeIdentifier
+;
+
+condlist:  
+         condlist BOOLEAN_AND condlist                          # andCondlist
     |    condlist BOOLEAN_OR condlist                           # orCondlist
     |    BOOLEAN_NOT condlist                                   # notCondlist
     |    LEFT_BRACKET condlist RIGHT_BRACKET                    # bracketsCondlist
     |    compared comparator compared                           # comparedCondlist
 ;
 
-comparator:     EQUAL                                           # equal
+comparator:     
+          EQUAL                                                 # equal
     |     NOT_EQUAL                                             # notEqual
     |     GREATER_THAN                                          # greaterThan
     |     GREATER_EQUAL                                         # greaterEqual
@@ -45,18 +58,11 @@ comparator:     EQUAL                                           # equal
     |     LESS_EQUAL                                            # lessEqual
 ;
 
-compared:   attribute                                           # attributeFromCompared
+compared:   
+            attribute                                           # attributeFromCompared
     |       STRING                                              # stringFromCompared
     |       NUMBER                                              # numberFromCompared
     |       NULL_VAL                                            # nullFromCompared
-;
-
-attribute:   IDENTIFIER                                                # attributeIdentifier
-    |    SUM     LEFT_BRACKET IDENTIFIER RIGHT_BRACKET                 # aggrSum
-    |    COUNT   LEFT_BRACKET (IDENTIFIER | ASTERISK) RIGHT_BRACKET    # aggrCount
-    |    MIN     LEFT_BRACKET IDENTIFIER RIGHT_BRACKET                 # aggrMin
-    |    MAX     LEFT_BRACKET IDENTIFIER RIGHT_BRACKET                 # aggrMax
-    |    AVERAGE LEFT_BRACKET IDENTIFIER RIGHT_BRACKET                 # aggrAvg
 ;
 
 relation:   IDENTIFIER                                          # relationIdentifier
@@ -70,7 +76,7 @@ UNION:              'UNION'             | 'union'               | 'U';
 DIFFERENCE:         'MINUS'             | 'minus'               | '-';
 CARTESIAN_PRODUCT:  'CROSS JOIN'        | 'cross join'          | 'X'    | 'x';
 INTERSECTION:       'INTERSECT'         | 'intersect'           | '∩';
-NATURAL_JOIN:       'NATURAL JOIN'      | 'natural join'        | ASTERISK;
+NATURAL_JOIN:       'NATURAL JOIN'      | 'natural join'        | '*';
 JOIN:               'JOIN'              | 'join'                | 'Y';
 GROUP_BY:           'GROUP BY'          | 'group by';
 HAVING:             'HAVING'            | 'having';
@@ -111,8 +117,7 @@ COMMA:                  ',';
 LEFT_BRACKET:           '(';
 RIGHT_BRACKET:          ')';
 LEFT_SQUARE_BRACKET:    '[';
-RIGHT_SQUARE_BRACKET:   ']'; 
-ASTERISK:               '*';
+RIGHT_SQUARE_BRACKET:   ']';
 
 // COMMENTS
 MULTILINE_COMMENT:  '/*' .*? '*/' -> channel(HIDDEN);

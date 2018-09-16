@@ -144,6 +144,48 @@ public interface RelationalAlgebraVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAttributeList(RelationalAlgebraParser.AttributeListContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code aggrSum}
+	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAggrSum(RelationalAlgebraParser.AggrSumContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code aggrCount}
+	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAggrCount(RelationalAlgebraParser.AggrCountContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code aggrMin}
+	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAggrMin(RelationalAlgebraParser.AggrMinContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code aggrMax}
+	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAggrMax(RelationalAlgebraParser.AggrMaxContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code aggrAvg}
+	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAggrAvg(RelationalAlgebraParser.AggrAvgContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code attributeIdentifier}
+	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAttributeIdentifier(RelationalAlgebraParser.AttributeIdentifierContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code bracketsCondlist}
 	 * labeled alternative in {@link RelationalAlgebraParser#condlist}.
 	 * @param ctx the parse tree
@@ -248,48 +290,6 @@ public interface RelationalAlgebraVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitNullFromCompared(RelationalAlgebraParser.NullFromComparedContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code attributeIdentifier}
-	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAttributeIdentifier(RelationalAlgebraParser.AttributeIdentifierContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code aggrSum}
-	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAggrSum(RelationalAlgebraParser.AggrSumContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code aggrCount}
-	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAggrCount(RelationalAlgebraParser.AggrCountContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code aggrMin}
-	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAggrMin(RelationalAlgebraParser.AggrMinContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code aggrMax}
-	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAggrMax(RelationalAlgebraParser.AggrMaxContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code aggrAvg}
-	 * labeled alternative in {@link RelationalAlgebraParser#attribute}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAggrAvg(RelationalAlgebraParser.AggrAvgContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code relationIdentifier}
 	 * labeled alternative in {@link RelationalAlgebraParser#relation}.
