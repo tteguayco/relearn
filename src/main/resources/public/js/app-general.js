@@ -1,7 +1,7 @@
 
 CREATE_NEW_DB_MSG = "Create a new database";
 ALTER_CURRENT_DB_MSG = "Alter database";
-DELETE_CURRENT_DB_MSG = "Delete/drop database";
+DELETE_CURRENT_DB_MSG = "Drop database";
 SAVE_CURRENT_DB = "Dump database definition to file";
 DEFAULT_NAME_DOWNLOADED_RELALG_QUERY = "query.ra";
 RUN_RELALG_QUERY_MSG = "Run Relational Algebra query";
@@ -200,6 +200,25 @@ function dumpCurrentDatabaseSchemaDefinitionToFile() {
     }
 }
 
+function deleteCurrentDatabaseAndRedirectToDatabaseDefinition() {
+    var databaseNameToDrop = $("#databases-dropdown").text().trim();
+
+    dataForServer = {
+        "DatabaseToDrop": databaseNameToDrop
+    }
+
+    $.ajax({
+        data: dataForServer,
+        url: "/dropDatabase",
+        success: function(responseFromServer) {
+            window.location.href = "/schema";
+        }
+        ,error: function(error) {
+            console.err(error);
+        },
+    });
+}
+
 $(document).ready(function() {
 	setEditorsConfiguration();
 	setTabsConfiguration();
@@ -217,5 +236,9 @@ $(document).ready(function() {
 
     $("#save-db-btn").click(function() {
         dumpCurrentDatabaseSchemaDefinitionToFile();
+    });
+
+    $("#delete-db-btn").click(function() {
+        deleteCurrentDatabaseAndRedirectToDatabaseDefinition();
     });
 });

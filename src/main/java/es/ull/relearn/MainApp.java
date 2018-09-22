@@ -39,9 +39,17 @@ public class MainApp {
 	private static final String ABOUT_PAGE_PATH = "/views/about.html";
 	private static final String STATISTICS_PAGE_PATH = "/views/statistics.html";
 	
-	public static DatabaseManager databaseManager = new DatabaseManager();
+	public static DatabaseManager databaseManager;
+	
+	/*
+	 * The Key of this HashMap is the user session ID. Until this version, only one database per user is allowed.
+	 * 
+	 * The Value is the Timestamp when the database was created.
+	 */
 	public static HashMap<String, Timestamp> definedDatabases = new HashMap<String, Timestamp>();
 	public static ScheduledDatabaseDropper databaseDropper = new ScheduledDatabaseDropper(definedDatabases, databaseManager);
+	
+	private static boolean connectedToHeroku = false;
 	
 	private static String renderContent(String htmlFilePath) {
 		String htmlPageAsString = "";
@@ -58,6 +66,7 @@ public class MainApp {
 	static int getHerokuAssignedPort() {
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (processBuilder.environment().get("PORT") != null) {
+        	connectedToHeroku = true;
             return Integer.parseInt(processBuilder.environment().get("PORT"));
         }
         
@@ -69,14 +78,16 @@ public class MainApp {
 		// Server initialization
 		Spark.port(getHerokuAssignedPort());
 		
+		databaseManager = new DatabaseManager(connectedToHeroku);
+		
 		// Automatic refresh of static files while development
 		// UNCOMMENT THESE LINES DURING DEVELOPMENT
-		//String projectDir = System.getProperty("user.dir");
-	    //String staticDir = "/src/main/resources/public";
-	    //Spark.staticFiles.externalLocation(projectDir + staticDir);
+		String projectDir = System.getProperty("user.dir");
+	    String staticDir = "/src/main/resources/public";
+	    Spark.staticFiles.externalLocation(projectDir + staticDir);
 		
-	    // Uncomment the following line when deploying the app
-		Spark.staticFiles.location(STATIC_FILES_LOCATION);
+	    // Uncomment the following line when deploying the app on Heroku
+		//Spark.staticFiles.location(STATIC_FILES_LOCATION);
 		
 	    Spark.init();
 		System.out.println("Server listening on port " + Spark.port());
@@ -179,7 +190,7 @@ public class MainApp {
 				databaseManager.switchToSchema(schemaToExecuteQueryOn);
 				databaseManager.executeQuery(sqlTranslation);
 				
-				String queryExecutionErrors = databaseManager.getErrors();
+				String queryExecutionErrors = databaseManager.getExecutionErrors();
 				
 				if (queryExecutionErrors.length() > 0) {
 					translationErrors += queryExecutionErrors;
@@ -194,10 +205,34 @@ public class MainApp {
 			responseForClient.put("TranslationExecutionResult", resultTable);
 			responseForClient.put("RelationalAlgebraTranslationErrors", translationErrors);
 			
-			System.out.println("SQL Translation: " + sqlTranslation);
-			System.out.println("Translation errors: " + translationErrors);
+			System.out.println(">> SQL Translation: " + sqlTranslation);
+			System.out.println(">> Errors: " + translationErrors);
 			
 			return responseForClient;
+			
+		}, json());
+		
+		Spark.get("/dropDatabase", "application/json", (req, res) -> {			
+			String databaseNameToDrop = req.queryParams("DatabaseToDrop");
+			String userSessionID = req.session().id(); 
+			String cleanDatabaseNameToDrop = databaseManager.getCleanSchemaName(userSessionID, databaseNameToDrop);
+			
+			System.out.println(">> Dropping PostgreSQL's schema '" + cleanDatabaseNameToDrop + "'");
+			
+			// Remove session's attribute
+			req.session().removeAttribute("definedDatabase");
+			
+			// Remove database from Collection
+			definedDatabases.remove(userSessionID);
+			
+			// Remove database from PostgreSQL
+			databaseManager.switchToDefaultSchema();
+			databaseManager.dropSchemaCascade(cleanDatabaseNameToDrop);
+			
+			System.out.println("Current schema: " + databaseManager.getCurrentSchema());
+			System.out.println("Defined databases: " + definedDatabases.keySet());
+			
+			return null;
 			
 		}, json());
 		

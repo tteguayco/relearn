@@ -32,17 +32,18 @@ import org.json.JSONObject;
  * Creates the specified database on PostgreSQL.
  * @author Teguayco
  *
- *
- * TODO this class needs a full review and refactor.
- *
  */
 public class DatabaseManager {
 	
 	private static final String CREDENTIALS_FILE_PATH = "../postgresql_credentials.txt";
 	private static final String TEST_SCHEMA_DEFINITION_FILE_PATH = "./examples/r1r2r3r4.db";
+	private static final String DEFAULT_SCHEMA_NAME = "public";
 	private static final String DEFAULT_DBMS_PREFIX = "jdbc:postgresql://";
 	private static final String DEFAULT_HOSTNAME = "localhost";
-	private static final String DEFAULT_PORT = "5432";
+	private static final String DEFAULT_PORT = "5433";
+	private static final String DEFAULT_DATABASE = "postgres";
+	private static final String DEFAULT_USERNAME = "postgres";
+	private static final String DEFAULT_PASSWORD = "postgres";
 	private static final char SCHEMA_NAME_SEPARATOR_CHAR = '_';
 	
 	private String dbmsPrefix;
@@ -54,60 +55,49 @@ public class DatabaseManager {
 	private String databaseName;
 	private String databaseSchemaName;
 	
+	private boolean connectedToHeroku;
+	
 	private Connection connection;
 	private ResultSet queryResultSet;
 	
-	private Database databaseToCreate;
 	private ArrayList<String> executionErrors;
 	
-	public DatabaseManager() {
-		
-		try {
-			String[] credentials = readCredentialsFromFile();
-			username = credentials[0];
-			password = credentials[1];
-		}
-		
-		catch (FileNotFoundException e) {
-			username = "";
-			password = "";
-		}
-		
+	public DatabaseManager(boolean isConnectedToHeroku) {
+		connectedToHeroku = isConnectedToHeroku;
+		username = DEFAULT_USERNAME;
+		password = DEFAULT_PASSWORD;
 		dbmsPrefix = DEFAULT_DBMS_PREFIX;
 		hostname = DEFAULT_HOSTNAME;
 		port = DEFAULT_PORT;
-		databaseName = "";
+		databaseName = DEFAULT_DATABASE;
 		databaseSchemaName = "";
 		connectionURL = DEFAULT_DBMS_PREFIX + hostname + ":" + port + "/" + databaseName;
 		executionErrors = new ArrayList<String>();
 		
 		createConnectionToDbms(connectionURL);
+		createDefaultSchema();
 	}
 	
-	private void createConnectionToDbms(String aConnectionURL) {		
+	private void createConnectionToDbms(String aConnectionURL) {
 		
-		/*
-		 * Connect to Heroku Postgres
-		 */
 		try {
-			URI dbUri = new URI(System.getenv("DATABASE_URL"));
-	
-		    String username = dbUri.getUserInfo().split(":")[0];
-		    String password = dbUri.getUserInfo().split(":")[1];
-		    String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
-	
-		    connection =  DriverManager.getConnection(dbUrl, username, password);
-		    queryResultSet = null;
-		}
-		
-		/*
-		 * The app is running locally (not Heroku deploy)
-		 */
-		catch (Exception e) {
-			System.out.println("Connection URL = " + aConnectionURL);
-			System.out.println("Username = " + username);
+			if (connection != null) connection.close();
 			
-			try {
+			if (connectedToHeroku) {
+				URI dbUri = new URI(System.getenv("DATABASE_URL"));
+		
+			    String username = dbUri.getUserInfo().split(":")[0];
+			    String password = dbUri.getUserInfo().split(":")[1];
+			    String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
+		
+			    connection =  DriverManager.getConnection(dbUrl, username, password);
+			    queryResultSet = null;
+			}
+			
+			// Working locally
+			else {
+				System.out.println("Connection URL = " + aConnectionURL);
+				System.out.println("Username = " + username);
 				Properties props = new Properties();
 				
 				props.setProperty("user", username);
@@ -115,55 +105,69 @@ public class DatabaseManager {
 				
 				connection = DriverManager.getConnection(aConnectionURL, props);
 				queryResultSet = null;
-				
-			} catch (SQLException e1) {
-				e.printStackTrace();
 			}
+		} 
+		
+		catch (SQLException | URISyntaxException e) {
+			e.printStackTrace();
 		}
 	}
 	
 	private String getDefaultConnectionURL() {
 		
-		/*
-		 * Heroku Postgres' URL
-		 */
 		try {
-			URI dbUri = new URI(System.getenv("DATABASE_URL"));
+			if (connectedToHeroku) {
+				URI dbUri = new URI(System.getenv("DATABASE_URL"));
+			    return "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+			} 
 			
-			String username = dbUri.getUserInfo().split(":")[0];
-		    String password = dbUri.getUserInfo().split(":")[1];
-		    return "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
-		} 
-		
-		catch (Exception e) {
-			return DEFAULT_DBMS_PREFIX + hostname + ":" + port + "/" + databaseName;
+			else {
+				return DEFAULT_DBMS_PREFIX + hostname + ":" + port + "/" + databaseName;
+			}
 		}
 		
+		catch (URISyntaxException e) {
+			e.printStackTrace();
+			return "";
+		}
 	}
 	
-	/**
-	 * The file which contains the credentials should have the username
-	 * in its first line and the password in the second one.
-	 * 
-	 * This method is used when working locally.
-	 * @return
-	 */
-	private String[] readCredentialsFromFile() throws FileNotFoundException {
-		String readUsername = "";
-		String readPassword = "";
-		String[] credentials = new String[2];
+	private void executeStatement(String SqlStatement) {
+		Statement statement;
 		
-		File credentialsFile = new File(CREDENTIALS_FILE_PATH);
-		Scanner in = new Scanner(credentialsFile);
+		try {
+			statement = connection.createStatement();
+			statement.executeUpdate(SqlStatement);
+		}
 		
-		readUsername = in.nextLine();
-		readPassword = in.nextLine();
-        in.close();
-		
-		credentials[0] = readUsername;
-		credentials[1] = readPassword;
-		
-		return credentials;
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void dropDatabase(String databaseName) {
+		executeStatement("DROP DATABASE IF EXISTS " + databaseName);
+	}
+	
+	public void dropDatabaseCascade() {
+		executeStatement("DROP DATABASE IF EXISTS " + databaseName + "CASCADE");
+	}
+	
+	public void dropSchema(String schemaName) {
+		executeStatement("DROP SCHEMA IF EXISTS " + schemaName);
+	}
+
+	public void dropSchemaCascade(String schemaName) {
+		executeStatement("DROP SCHEMA IF EXISTS " + schemaName + "CASCADE");
+	}
+	
+	private void createSchema(String schemaName) {
+		dropSchemaCascade(schemaName);
+		executeStatement("CREATE SCHEMA IF NOT EXISTS " + schemaName);
+	}
+	
+	private void createDefaultSchema() {
+		createSchema(DEFAULT_SCHEMA_NAME);
 	}
 	
 	public void switchToDatabase(String aDatabaseName) throws SQLException {
@@ -184,22 +188,41 @@ public class DatabaseManager {
 		createConnectionToDbms(connectionURL);
 		
 		try {
-			URI dbUri = new URI(System.getenv("DATABASE_URL"));
-			String databaseName = dbUri.getPath().substring(1);
+			
+			if (connectedToHeroku) {
+				URI dbUri = new URI(System.getenv("DATABASE_URL"));
+				databaseName = dbUri.getPath().substring(1);
+			}
+		
+			System.out.println("Setting default schema of database '" + databaseName + "' to '" + databaseSchemaName + "'");
 			
 			// Set the schema as default
-			String defaultSchemaStatement = "ALTER database \"" + databaseName + "\" SET search_path TO " + aDatabaseSchemaName + ";";
+			String defaultSchemaStatement = "ALTER database \"" + databaseName + "\" SET search_path TO " + databaseSchemaName + ";";
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(defaultSchemaStatement);
 		}
 		
-		catch (URISyntaxException e) {
+		catch (URISyntaxException | SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void switchToDefaultSchema() {
+		createSchema(DEFAULT_SCHEMA_NAME);
+		switchToSchema(DEFAULT_SCHEMA_NAME);
+	}
+	
+	public String getCurrentSchema() {
+		
+		try {
+			return connection.getMetaData().getUserName();
+		} 
 		
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		return "";
 	}
 	
 	private void executeCreateDatabaseStatement(String databaseName) throws SQLException {
@@ -214,25 +237,9 @@ public class DatabaseManager {
 		System.out.println(">> Database '" + databaseName + "' was created on PostgreSQL.");
 	}
 	
-	public void dropDatabase(String databaseName) throws SQLException {
-		Statement statement;
-		
-		statement = connection.createStatement();
-		statement.executeUpdate("DROP DATABASE IF EXISTS " + databaseName);
-	}
-	
-	private void executeCreateSchemaStatement(String schemaName) throws SQLException {
-		schemaName = schemaName.toLowerCase();
-		Statement statement = connection.createStatement();
-		statement.executeUpdate("DROP SCHEMA IF EXISTS " + schemaName + " CASCADE");
-		statement.executeUpdate("CREATE SCHEMA " + schemaName);
-		
-		System.out.println(">> Schema '" + schemaName + "' was created on PostgreSQL.");
-	}
-	
 	private void executeCreateTableStatement(Table table, String schemaName) throws SQLException {
 		Attribute auxAttr;
-		String createTableStatement = "CREATE TABLE ";
+		String createTableStatement = "CREATE TABLE IF NOT EXISTS ";
 		
 		// Rename the table to create it with the notation: "schemaName"."tableName"
 		table.setName(schemaName + "." + table.getName());
@@ -262,8 +269,7 @@ public class DatabaseManager {
 			}
 		}
 		
-		Statement statement = connection.createStatement();
-		statement.executeUpdate(createTableStatement);
+		executeStatement(createTableStatement);
 	}
 	
 	private void executeInsertIntoStatement(Row row, Table table) {
@@ -282,12 +288,7 @@ public class DatabaseManager {
 			}
 		}
 		
-		try {
-			Statement statement = connection.createStatement();
-			statement.executeUpdate(insertRowStatement);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		executeStatement(insertRowStatement);
 	}
 	
 	/**
@@ -310,7 +311,7 @@ public class DatabaseManager {
 				// SCHEMA
 				String databaseName = aDatabaseToCreate.getName();
 				String schemaName = getCleanSchemaName(userSessionID, databaseName);
-				executeCreateSchemaStatement(schemaName);
+				createSchema(schemaName);
 				
 				// TABLES
 				for (int i = 0; i < aDatabaseToCreate.getNumOfTables(); i++) {
@@ -364,15 +365,20 @@ public class DatabaseManager {
 	}
 	
 	public void executeQuery(String query) {
-		// The created statement must return a scrollable Result Set;
-		// that is, it must be iterable more than once (ResultSet.TYPE_SCROLL_SENSITIVE).
+
 		try {
 			Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			queryResultSet = statement.executeQuery(query);
 			executionErrors = new ArrayList<String>();
-		} catch (SQLException e) {
+		}
+		
+		catch (SQLException e) {
 			executionErrors.add(e.getMessage());
 		}
+	}
+	
+	public String getCleanSchemaName(String userSessionID, String appDatabaseName) {
+		return userSessionID + SCHEMA_NAME_SEPARATOR_CHAR + appDatabaseName;
 	}
 	
 	public Connection getConnection() {
@@ -395,7 +401,9 @@ public class DatabaseManager {
 			        result += "COLUMN " + i + " = " + queryResultSet.getObject(i) + "\n";
 			    }
 			}
-		} catch (SQLException e) {
+		} 
+		
+		catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
@@ -436,7 +444,7 @@ public class DatabaseManager {
 		return result;
 	}
 	
-	public String getErrors() {
+	public String getExecutionErrors() {
 		String result = "";
 		
 		for (int i = 0; i < executionErrors.size(); i++) {
@@ -444,37 +452,5 @@ public class DatabaseManager {
 		}
 		
 		return result;
-	}
-	
-	public String getCleanSchemaName(String userSessionID, String appDatabaseName) {
-		return userSessionID + SCHEMA_NAME_SEPARATOR_CHAR + appDatabaseName;
-	}
-	
-	public static void main(String[] args) {
-		
-		/*
-		 * TODO this should be done with unit tests.
-		 */
-		DatabaseManager databaseManager = new DatabaseManager();
-		SchemaDSLAnalyzer schemaDSLAnalyzer = new SchemaDSLAnalyzer();
-		
-		String schemaDefinition = DatabaseManager.getSchemaDefinitionFromFile(TEST_SCHEMA_DEFINITION_FILE_PATH);
-		
-		System.out.println(schemaDefinition);
-		System.out.println("\n" + databaseManager);
-		
-		Database databaseToCreateOnPostgre = schemaDSLAnalyzer.getDatabaseObjectFromDefinition(schemaDefinition);
-		
-		databaseManager.createDatabaseOnDbms(databaseToCreateOnPostgre, "dssdfewr322423v");
-		
-		String selectStatement = "SELECT * FROM " + databaseToCreateOnPostgre.getTables().get(0).getName();
-		
-		try {
-			databaseManager.executeQuery(selectStatement);
-		}
-		
-		catch (/*SQL*/Exception e) {
-			e.printStackTrace();
-		}
 	}
 }
