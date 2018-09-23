@@ -150,7 +150,7 @@ public class DatabaseManager {
 	}
 	
 	public void dropDatabaseCascade() {
-		executeStatement("DROP DATABASE IF EXISTS " + databaseName + "CASCADE");
+		executeStatement("DROP DATABASE IF EXISTS " + databaseName + " CASCADE");
 	}
 	
 	public void dropSchema(String schemaName) {
@@ -158,7 +158,7 @@ public class DatabaseManager {
 	}
 
 	public void dropSchemaCascade(String schemaName) {
-		executeStatement("DROP SCHEMA IF EXISTS " + schemaName + "CASCADE");
+		executeStatement("DROP SCHEMA IF EXISTS " + schemaName + " CASCADE");
 	}
 	
 	private void createSchema(String schemaName) {
@@ -210,19 +210,6 @@ public class DatabaseManager {
 	public void switchToDefaultSchema() {
 		createSchema(DEFAULT_SCHEMA_NAME);
 		switchToSchema(DEFAULT_SCHEMA_NAME);
-	}
-	
-	public String getCurrentSchema() {
-		
-		try {
-			return connection.getMetaData().getUserName();
-		} 
-		
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return "";
 	}
 	
 	private void executeCreateDatabaseStatement(String databaseName) throws SQLException {

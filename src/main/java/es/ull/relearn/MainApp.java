@@ -229,7 +229,6 @@ public class MainApp {
 			databaseManager.switchToDefaultSchema();
 			databaseManager.dropSchemaCascade(cleanDatabaseNameToDrop);
 			
-			System.out.println("Current schema: " + databaseManager.getCurrentSchema());
 			System.out.println("Defined databases: " + definedDatabases.keySet());
 			
 			return null;
