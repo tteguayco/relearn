@@ -7,6 +7,11 @@ function downloadContentAsFile(content, filename) {
     a.click();
 }
 
+function sleepFor(ms){
+    var now = new Date().getTime();
+    while(new Date().getTime() < now + ms){ /* do nothing */ } 
+}
+
 function sendSchemaDefinitionToServerAndHandleResponse(schemaDefinition) {
     dataForServer = {
         "DatabaseSchemaDefinition": schemaDefinition
@@ -33,6 +38,7 @@ function sendSchemaDefinitionToServerAndHandleResponse(schemaDefinition) {
             $('#loading-db-creation-modal').modal({ closable: false }).modal('show');
         },
         complete: function() {
+            sleepFor(3000);
             $('#loading-db-creation-modal').modal('hide');
         }
     });

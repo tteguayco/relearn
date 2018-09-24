@@ -181,7 +181,7 @@ public class MainApp {
 			System.out.println("Got the following SQL translation: " + sqlTranslation);
 			
 			if (translationErrors.length() <= 0) {
-				//sqlTranslation = formatSqlQuery(sqlTranslation);
+				sqlTranslation = formatSqlQuery(sqlTranslation);
 				
 				// Execute the SQL translation on PostgreSQL and get the result table
 				String userSessionID = req.session().id();

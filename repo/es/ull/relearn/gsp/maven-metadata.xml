@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>es.ull.relearn</groupId>
+  <artifactId>gsp</artifactId>
+  <versioning>
+    <release>1.0</release>
+    <versions>
+      <version>1.0</version>
+    </versions>
+    <lastUpdated>20180923083329</lastUpdated>
+  </versioning>
+</metadata>
