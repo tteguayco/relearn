@@ -46,8 +46,8 @@ public class MainApp {
 	 * 
 	 * The Value is the Timestamp when the database was created.
 	 */
-	public static HashMap<String, Timestamp> definedDatabases = new HashMap<String, Timestamp>();
-	public static ScheduledDatabaseDropper databaseDropper = new ScheduledDatabaseDropper(definedDatabases, databaseManager);
+	public static HashMap<String, Timestamp> definedDatabases;
+	public static ScheduledDatabaseDropper databaseDropper;
 	
 	private static boolean connectedToHeroku = false;
 	
@@ -78,16 +78,18 @@ public class MainApp {
 		// Server initialization
 		Spark.port(getHerokuAssignedPort());
 		
+		definedDatabases = new HashMap<String, Timestamp>();
 		databaseManager = new DatabaseManager(connectedToHeroku);
+		databaseDropper = new ScheduledDatabaseDropper(definedDatabases, databaseManager);
 		
 		// Automatic refresh of static files while development
 		// UNCOMMENT THESE LINES DURING DEVELOPMENT
-		String projectDir = System.getProperty("user.dir");
-	    String staticDir = "/src/main/resources/public";
-	    Spark.staticFiles.externalLocation(projectDir + staticDir);
+		//String projectDir = System.getProperty("user.dir");
+	    //String staticDir = "/src/main/resources/public";
+	    //Spark.staticFiles.externalLocation(projectDir + staticDir);
 		
 	    // Uncomment the following line when deploying the app on Heroku
-		//Spark.staticFiles.location(STATIC_FILES_LOCATION);
+		Spark.staticFiles.location(STATIC_FILES_LOCATION);
 		
 	    Spark.init();
 		System.out.println("Server listening on port " + Spark.port());
@@ -136,7 +138,7 @@ public class MainApp {
 				
 				databaseManager.createDatabaseOnDbms(definedDatabase, userSessionID);
 				databaseManager.switchToSchema(schemaToExecuteQueryOn);
-				definedDatabases.put(userSessionID, new Timestamp(time));
+				definedDatabases.put(schemaToExecuteQueryOn, new Timestamp(time));
 			}
 			
 			return "";

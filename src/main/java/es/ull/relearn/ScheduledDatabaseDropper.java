@@ -10,9 +10,15 @@ import java.util.TimerTask;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+/*
+ * An object of this class checks periodically (MILISECS_AMONG_CHECKS ms)
+ * which tables in the database are older than allowed.
+ *  
+ * Then, those tables are dropped.
+ */
 public class ScheduledDatabaseDropper extends TimerTask {
 	
-	private static final double MILISECS_AMONG_CHECKS = 8.64e7; // one day
+	private static final double MILISECS_AMONG_CHECKS = 8.64e7; // ms in one day
 	
 	/**
 	 * The databases created on PostgreSQL are stored in a HashMap.
@@ -62,16 +68,12 @@ public class ScheduledDatabaseDropper extends TimerTask {
 	        
 	        // Database is too old -> drop it
 	        if (creationTimestamp.before(yesterdayTimestamp)) {
-	        	try {
-	        		databaseManager.switchToDatabase("postgres");
-	        		databaseManager.dropDatabase(databaseName);
-	        		it.remove();
-	        		System.out.println("Database " + databaseName + " was deleted.");
-	        	}
-	        	
-	        	catch (SQLException e) {
-	        		e.printStackTrace();
-	        	}
+	        	// Remove database from PostgreSQL
+				databaseManager.switchToDefaultSchema();
+				databaseManager.dropSchemaCascade(databaseName);
+				
+				it.remove();
+				System.out.println("Database " + databaseName + " was deleted.");
 	        }
 	    }
 	}
