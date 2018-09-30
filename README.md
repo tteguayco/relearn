@@ -16,27 +16,25 @@ This project has actually emerged as a web version of the existing [JITRAX](http
 
 ## Relational Algebra operators
 
-| Operator          | Syntax                                             | Example                             |
-|-------------------|:--------------------------------------------------:|------------------------------------:|
-| PROJECTION        |  PROJECT (attrlist) (expression);                  | PROJECT A, B (R);                   |
-| SELECTION         |  SELECT [condlist] (expression);                   | SELECT [(A < 1) AND (B = 'b')] (R); |
-| RENAME            |  RENAME attrlist (expression);                     | RENAME C, D (R);                    |
-| CARTESIAN PRODUCT |  expression x expression;                          | R x S;                              |
-| UNION             |  expression UNION expression;                      | R UNION S;                          |
-| DIFFERENCE        |  expression - expression;                          | R - S;                              |
-| INTERSECTION      |  expression INTERSECT expression;                  | R INTERSECT S;                      |
-| NATURAL JOIN      |  expression * expression;                          | R * S;                              |
-| DIVISION          |  expression / expression;                          | R / S;                              |
-| JOIN              |  expression JOIN expression [condlist]             | R JOIN S [R.A = S.A];               |
-| LEFT OUTER JOIN   |  expression LEFT OUTER JOIN expression [condlist]  | R LEFT OUTER JOIN S [R.A = S.A];    |
-| RIGHT OUTER JOIN  |  expression RIGHT OUTER JOIN expression [condlist] | R RIGHT JOIN S [R.A = S.A];         |
-| FULL OUTER JOIN   |  expression FULL OUTER JOIN expression [condlist]  | R FULL OUTER JOIN S [R.A = S.A];    |
+| Operator          | Syntax                                               | Example                               |
+|-------------------|------------------------------------------------------|---------------------------------------|
+| PROJECTION        |  *PROJECT (attrlist) (expression);*                  | `PROJECT A, B (R);`                   |
+| SELECTION         |  *SELECT [condlist] (expression);*                   | `SELECT [(A < 1) AND (B = 'b')] (R);` |
+| RENAME            |  *RENAME attrlist (expression);*                     | `RENAME C, D (R);`                    |
+| CARTESIAN PRODUCT |  *expression x expression;*                          | `R x S;`                              |
+| UNION             |  *expression UNION expression;*                      | `R UNION S;`                          |
+| DIFFERENCE        |  *expression - expression;*                          | `R - S;`                              |
+| INTERSECTION      |  *expression INTERSECT expression;*                  | `R INTERSECT S;`                      |
+| NATURAL JOIN      |  *expression * expression;*                          | `R * S;`                              |
+| DIVISION          |  *expression / expression;*                          | `R / S;`                              |
+| JOIN              |  *expression JOIN expression [condlist]*             | `R JOIN S [R.A = S.A];`               |
+| LEFT OUTER JOIN   |  *expression LEFT OUTER JOIN expression [condlist]*  | `R LEFT OUTER JOIN S [R.A = S.A];`    |
+| RIGHT OUTER JOIN  |  *expression RIGHT OUTER JOIN expression [condlist]* | `R RIGHT JOIN S [R.A = S.A];`         |
+| FULL OUTER JOIN   |  *expression FULL OUTER JOIN expression [condlist]*  | `R FULL OUTER JOIN S [R.A = S.A];`    |
 
 ## Documentation
 
-A User Guide containing usages and examples is available [here](https://relearn.gitbook.io/relearn/).
-
-Furthermore, it is expected to generate some useful documentation for developers.
+There is a user guide containing usages and examples available [here](https://relearn.gitbook.io/relearn/). Furthermore, it is expected to generate some useful documentation for developers in the future.
 
 ## How to contribute
 
