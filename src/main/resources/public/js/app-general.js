@@ -211,7 +211,7 @@ function deleteCurrentDatabaseAndRedirectToDatabaseDefinition() {
         data: dataForServer,
         url: "/dropDatabase",
         success: function(responseFromServer) {
-            window.location.href = "/schema";
+            window.location.href = "/database";
         }
         ,error: function(error) {
             console.err(error);

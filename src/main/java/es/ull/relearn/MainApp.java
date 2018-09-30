@@ -39,6 +39,8 @@ public class MainApp {
 	private static final String ABOUT_PAGE_PATH = "/views/about.html";
 	private static final String STATISTICS_PAGE_PATH = "/views/statistics.html";
 	
+	private static final String DATABASE_DEFINITION_ROUTE = "/database";
+	
 	public static DatabaseManager databaseManager;
 	
 	/*
@@ -104,7 +106,7 @@ public class MainApp {
 			return null;
 		});
 		
-		Spark.get("/schema", (req, res) -> {
+		Spark.get(DATABASE_DEFINITION_ROUTE, (req, res) -> {
 			Database definedDatabase = req.session().attribute("definedDatabase");
 			String routeToRedirect = "/main";
 			
@@ -154,7 +156,7 @@ public class MainApp {
 			}
 			
 			else {
-				String routeToRedirect = "/schema";
+				String routeToRedirect = DATABASE_DEFINITION_ROUTE;
 				res.redirect(routeToRedirect);
 				return null;
 			}
