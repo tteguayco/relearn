@@ -1,4 +1,4 @@
-# Relearn [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=102)]() [![Open Source Love](https://badges.frapsoft.com/os/gpl/gpl.svg?v=102)](https://opensource.org/licenses/GPL-3.0/)
+# Relearn [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=102)]() [![License](https://badges.frapsoft.com/os/gpl/gpl.svg?v=102)](https://opensource.org/licenses/GPL-3.0/)
 
 ## What is it?
 
@@ -18,7 +18,7 @@ This project has actually emerged as a web version of the existing [JITRAX](http
 
 | Operator          | Syntax                                               | Example                               |
 |-------------------|------------------------------------------------------|---------------------------------------|
-| PROJECTION        |  *PROJECT (attrlist) (expression);*                  | `PROJECT A, B (R);`                   |
+| PROJECTION        |  *PROJECT attrlist (expression);*                    | `PROJECT A, B (R);`                   |
 | SELECTION         |  *SELECT [condlist] (expression);*                   | `SELECT [(A < 1) AND (B = 'b')] (R);` |
 | RENAME            |  *RENAME attrlist (expression);*                     | `RENAME C, D (R);`                    |
 | CARTESIAN PRODUCT |  *expression x expression;*                          | `R x S;`                              |
