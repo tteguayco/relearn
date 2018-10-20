@@ -299,7 +299,7 @@ public class RelationalAlgebraEvalVisitor extends RelationalAlgebraBaseVisitor<S
 	@Override
 	public String visitProjection(RelationalAlgebraParser.ProjectionContext ctx) {
 		String projectionAttrList = visit(ctx.attrlist().get(0));
-		String translation = "SELECT " + projectionAttrList + " FROM " + visit(ctx.expr());
+		String translation = "SELECT DISTINCT " + projectionAttrList + " FROM " + visit(ctx.expr());
 		
 		/**
 		 * CASCADE OF PROJECTIONS: PROJECT [...] (PROJECT [...] (...));
