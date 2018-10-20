@@ -4,8 +4,10 @@ ALTER_CURRENT_DB_MSG = "Alter database";
 DELETE_CURRENT_DB_MSG = "Drop database";
 SAVE_CURRENT_DB = "Dump database definition to file";
 DEFAULT_NAME_DOWNLOADED_RELALG_QUERY = "query.ra";
-RUN_RELALG_QUERY_MSG = "Run Relational Algebra query";
-SAVE_RELALG_QUERY_MSG = "Download Relational Algebra query";
+RUN_RELALG_QUERY_MSG = "Run Relational Algebra Query";
+RUN_PARTIAL_RELALG_QUERY_MSG = "Run Selected Relational Algebra Query";
+SAVE_RELALG_QUERY_MSG = "Download Relational Algebra Query";
+IMPORT_RELALG_QUERY_MSG = "Import Relational Algebra Query";
 SCHEMA_DEFINITION_FORMAT_FILE = ".db";
 
 function setEditorsConfiguration() {
@@ -54,6 +56,7 @@ function setUpToolTips() {
 	$('#save-db-btn').popup({ content: SAVE_CURRENT_DB });
     $('#run-query-btn').popup({ content: RUN_RELALG_QUERY_MSG });
     $('#save-query-btn').popup({ content: SAVE_RELALG_QUERY_MSG });
+    $('#import-relalg-query-btn').popup({ content: IMPORT_RELALG_QUERY_MSG });
 }
 
 function setUpMessageBoxesClosing() {
@@ -191,6 +194,32 @@ function saveCurrentQuery() {
     }
 }
 
+function importRelalgQuery() {
+    var relalgEditor = ace.edit("relalg-editor");
+    document.getElementById("filechooser").click();
+    document.getElementById("filechooser").onchange = function() {
+        var fileFullPath = this.value;
+        var splittedPath = fileFullPath.split('\\');
+        var filename = splittedPath[splittedPath.length - 1];
+        var file = document.getElementById("filechooser").files[0];
+    
+        // Dump file content to the query editor
+        if (file) {
+            var reader = new FileReader();
+            reader.readAsText(file, "UTF-8");
+
+            reader.onload = function (evt) {
+                var fileContent = evt.target.result;
+                relalgEditor.setValue(fileContent, 1);
+            }
+
+            reader.onerror = function (evt) {
+                console.err("Error loading Relational Algebra query.");
+            }
+        }
+    }
+}
+
 function dumpCurrentDatabaseSchemaDefinitionToFile() {
     var schemaDefinition = $("#schema-definition").text().trim();
     var databaseName = $("#databases-dropdown").text().trim();
@@ -232,6 +261,10 @@ $(document).ready(function() {
 
     $("#save-query-btn").click(function() {
         saveCurrentQuery();
+    });
+
+    $("#import-relalg-query-btn").click(function() {
+        importRelalgQuery();
     });
 
     $("#save-db-btn").click(function() {

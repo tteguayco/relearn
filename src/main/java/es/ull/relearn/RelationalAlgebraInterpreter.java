@@ -111,6 +111,7 @@ public class RelationalAlgebraInterpreter {
 		
 		for (int i = 0; i < errorListener.getSyntaxErrorsList().size(); i++) {
 			errors += errorListener.getSyntaxErrorsList().get(i) + "\n";
+			System.out.println(errors);
 		}
 		
 		return errors;
