@@ -141,19 +141,19 @@
 							<div class="five wide column">
 								<b>JOIN</b><br/>
 								<p class="operator-body-explanation">
-									<span>expression JOIN expression (condlist);</span><br/>
+									<span>expression JOIN expression [condlist];</span><br/>
 								</p>	
 							</div>
 							<div class="five wide column">
 								<b>LEFT OUTER JOIN</b><br/>
 								<p class="operator-body-explanation">
-									<span>expression LEFT OUTER JOIN expression (condlist);</span><br/>
+									<span>expression LEFT OUTER JOIN expression [condlist];</span><br/>
 								</p>	
 							</div>
 							<div class="five wide column">
 								<b>RIGHT OUTER JOIN</b><br/>
 								<p class="operator-body-explanation">
-									<span>expression RIGHT OUTER JOIN expression (condlist);</span><br/>
+									<span>expression RIGHT OUTER JOIN expression [condlist];</span><br/>
 								</p>	
 							</div>
 							<!--
@@ -177,7 +177,7 @@
 							<div class="five wide column">
 								<b>FULL OUTER JOIN</b><br/>
 								<p class="operator-body-explanation">
-									<span>expression FULL OUTER JOIN expression (condlist);</span><br/>
+									<span>expression FULL OUTER JOIN expression [condlist];</span><br/>
 								</p>
 							</div>
 							<!--
