@@ -86,12 +86,12 @@ public class MainApp {
 		
 		// Automatic refresh of static files while development
 		// UNCOMMENT THESE LINES DURING DEVELOPMENT
-		//String projectDir = System.getProperty("user.dir");
-	    //String staticDir = "/src/main/resources/public";
-	    //Spark.staticFiles.externalLocation(projectDir + staticDir);
+		String projectDir = System.getProperty("user.dir");
+	    String staticDir = "/src/main/resources/public";
+	    Spark.staticFiles.externalLocation(projectDir + staticDir);
 		
 	    // Uncomment the following line when deploying the app on Heroku
-		Spark.staticFiles.location(STATIC_FILES_LOCATION);
+		//Spark.staticFiles.location(STATIC_FILES_LOCATION);
 		
 	    Spark.init();
 		System.out.println("Server listening on port " + Spark.port());
