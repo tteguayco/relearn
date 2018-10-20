@@ -83,21 +83,21 @@
 							<div class="five wide column">
 								<b>PROJECTION</b><br/>
 								<p class="operator-body-explanation">
-									<span>PROJECT (attrlist) (expression);</span><br/>
+									<span>PROJECT attrlist (expression);</span><br/>
 									<span style="color:grey">E.g. <i>PROJECT (A, B) (R);</i></span>
 								</p>	
 							</div>
 							<div class="five wide column">
 								<b>SELECTION</b><br/>
 								<p class="operator-body-explanation">
-									<span>SELECT (condlist) (expression);</span><br/>
+									<span>SELECT [condlist] (expression);</span><br/>
 									<span style="color:grey">E.g. <i>SELECT ((A < 1) AND (B = 'b')) (R);</i></span>
 								</p>
 							</div>
 							<div class="five wide column">
 								<b>RENAME</b><br/>
 								<p class="operator-body-explanation">
-									<span>RENAME (attrlist) (expression);</span><br/>
+									<span>RENAME attrlist (expression);</span><br/>
 									<span style="color:grey">E.g. <i>RENAME (C, D) (R);</i></span>
 								</p>	
 							</div>
