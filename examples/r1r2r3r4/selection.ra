@@ -1,0 +1,1 @@
+PROJECT A, B, C, D (SELECT [B = 'b' AND C = 'e' OR A = 'a'] (R2));

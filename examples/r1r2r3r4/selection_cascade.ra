@@ -1,0 +1,1 @@
+SELECT [B = 'b'] (SELECT [A = 'a'] (R2));
