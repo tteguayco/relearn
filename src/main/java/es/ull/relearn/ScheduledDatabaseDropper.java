@@ -18,7 +18,7 @@ import java.sql.Timestamp;
  */
 public class ScheduledDatabaseDropper extends TimerTask {
 	
-	private static final double MILISECS_AMONG_CHECKS = 8.64e7; // ms in one day
+	private static final double MILISECS_AMONG_CHECKS = 20000;//8.64e7; // ms in one day
 	
 	/**
 	 * The databases created on PostgreSQL are stored in a HashMap.

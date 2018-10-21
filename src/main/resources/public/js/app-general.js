@@ -186,6 +186,11 @@ function sendCurrentQueryToServer() {
     }
 }
 
+function saveCurrentQueryInLocalStorage() {
+    var queryToSave = getRelationalAlgebraEditorContent();
+    localStorage.setItem("formerQuery", queryToSave);
+}
+
 function saveCurrentQuery() {
     var queryToSave = getRelationalAlgebraEditorContent();
 
@@ -248,15 +253,25 @@ function deleteCurrentDatabaseAndRedirectToDatabaseDefinition() {
     });
 }
 
+function setFormerRelalgQuery() {
+    var formerQuery = localStorage.getItem("formerQuery");
+
+    if (formerQuery != null && formerQuery.length > 0) {
+        ace.edit("relalg-editor").setValue(formerQuery, 1);
+    }
+}
+
 $(document).ready(function() {
 	setEditorsConfiguration();
 	setTabsConfiguration();
 	setAccordionsConfiguration();
 	setUpToolTips();
 	setUpMessageBoxesClosing();
+    setFormerRelalgQuery();
 
     $("#run-query-btn").click(function() {
         sendCurrentQueryToServer();
+        saveCurrentQueryInLocalStorage();
     });
 
     $("#save-query-btn").click(function() {
