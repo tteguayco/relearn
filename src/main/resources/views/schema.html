@@ -8,44 +8,44 @@
     <link rel="icon" href="img/blue_dot.png">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/popup.min.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/accordion.min.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/dropdown.min.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/input.min.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/components/label.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/popup.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/accordion.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/dropdown.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/input.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/label.min.css"/>
 
     <link rel="stylesheet" type="text/css" href="vendor/semantic-ui-alert/Semantic-UI-Alert.css"/>
  
-    <link rel="stylesheet" type="text/css" href="css/common.css">
-    <link rel="stylesheet" type="text/css" href="css/schema.css">
-    <link rel="stylesheet" type="text/css" href="vendor/dropzonejs/dropzone.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/schema.css">
+    <link rel="stylesheet" type="text/css" href="../public/vendor/dropzonejs/dropzone.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/popup.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/accordion.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.2/components/dropdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/popup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/accordion.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/dropdown.min.js"></script>
     
     <script src="vendor/semantic-ui-alert/Semantic-UI-Alert.js"></script>
 
-	<script src="js/utils.js"></script>
-    <script src="js/dropzone-schema.js"></script>
-    <script src="js/manual-schema-first-step.js"></script>
-    <script src="js/manual-schema-second-step.js"></script>
-    <script src="js/manual-schema-third-step.js"></script>
-    <script src="js/schema-next.js"></script>
+	<script src="../public/js/utils.js"></script>
+    <script src="../public/js/dropzone-schema.js"></script>
+    <script src="../public/js/manual-schema-first-step.js"></script>
+    <script src="../public/js/manual-schema-second-step.js"></script>
+    <script src="../public/js/manual-schema-third-step.js"></script>
+    <script src="../public/js/schema-next.js"></script>
 </head>
 <body>
 
 	<div class="ui grid">
 
 		<div class="three wide column">
-			<div class="ui left fixed inverted vertical menu" style="background-color: #3b83c0">
-				<a href="/"><div class="item" id="left-menu-title"><h2 style="font-family: 'Raleway', sans-serif;"><span style="color:#ffa31a">re</span>learn</h2></div></a>
+			<div class="ui left fixed inverted vertical menu" id="left-title" style="background-color: #3b83c0">
+				<a href="/"><div class="item" id="left-menu-title"><h2 style="font-family: 'Raleway', sans-serif;text-align: center"><span style="color:#ffa31a">re</span>learn</h2></div></a>
 				<a class="item" href="/main"><h5>Start</h5></a>
 				<a class="item" href="https://relearn.gitbook.io/relearn/" target="_blank"><h5>User Guide</h5></a>
 				<a class="item" href="https://www.github.com/tteguayco/relearn" target="_blank"><h5>Source Code</h5></a>
@@ -138,18 +138,16 @@
 <!-- MANUAL DEFINITION FIRST STEP MODAL -->
 <div id="modal-manual-def-first-step" class="ui small modal manual-definition1 modal-content">
 	<div class="header">
-		Create a database (1/3)   -   Relations
+		Create a database (1/4)   -   Relations
 	</div>
-	<div class="image content">
-		<div class="db-name">
-			<div class="ui input">
-				<label><b>Database</b></label>
-				<div style="margin-top: 2%"></div>
-				<input type="text" id="db-name" placeholder="Database Name">
-				<div style="margin-top: 2%"></div>
-			</div>
+	<div class="content">
+		<div class="ui input db-name" style="display:block;">
+			<label><b>Database</b></label>
+			<div style="margin-top: 2%"></div>
+			<input type="text" id="db-name" placeholder="Database Name">
+			<div style="margin-top: 2%"></div>
 		</div>
-		<div class="db-relations" style="margin-top: 3%">
+		<div class="db-relations" style="margin-top: 3%;display:block;">
 			<div class="ui input">
 				<label style="margin-right:10px;"><b>Relations</b></label>
 				<div id="add-relation-btn" class="ui circular compact small icon button" data-tooltip="Add a relation" data-position="bottom center" data-inverted="">
@@ -194,7 +192,7 @@
 <!-- MANUAL DEFINITION SECOND STEP MODAL -->
 <div id="modal-manual-def-second-step" class="ui large coupled modal manual-definition2">
 	<div class="header">
-		Create a database (2/3) - Attributes and domains
+		Create a database (2/4) - Attributes
 	</div>
 	<div class="image content">
 		<form id="form-second-modal" class="ui input">
@@ -294,7 +292,7 @@
 <!-- MANUAL DEFINITION THIRD STEP MODAL -->
 <div id="modal-manual-def-third-step" class="ui large coupled modal manual-definition3">
 	<div class="header">
-		Create a database (3/3) - Tuples
+		Create a database (3/4) - Schemas
 	</div>
 	<div class="image content">
 		<form id="form-third-modal" class="ui input">
