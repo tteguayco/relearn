@@ -16,6 +16,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/label.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/modal.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/button.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/icon.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/dropdown.min.css"/>
 
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/app.css">
@@ -25,6 +27,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/tab.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/modal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/dropdown.min.js"></script>
 
 	<script src="vendor/ace/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/utils.js" type="text/javascript"></script>
@@ -266,7 +269,7 @@
 							<i class="remove icon"></i>
 						</button>
 						<button id="save-db-btn" class="ui icon button schema-viewer-btn" data-position="bottom center">
-							<i class="download outline icon"></i>
+							<i class="download icon"></i>
 						</button>
 					</div>
 

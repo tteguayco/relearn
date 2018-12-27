@@ -21,7 +21,7 @@ function setEditorsConfiguration() {
 
 	var sqlEditor = ace.edit("sql-editor");
     sqlEditor.setTheme("ace/theme/sqlserver");
-    document.getElementById('sql-editor').style.fontSize='18px';
+    document.getElementById('sql-editor').style.fontSize='16px';
     sqlEditor.session.setMode("ace/mode/sql");
     sqlEditor.setShowPrintMargin(false);
     sqlEditor.resize();
