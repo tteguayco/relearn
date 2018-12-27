@@ -107,3 +107,8 @@ html, body {
 *:focus {
     outline: 0 !important;
 }
+
+.dropdown-title-container {
+	text-align: center;
+	width: 100%;
+}
