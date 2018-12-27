@@ -7,9 +7,9 @@ function downloadContentAsFile(content, filename) {
     a.click();
 }
 
-function sleepFor(ms){
+function sleepFor(ms) {
     var now = new Date().getTime();
-    while(new Date().getTime() < now + ms){ /* do nothing */ } 
+    while (new Date().getTime() < now + ms) { /* do nothing */ } 
 }
 
 function sendSchemaDefinitionToServerAndHandleResponse(schemaDefinition) {

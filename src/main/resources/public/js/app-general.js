@@ -234,22 +234,34 @@ function dumpCurrentDatabaseSchemaDefinitionToFile() {
     }
 }
 
+function showDatabaseRemovalConfirmationDialog(databaseNameToDrop, callbackOnApprove) {
+    // Display the name of the database to remove inside the modal's content
+    $("#delete-db-confirmation-dialog").find("#db-name-to-drop").text(databaseNameToDrop);
+    $("#delete-db-confirmation-dialog").modal({
+        onApprove: callbackOnApprove
+    });
+    $("#delete-db-confirmation-dialog").modal("show");
+}
+
 function deleteCurrentDatabaseAndRedirectToDatabaseDefinition() {
     var databaseNameToDrop = $("#databases-dropdown").text().trim();
 
-    dataForServer = {
-        "DatabaseToDrop": databaseNameToDrop
-    }
-
-    $.ajax({
-        data: dataForServer,
-        url: "/dropDatabase",
-        success: function(responseFromServer) {
-            window.location.href = "/database";
+    showDatabaseRemovalConfirmationDialog(databaseNameToDrop, function() {
+        dataForServer = {
+            "DatabaseToDrop": databaseNameToDrop
         }
-        ,error: function(error) {
-            console.err(error);
-        },
+
+        $.ajax({
+            data: dataForServer,
+            url: "/dropDatabase",
+            success: function(responseFromServer) {
+                sleepFor(500);
+                window.location.href = "/database";
+            }
+            ,error: function(error) {
+                console.err(error);
+            },
+        });
     });
 }
 

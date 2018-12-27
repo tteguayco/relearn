@@ -91,7 +91,7 @@ public class MainApp {
 	    Spark.staticFiles.externalLocation(projectDir + staticDir);
 		
 	    // Uncomment the following line when deploying the app on Heroku
-		//Spark.staticFiles.location(STATIC_FILES_LOCATION);
+		Spark.staticFiles.location(STATIC_FILES_LOCATION);
 		
 	    Spark.init();
 		System.out.println("Server listening on port " + Spark.port());
