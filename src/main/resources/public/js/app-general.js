@@ -1,13 +1,13 @@
 
-CREATE_NEW_DB_MSG = "Create a new database";
+CREATE_NEW_DB_MSG = "Create new database";
 ALTER_CURRENT_DB_MSG = "Alter database";
 DELETE_CURRENT_DB_MSG = "Drop database";
 SAVE_CURRENT_DB = "Dump database definition to file";
 DEFAULT_NAME_DOWNLOADED_RELALG_QUERY = "query.ra";
-RUN_RELALG_QUERY_MSG = "Run Relational Algebra Query";
+RUN_RELALG_QUERY_MSG = "Run query";
 RUN_PARTIAL_RELALG_QUERY_MSG = "Run Selected Relational Algebra Query";
-SAVE_RELALG_QUERY_MSG = "Download Relational Algebra Query";
-IMPORT_RELALG_QUERY_MSG = "Import Relational Algebra Query";
+SAVE_RELALG_QUERY_MSG = "Download query";
+IMPORT_RELALG_QUERY_MSG = "Import query";
 SCHEMA_DEFINITION_FORMAT_FILE = ".db";
 
 function setEditorsConfiguration() {
@@ -273,6 +273,15 @@ function setFormerRelalgQuery() {
     }
 }
 
+function showCreateNewDatabaseModeDialog() {
+    $("#create-db-mode-dialog").modal("show");
+}
+
+function createNewDatabase() {
+
+    showCreateNewDatabaseModeDialog();
+}
+
 $(document).ready(function() {
 	setEditorsConfiguration();
 	setTabsConfiguration();
@@ -294,11 +303,23 @@ $(document).ready(function() {
         importRelalgQuery();
     });
 
+    $("#create-db-btn").click(function() {
+        createNewDatabase();
+    });
+
     $("#save-db-btn").click(function() {
         dumpCurrentDatabaseSchemaDefinitionToFile();
     });
 
     $("#delete-db-btn").click(function() {
         deleteCurrentDatabaseAndRedirectToDatabaseDefinition();
+    });
+
+    $("#create-db-manually").click(function() {
+        $('.ui.modal.manual-definition1').modal('show');
+    });
+
+    $("#create-db-from-file").click(function() {
+
     });
 });

@@ -32,6 +32,15 @@
 	<script src="../public/vendor/ace/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="../public/js/utils.js" type="text/javascript"></script>
     <script src="../public/js/app-general.js" type="text/javascript"></script>
+
+    <script src="../public/js/utils.js"></script>
+    <script src="../public/js/manual-schema-first-step.js"></script>
+    <script src="../public/js/manual-schema-second-step.js"></script>
+    <script src="../public/js/manual-schema-third-step.js"></script>
+    <!--
+    <script src="js/schema-next.js"></script>
+	-->
+
 </head>
 <body>
 
@@ -303,7 +312,7 @@
 						<div class="btn-bottom-query-editor">
 							<input type="file" id="filechooser" style="display:none">
 							<div class="btn-bottom-query-editor-left">
-								<button id="run-query-btn" class="positive ui button" data-position="top left"><i class="play icon"></i>Run</button>
+								<button id="run-query-btn" class="positive ui button" data-position="bottom left"><i class="play icon"></i>Run</button>
 								<!--
 								<button id="save-query-btn" class="ui primary button" data-position="top left"><i class="save icon"></i>Save</button>
 								-->
@@ -408,5 +417,207 @@
 			Yes
 			<i class="checkmark icon"></i>
 		</div>
+	</div>
+</div>
+
+<div class="ui mini modal transition" id="create-db-mode-dialog">
+	<div class="header">
+		Create new database
+	</div>
+	<div class="content">
+	  	<p>How do you want to define the new database?
+	  	</p>
+	</div>
+	<div class="actions">
+		<div id="create-db-manually" class="ui button">
+			Manually
+		</div>
+		<div id="create-db-from-file" class="ui button">
+			From file
+		</div>
+	</div>
+</div>
+
+<!-- MANUAL DEFINITION FIRST STEP MODAL -->
+<div id="modal-manual-def-first-step" class="ui tiny modal manual-definition1 modal-content">
+	<div class="header">
+		Create a database (1/3)   -   Relations
+	</div>
+	<div class="content">
+		<div class="ui input db-name" style="display:block;">
+			<label><b>Database</b></label>
+			<div style="margin-top: 2%"></div>
+			<input type="text" id="db-name" placeholder="Database Name">
+			<div style="margin-top: 2%"></div>
+		</div>
+		<div class="db-relations" style="margin-top: 3%;display:block;">
+			<div class="ui input">
+				<label style="margin-right:10px;"><b>Relations</b></label>
+				<div id="add-relation-btn" class="ui circular compact small icon button" data-tooltip="Add a relation" data-position="bottom center" data-inverted="">
+					<i class="plus icon" data-variation="inverted"></i>
+				</div>
+				<div id="remove-relation-btn" class="ui circular compact small icon button" data-tooltip="Remove last relation" data-position="right center" data-inverted="">
+					<i class="minus icon"></i>
+				</div>
+				<div style="margin-top: 2%"></div>
+				<div id="relations-names-panel" class="ui input">
+					<input type="text" class="rel-name" placeholder="Relation Name">
+					<!--
+					<input type="text" class="rel-name" placeholder="Relation Name">
+					<input type="text" class="rel-name" placeholder="Relation Name">
+					-->
+				</div>
+			</div>
+		</div>
+		<div id="errors-modal-first-step" style="margin-top: 15px;display: none;">
+			<div class="ui error message">
+				<div class="header">
+					Please check the following for the red-highlighted fields
+				</div>
+				<ul class="list">
+					<li>The database name and at least one relation name are mandatory.</li>
+					<li>All the names provided above cannot contain any space.</li>
+					<li>The first character for a name cannot be different from a letter.</li>
+					<li>Two or more relations with the same name are not allowed.</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="actions">
+		<div id="first-step-next-btn" class="ui positive right labeled icon button">
+		  Next
+		  <i class="angle double right icon"></i>
+		</div>
+	</div>
+</div>
+
+<!-- MANUAL DEFINITION SECOND STEP MODAL -->
+<div id="modal-manual-def-second-step" class="ui large coupled modal manual-definition2">
+	<div class="header">
+		Create a database (2/3) - Attributes and domains
+	</div>
+	<div class="image content">
+		<form id="form-second-modal" class="ui input">
+			<!--
+			<div class="ui accordion">
+				<div class="title active">
+					<i class="dropdown icon"></i>
+					<label style="margin-right:10px;"><b>Relation <span class="relation-name-second-step"><i>products</i></span></b></label>
+				</div>
+				<div class="content active">
+					<div class="add-remove-buttons">
+						<label class="attribute-label-second-modal"><b>Attributes </b></label>
+						<div class="ui circular tiny compact icon button" data-tooltip="Add an attribute" data-position="top center" data-inverted="">
+							<i class="plus icon" data-variation="inverted"></i>
+						</div>
+						<div class="ui circular tiny compact icon button" data-tooltip="Remove lastest attribute" data-position="right center" data-inverted="">
+							<i class="minus icon"></i>
+						</div>
+					</div>
+					<div class="ui segment attribute-list">
+
+						<div class="attribute-group">
+							<input type="text" class="attribute-name" placeholder="Attribute Name">
+							<select class="ui dropdown attribute-domain">
+								<option value="1">String</option>
+								<option value="0">Char</option>
+								<option value="0">Integer</option>
+								<option value="0">Float</option>
+								<option value="0">Date</option>
+							</select>
+						</div>
+						<div class="attribute-group" style="margin-top:5px">
+							<input type="text" class="attribute-name" placeholder="Attribute Name" style="width:65%;display:inline-block;">
+							<select class="ui dropdown domain" style="width:30%;display:inline-block;">
+								<option value="1">String</option>
+								<option value="0">Char</option>
+								<option value="0">Integer</option>
+								<option value="0">Float</option>
+								<option value="0">Date</option>
+							</select>
+						</div>
+
+					</div>
+				</div>
+				<div class="title">
+					<i class="dropdown icon"></i>
+					<label style="margin-right:10px;"><b>Relation <span class="relation-name-second-step"><i>clients</i></span></b></label>
+					<div id="add-relation-btn" class="ui circular tiny compact icon button" data-tooltip="Add an attribute" data-position="top center" data-inverted="">
+						<i class="plus icon" data-variation="inverted"></i>
+					</div>
+					<div id="remove-relation-btn" class="ui circular tiny compact icon button" data-tooltip="Remove lastest attribute" data-position="right center" data-inverted="">
+						<i class="minus icon"></i>
+					</div>
+				</div>
+				<div class="content">
+					<div class="ui segment attribute-list" style="max-height:160px;overflow-y:auto;margin-bottom:5px;">
+
+						<div class="attribute-group" style="margin-top:5px">
+							<input type="text" class="attribute-name" placeholder="Attribute Name" style="width:65%;display:inline-block;">
+							<select class="ui dropdown domain" style="width:30%;display:inline-block;">
+								<option value="1">String</option>
+								<option value="0">Char</option>
+								<option value="0">Integer</option>
+								<option value="0">Float</option>
+								<option value="0">Date</option>
+							</select>
+						</div>
+						<div class="attribute-group" style="margin-top:5px">
+							<input type="text" class="attribute-name" placeholder="Attribute Name" style="width:65%;display:inline-block;">
+							<select class="ui dropdown domain" style="width:30%;display:inline-block;">
+								<option value="1">String</option>
+								<option value="0">Char</option>
+								<option value="0">Integer</option>
+								<option value="0">Float</option>
+								<option value="0">Date</option>
+							</select>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		-->
+		</form>
+	</div>
+	<div class="actions">
+		<div id="second-step-back-btn" class="ui left labeled icon button">
+		  <i class="angle double left icon"></i>
+		  Back
+		</div>
+		<div id="second-step-next-btn" class="ui positive right labeled icon button">
+		  Next
+		  <i class="angle double right icon"></i>
+		</div>
+	</div>
+</div>
+
+<!-- MANUAL DEFINITION THIRD STEP MODAL -->
+<div id="modal-manual-def-third-step" class="ui large coupled modal manual-definition3">
+	<div class="header">
+		Create a database (3/3) - Tuples
+	</div>
+	<div class="image content">
+		<form id="form-third-modal" class="ui input">
+			
+		</form>
+	</div>
+	<div class="actions">
+		<div id="third-step-back-btn" class="ui left labeled icon button">
+		  <i class="angle double left icon"></i>
+		  Back
+		</div>
+		<div id="third-step-next-btn" class="ui positive right labeled icon button">
+		  Next
+		  <i class="angle double right icon"></i>
+		</div>
+	</div>
+</div>
+
+<div id="loading-db-creation-modal" class="ui basic modal">
+	<div class="ui icon header">
+		<i class="spinner icon"></i>
+		You are almost ready to start writing queries
+		<br><h4>Everything is being prepared for you. This will take just a few seconds :-)</h4>
 	</div>
 </div>
