@@ -5,11 +5,11 @@ body {
 
 #left-menu-title {
 	font-size: 30px;
-	font-weight: bold;
 }
 
 #left-title {
 	width: 160px;
+	background-color: #3b83c0;
 }
 
 .main-title-row {
@@ -49,4 +49,13 @@ li {
     color: grey;
     font-style: italic;
     margin-top: 50px !important;
+}
+
+#left-menu-app-title {
+	font-family: 'Raleway', sans-serif;
+	text-align: center;
+}
+
+#app-title-first-part {
+	color:#ffa31a;
 }
